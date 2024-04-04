@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+  <div class="row">
+    <div class="col-md-6 offset-md-3">
+      <!-- Display the register form -->
+      <form method="post" action="{% url 'posts:signup' %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Signup</button>
+      </form>
+      <!-- Display a link to the login view -->
+      <p>Already have an account? <a href="{% url 'posts:login' %}">Login here</a></p>
+    </div>
+  </div>
+</div>
+{% endblock %}

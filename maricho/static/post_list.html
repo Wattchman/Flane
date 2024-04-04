@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+  <div class="row">
+    <div class="col-md-8">
+      <!-- Display the post form -->
+      <form method="post" action="{% url 'posts:post_create' %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Post</button>
+      </form>
+      <!-- Display the posts -->
+      {% for post in posts %}
+      <div class="card mt-3">
+        <div class="card-body">
+          <!-- Display the user and the timestamp of the post -->
+          <p class="card-text"><small class="text-muted">{{ post.user.username }} - {{ post.created_at }}</small></p>
+          <!-- Display the content of the post -->
+          <p class="card-text">{{ post.content }}</p>
+          <!-- Display the number of likes and comments of the post -->
+          <p class="card-text"><small class="text-muted">{{ post.likes.count }} likes - {{ post.comments.count }} comments</small></p>
+          <!-- Display a button to like or unlike the post -->
+          <form method="post" action="{% url 'posts:post_like' post.pk %}">
+            {% csrf_token %}
+            {% if request.user in post.likes.all %}
+            <button type="submit" class="btn btn-secondary">Unlike</button>
+            {% else %}
+            <button type="submit" class="btn btn-primary">Like</button>
+            {% endif %}
+          </form>
+          <!-- Display the comments of the post -->
+          {% for comment in post.comments.all %}
+          <div class="card mt-2">
+            <div class="card-body">
+              <!-- Display the user and the timestamp of the comment -->
+              <p class="card-text"><small class="text-muted">{{ comment.user.username }} - {{ comment.created_at }}</small></p>
+              <!-- Display the content of the comment -->
+              <p class="card-text">{{ comment.content }}</p>
+            </div>
+          </div>
+          {% endfor %}
+          <!-- Display a form to create a new comment -->
+          <form method="post" action="{% url 'posts:comment_create' post.pk %}">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-primary">Comment</button>
+          </form>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+{% endblock %}
+```

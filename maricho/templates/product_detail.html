@@ -1,0 +1,93 @@
+{% extends 'base.html'%}
+{% block content%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Title</title>
+</head>
+<body>
+<div class="product-details">
+    <style>
+    .product-details {
+        margin: 50px auto 50px;
+        background: lightgrey;
+        width: 400px;
+        box-shadow: 0px 0px 3px 3px lightseagreen;
+        border-radius: 15px;
+        padding: 20px 10px 20px;
+        }
+    img {
+        width: 300px;
+        height: 350px;
+        margin-left: 50px;
+        border-radius: 15px;
+        box-shadow: 0px 0px 2px 2px lightseagreen;
+    }
+
+    .profile {
+         display: flex;
+         align-items: center;
+         margin-bottom: 10px;
+    }
+
+    .profile img {
+          width: 50px;
+          height: 50px;
+          margin-left: -5px;
+          border-radius: 50%;
+          margin-top: 15px;
+    }
+
+    .profile p{
+          margin-left: 20px;
+          margin-top: 15px;
+    }
+
+    .profile, h3, p1, p2, h4 {
+          margin-left: 50px;
+          margin-top: 15px;
+          }
+
+     button{
+      margin-top: 15px;
+      background: lightseagreen;
+      width: 200px;
+      height: 50px;
+      border: none;
+      border-radius: 15px;
+      color: white;
+      font-size: 20px;
+     }
+     @media (max-width: 500px) {
+      .product-details {
+        margin: 50px auto 50px;
+        background: lightgrey;
+        width: 380px;
+        box-shadow: 0px 0px 3px 3px lightseagreen;
+        border-radius: 15px;
+        padding: 20px 10px 20px;
+        }
+     }
+    </style>
+    <div class="profile">
+
+       <a href="{% url 'profile' profile.id %}"><img src="{{ profile.profileimg.url }}"></a> <p>{{profile.user}}</p>
+        </div>
+
+<div>
+    <img src="{{ product.product_img.url }}">
+    <h3>{{ product.product_name }}</h3>
+    <p1> ${{ product.price }}</p1> <br>
+    <p2>{{ product.description }}</p2>
+    <h4>Listed on: {{ product.time }}</h4>
+
+    <a href="https://wa.me/{{product.contact}}?text=I'm interested in your product {{product.product_name}} going for *${{product.price}}* for sale on Maricho.com"><button type="submit" >Message Seller</button></a>
+</div>
+
+</div>
+
+</body>
+</html>
+{% endblock %}

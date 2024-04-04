@@ -1,0 +1,48 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Ajax 1 -Text File </title>
+</head>
+<body>
+<button id="button1">user</button>
+<button id="button2">users</button>
+<div id="user"></div>
+<div id="users"></div>
+
+
+<script>
+
+    document.getElementById('button1').addEventListener
+    ('click', loadUser);
+    document.getElementById('button2').addEventListener
+    ('click', loadUser);
+
+    function loadUser(){
+    var xhr = new XMLHttpRequest();
+
+    xhr.open('GET', '{% static 'media/users.json' %}', true);
+
+    xhr.onload = function(){
+    if(this.status == 200){
+    var users = JSON.parse(this.responseText);
+    var output = '';
+
+    for(var i in users){
+
+    output += '<ul>' +
+    '<li>ID: '+users[i].id+'</li>' +
+    '<li>Name: '+users[i].name+'</li>' +
+    '<li>Email: '+users[i].email+'</li>' + '<ul>';
+     }
+    document.getElementById('users').innerHTML = output;
+
+    }
+    }
+    xhr.send();
+    }
+
+</script>
+</body>
+</html>

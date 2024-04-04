@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+
+{% block content %}
+<body>
+<div class="list">
+<style>
+
+    .list{
+    margin: 30px 20px 5px;
+
+    }
+    a {
+    text-decoration: none;
+    font-size: 30px;
+    font-weight: 600;
+    display: grid;
+    }
+</style>
+{% for job in jobs %}
+{% if not job %}
+ no job in this category
+ {% else %}
+<a href="/flane/job-details/{{job.id}}">{{job.position}}</a>
+{% endif %}
+{% endfor %}
+    </div>
+</body>
+{% endblock %}
+</html>

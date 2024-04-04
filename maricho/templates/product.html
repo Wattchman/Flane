@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Title</title>
+</head>
+{% block content %}
+<body>
+<style>
+
+form {
+    margin-top: 50px;
+    gap: 15px;
+    display: grid;
+    align-items: center;
+    margin-left: 10px;
+    margin-right: 10px;
+
+    }
+form button {
+background: lightseagreen;
+border: none;
+border-radius: 10px;
+height: 45px;
+color: white;
+padding: 5px 20px;
+font-size: 25px;
+}
+form input {
+margin-bottom: 20px;
+border: 1px solid lightseagreen;
+}
+</style>
+<form  method="post" action="{% url 'product' %}" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" >Post</button>
+</form>
+</body>
+
+{% endblock %}
+</html>

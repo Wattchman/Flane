@@ -1,0 +1,73 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LinkedIn Clone</title>
+  <!-- Load the Bootstrap CDN -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <!-- Load the custom css -->
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+  <!-- Display the navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+      <!-- Display the logo -->
+      <a class="navbar-brand" href="{% url 'posts:home' %}">
+        <img src="{% static 'img/logo.png' %}" alt="LinkedIn Clone" class="logo">
+      </a>
+      <!-- Display the menu items -->
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ml-auto">
+          <!-- Display the home link -->
+          <li class="nav-item active">
+
+
+{% block content %}
+<div class="container">
+  <div class="row">
+    <div class="col-md-8">
+      <!-- Display a welcome message -->
+      <h1>Welcome to LinkedIn Clone!</h1>
+      <p>This is a simple web app that mimics some of the features of LinkedIn, such as creating posts, liking posts, commenting on posts, and updating profiles.</p>
+      <!-- Display a link to the post list view -->
+      <a href="{% url 'posts:post_list' %}" class="btn btn-primary">See Posts</a>
+    </div>
+  </div>
+</div>
+{% endblock %}
+          </li>
+          <!-- Display the profile link -->
+          {% if user.is_authenticated %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'posts:profile_detail' profile_id=profile.id %}">Profile</a>
+          </li>
+          <!-- Display the logout link -->
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'posts:logout' %}">Logout</a>
+          </li>
+          {% else %}
+          <!-- Display the login link -->
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'posts:login' %}">Login</a>
+          </li>
+          <!-- Display the register link -->
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'posts:signup' %}">Register</a>
+          </li>
+          {% endif %}
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <!-- Display the content block -->
+  {% block section %}
+  {% endblock %}
+  <!-- Load the jQuery and Bootstrap CDN -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

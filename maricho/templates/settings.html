@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+{% block content %}
+<div class="main">
+    <style>
+        .main{
+            background: lightgrey;
+            width: 300px;
+            height: 250px;
+            margin: 50px auto 20px;
+            padding-left: 20px;
+            padding-top: 30px;
+            font-weight: bold;
+            border-radius: 15px;
+            }
+        form input{
+
+            display: grid;
+            margin-bottom: 10px;
+        }
+    </style>
+    <form method="post" action="" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">save</button>
+
+        </form>
+</div>
+
+</body>
+{% endblock %}
+</html>

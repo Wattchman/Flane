@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+{% block content %}
+<div class="cat">
+    <style>
+       .cat {
+            margin-top: 30px;
+            display: grid;
+            gap: 5px;
+            grid-template-columns: auto auto auto auto;
+        }
+       .card {
+           background: lightgrey;
+           border-radius: 5px;
+           width: 250px;
+           height: 300px;
+           padding-left: 10px;
+           border: 1px solid lightseagreen;
+
+       }
+
+       .card img {
+             width: 240px;
+             height: 200px;
+             border-radius: 5px;
+       }
+       @media (max-width: 500px) {
+       .cat {
+        gap: 10px;
+        grid-template-columns: auto auto;
+       }
+        .card {
+
+           width: 140px;
+           height: 250px;
+           padding-left: 10px;
+           border: 1px solid lightseagreen;
+
+       }
+
+       .card img {
+             width: 130px;
+             height: 120px;
+             border-radius: 5px;
+       }
+       }
+
+    </style>
+
+{% for category in category_s %}
+    <h1>{{ category.name }}</h1>
+{% for product in category.products.all %}
+    <div class="card">
+ <p>{{ product.user }}</p>
+        <a href="/flane/product-detail/{{product.id}}/{{product.product_name}}"><img src="{{ product.product_img.url }}"></a>
+ <p> ${{ product.price }} </p>
+ <p> Product: {{ product.product_name }} </p>
+        </div>
+    {% endfor %}
+
+    {% endfor %}
+
+</div>
+{% endblock %}
+</body>
+</html>

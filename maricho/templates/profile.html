@@ -1,0 +1,251 @@
+{% extends 'base.html' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>profile</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+{% block content %}
+<body>
+<style>
+    *{
+        margin: 0;
+        padding: 0;
+    }
+
+    body{
+
+    }
+
+</style>
+
+<div class="profile-bg">
+    <style>
+        .p-image img{
+                   border-radius: 50%;
+                   margin-top: -75px;
+                   border: 2px solid lightseagreen;
+                   margin-left: 60px;
+                   padding: 5px, 10px;
+
+
+        }
+
+        .bg-image{
+                   border: 2px solid lightseagreen;
+                   border-radius: 0;
+                   height: 250px;
+                   margin-top: 25px;
+                   margin-right: 20px;
+                   margin-left: 20px;
+
+        }
+
+        .bg-image img{
+                 border-radius: 0;
+                 width: 100%;
+                 height: 100%;
+
+        }
+</style>
+    <a href="{% url 'home' %}">home</a>
+    <div class="bg-image">
+        <a href="{{ profile.coverimg.url }}"> <img src="{{ profile.coverimg.url }}" width="100%" height="400">
+         </a>
+        <style>
+            button{
+                float: right;
+                width: 120px;
+                margin-top: 15px;
+                padding: 5px 30px 5px;
+                color: white;
+                background: lightseagreen;
+                border: none;
+                font-size: 12px;
+                border-radius: 15px;
+                font-weight: 0;
+                margin-right: 5px;
+                border-right: 1px solid lightseagreen;
+            }
+
+        </style>
+
+    </div>
+    <div class="p-image">
+       <a href="{{ profile.profileimg.url}}"> <img src="{{ profile.profileimg.url}}" height="100" width="100">
+           </a>
+    </div>
+
+</div>
+
+<div class="p-detail">
+    <style>
+        .p-detail{
+            margin-left: 40px;
+
+        }
+    </style>
+    <h3>{{ profile.user }}</h3>
+
+    <p> <strong>Bio:</strong> {{ profile.bio }}</p>
+    <p2 id="follow-count-{{ profile.id }}">{{profile.followers}}
+    {{profile.followed_by}}</p2> followers
+<div class="follow-btn">
+    <a href="https://wa.me/{{profile.phone_number}}?text=I saw your products on your profile {{Profile.user.username}} on Maricho.com, I'm interested in your products"><button type="submit" >Message</button></a>
+    <button class="follow-button" id="follow-button"  profile_id="{{ profile.id }}">Follow</button>
+     {% if profile.user == request.user %}
+    <a href="/flane/job"><button> + Post Job</button></a>
+    <a href="/flane/profile-update/{{ profile.id }}"><button>Prof_update</button></a>
+    {% endif %}
+</div>
+
+<div class="prof-details">
+<div class="ads">
+    <style>
+        .prof-details{
+         margin-left: 20px;
+         margin-right: 20px;
+        }
+        .ads ul{
+            margin: 100px 0px 5px;
+            border-top: 8px solid lightgrey;
+            display: flex;
+            list-style: none;
+            gap: 8px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .ads ul li {
+            margin-top: 20px;
+            text-decoration: none;
+            }
+             .ads ul li{
+            text-decoration: none;
+            color: grey;
+            border-radius: 15px;
+            border: 1px solid grey;
+            padding: 5px 20px;
+
+        }
+
+    </style>
+    <ul>
+        <button type="submit" id="ads">Ads</button>
+        <button type="submit" id="prod">Products</button>
+
+    </ul>
+</div>
+
+<div class="post" id="post">
+    <style>
+
+        ul button{
+         background: lightgrey;
+         border: 1px solid lightseagreen;
+         color: lightseagreen;
+         }
+
+         ul button:hover {
+         background: lightseagreen;
+         color: white;
+         }
+
+        .post{
+            margin-top: 50px;
+            margin-right: 20px;
+            margin-left: 20px;
+            display: none;
+            grid-template-columns: auto auto auto auto auto auto;
+
+
+        }
+        .post img{
+          width: 200px;
+          height: 200px;
+          margin-left: 5px;
+        }
+        .post:hover {
+         display: flex;
+        }
+
+
+         @media (max-width: 500px) {
+         .post img{
+            margin-right: 5px;
+            margin-top: 5px;
+            width: 100px;
+            height: 130px;
+                        }
+          .post{
+          grid-template-columns: auto auto auto;
+          margin-left: 10px;
+          }
+}
+    </style>
+     {% for post in posts %}
+    {% if profile.user == post.user %}
+    <a href="/flane/comment-details/{{post.id}}/{{post.slug|slugify}}"><img src="{{ post.image.url }}"></a>
+    {% endif %}
+     {% endfor %}
+</div>
+</div>
+<div class="product">
+{% for product in products %}
+    {% if profile.user == product.user %}
+    <a href="/flane/product-details/{{product.id}}/{{product.product_name|slugify}}"><img src="{{ product.product_img.url }}"></a>
+    {% endif %}
+     {% endfor %}
+</div>
+</div>
+</body>
+<script>
+
+$(document).ready(function(){
+
+            $(".follow-button").click(function(){
+              var profile_id = $(this).attr("profile_id");
+
+                          $.ajax({
+                            type: 'POST',
+                            url : "{% url 'follow-profile' %}",
+                            data: {
+                              profile_id: profile_id,
+                              csrfmiddlewaretoken: '{{ csrf_token }}',
+                              },
+                            success: function(data){
+                              if(data.liked){
+                            $(this).removeClass("follow-button").addClass("unfollow-button");
+                            $(this).text("Unfollow");
+                            } else {
+                            $(this).removeClass("unfollow-button").addClass("follow-button");
+                            $(this).text("Follow");
+                            }
+                            $("#follow-count-" + profile_id).text(data.followers);
+
+                            console.log(data);
+                           },
+                            error: function(xhr, errmsg, err){
+                            alert('error getting response');
+                            }
+                            });
+                            });
+                            });
+
+
+
+
+let adsEl = document.getElementById("ads");
+let postEl = document.getElementById("post");
+
+adsEl.addEventListener('click', load)
+function load() {
+postEl.style.display = "grid"
+adsEl.style.color = "white"
+adsEl.style.background = "lightseagreen"
+};
+</script>
+{% endblock %}
+</html>

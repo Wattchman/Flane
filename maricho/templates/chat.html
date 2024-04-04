@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div id="chat-app">
+    <div id="chat-window">
+        <ul id="messages">
+        </ul>
+    </div>
+    <form id="message-form">
+        <input type="text" id="message-input" placeholder="Type a message...">
+        <button type="submit">Send</button>
+    </form>
+</div>
+
+<script>
+    var socket = new WebSocket('ws://localhost:8000/flane/chat/');
+
+    socket.onmessage = function(e) {
+    var data = JSON.parse(e.data);
+    if(data.type == 'new_message') {
+       var message = document.createElement('li');
+             message.innerHTML = `<b>${data.sender}:</b> ${data.body}`;
+
+       document.getElementById('messages').appendChild(message);
+       }
+    };
+
+    document.getElementById('message-form').addEventListener('submit', function(e){
+           e.preventDefault();
+           var message = document.getElementById('message-input').value;
+           socket.send(JSON.stringify({
+             'type': 'new_message',
+             'message':message,
+             }));
+             document.getElementById('message-input').value = ";
+             });
+             </script>
+   {% endblock %}

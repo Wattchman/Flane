@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+  <div class="row">
+    <div class="col-md-6 offset-md-3" display="inline-block">
+      <!-- Display the register form -->
+      <div>
+        <style>
+          h5{
+             margin-top: 20px;
+             color: red;
+             font-family: sans-serif;
+          }
+          form {
+          display: grid;
+          margin: 100px auto 15px;
+          background: lightgrey;
+          width: 300px;
+          border-radius: 15px;
+          padding-top: 50px;
+          }
+
+         form input {
+          width: 200px;
+          height: 30px;
+          margin: 20px auto 15px;
+          border: 1px solid lightseagreen;
+          border-radius: 15px;
+          padding-left: 5px;
+          }
+
+         form button {
+           width: 150px;
+           margin: 20px auto 15px;
+           border: none;
+           background: lightseagreen;
+           color: white;
+           height: 30px;
+           border-radius: 15px;
+         }
+         form p {
+           color: lightseagreen;
+           margin: -30px 120px 20px;
+         }
+        </style>
+        {% for message in messages %}
+        <h5> Error: {{ message }}</h5>
+        {% endfor %}
+      </div>
+      <form method="post" action="{% url 'signup' %}">
+        <p>Signup</p>
+        {% csrf_token %}
+        <input type="text" name="username" placeholder="Username">
+        <input type="email" name="email" placeholder="Enter Email">
+        <input type="password" name="password" placeholder="Password">
+        <input type="password" name="password2" placeholder="Confirm Password">
+        <button type="submit" class="btn btn-primary">Signup</button>
+      </form>
+      <!-- Display a link to the login view -->
+      <p>Already have an account? <a href="{% url 'signin' %}">Login here</a></p>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+  <div class="row">
+    <div class="col-md-8">
+      <!-- Display the profile image, headline, and summary -->
+      <div class="card mt-3">
+        <div class="card-body">
+          <img src="{{ profile.image.url }}" alt="{{ profile.user.username }}" class="profile-pic">
+          <h5 class="card-title">{{ profile.user.username }}</h5>
+          <h6 class="card-subtitle mb-2 text-muted">{{ profile.headline }}</h6>
+          <p class="card-text">{{ profile.summary }}</p>
+          <!-- Display a button to update the profile if the current user is the owner -->
+          {% if request.user == profile.user %}
+          <a href="{% url 'profile_update' %}" class="btn btn-primary">Update Profile</a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,6 @@
+<h1>Inbox</h1>
+
+<ul>{% for conversation in conversations %}
+    <li><a href="{% url 'chat' conversation.id %}"> {{ conversation }} </a></li>
+ {% endfor %}
+</ul>

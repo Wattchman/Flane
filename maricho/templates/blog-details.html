@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title> comment_details </title>
+</head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+{% block content %}
+<body>
+<style>
+       .comments {
+           margin: 30px 20px 5px;
+
+       }
+       .comments img{
+          margin-bottom: 10px;
+          border-radius: 15px;
+          height: 300px;
+          width: 100%;
+       }
+       .comments h3 img{
+           height: 40px;
+           width: 40px;
+           border-radius: 50%;
+           margin-bottom: 10px;
+       }
+       .comments h3 {
+         gap: 5px;
+         display: flex;
+         align-items: center;
+       }
+       .comments p1 {
+       width: 70%;
+       display: grid;
+       border-top: 1px solid lightgrey;
+       margin-top: 20px;
+       background: lightgrey;
+       padding: 5px 10px;
+       border-radius: 15px;
+       }
+       h4 {
+         border: 1px solid lightseagreen;
+         margin: 2px 3px 5px;
+         color: white;
+         background: lightseagreen;
+         width: 100px;
+         padding: 3px 5px 3px;
+         padding-left: 40px;
+         border-radius: 15px;
+       }
+       .blog img {
+         width: 350px;
+         height: 400px;
+         margin-left: 5px;
+       }
+
+       h2 {
+        margin-bottom: 60px;
+       }
+</style>
+
+<div class="comments">
+    {% for profile in profiles %}
+    {% if profile.user == blog.user %}
+    <h3> <a href="{% url 'profile' profile.id %}"><img src="{{ profile.profileimg.url }}"> </a>{{ blog.user }}</h3>
+    {% endif %}
+    {% endfor %}
+    <h4> {{ total_views }} views</h4>
+    <div class="blog">
+    <img src="{{blog.image.url}}">
+        <h2>{{ blog.title }}</h2>
+    <p>{{ blog.body }}</p>
+</div>
+</div>
+
+
+
+</body>
+{% endblock content %}
+</html>
