@@ -141,21 +141,21 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-REDIS_HOST = 'localhost'
+REDIS_HOST = 'rediss://red-co7v7sq1hbls73egpgmg:PTE5NQkBGNxOGe3iLNxRDQVa5uh5rlmN@oregon-redis.render.com:6379'
 REDIS_PORT = 6379
 REDIS_DB = 0
 CHANNEL_LAYERS = {
     'default': {
         'BACKEND': 'channels_redis.core.RedisChannelLayer',
         'CONFIG': {
-            'hosts': [('localhost', 6379)],
+            'hosts': [('rediss://red-co7v7sq1hbls73egpgmg:PTE5NQkBGNxOGe3iLNxRDQVa5uh5rlmN@oregon-redis.render.com', 6379)],
         },
     },
 }
 CACHES = {
     'default': {
         'BACKEND': 'django_redis.cache.RedisCache',
-        'LOCATION': 'redis://127.0.0.1:6379/0',
+        'LOCATION': 'redis://rediss://red-co7v7sq1hbls73egpgmg:PTE5NQkBGNxOGe3iLNxRDQVa5uh5rlmN@oregon-redis.render.com:6379',
         'OPTIONS': {
             'CLIENT_CLASS': 'django_redis.client.DefaultClient',
         }
