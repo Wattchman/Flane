@@ -141,9 +141,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-REDIS_HOST = 'rediss://red-co7v7sq1hbls73egpgmg:PTE5NQkBGNxOGe3iLNxRDQVa5uh5rlmN@oregon-redis.render.com:6379'
-REDIS_PORT = 6379
-REDIS_DB = 0
+REDIS_HOST = dj_redis_url.parse(os.environ.get("REDIS_URL"))
 CHANNEL_LAYERS = {
     'default': {
         'BACKEND': 'channels_redis.core.RedisChannelLayer',
