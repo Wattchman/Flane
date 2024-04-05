@@ -25,6 +25,7 @@ colorama==0.4.6
 contourpy==1.1.1
 cycler==0.12.1
 dj-database-url==2.1.0
+dj-redis-url==0.1.4
 Django==4.2.4
 django-cors-headers==4.3.1
 django-phonenumber-field==7.3.0
