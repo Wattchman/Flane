@@ -148,14 +148,14 @@ CHANNEL_LAYERS = {
     'default': {
         'BACKEND': 'channels_redis.core.RedisChannelLayer',
         'CONFIG': {
-            'hosts': [('rediss://red-co7v7sq1hbls73egpgmg:PTE5NQkBGNxOGe3iLNxRDQVa5uh5rlmN@oregon-redis.render.com:6379', 6379)],
+            'hosts': [('redis://red-co7v7sq1hbls73egpgmg:PTE5NQkBGNxOGe3iLNxRDQVa5uh5rlmN@oregon-redis.render.com:6379', 6379)],
         },
     },
 }
 CACHES = {
     'default': {
         'BACKEND': 'django_redis.cache.RedisCache',
-        'LOCATION': ['rediss://red-co7v7sq1hbls73egpgmg:PTE5NQkBGNxOGe3iLNxRDQVa5uh5rlmN@oregon-redis.render.com:6379'],
+        'LOCATION': ['redis://red-co7v7sq1hbls73egpgmg:PTE5NQkBGNxOGe3iLNxRDQVa5uh5rlmN@oregon-redis.render.com:6379'],
         'OPTIONS': {
             'CLIENT_CLASS': 'django_redis.client.DefaultClient',
         }
