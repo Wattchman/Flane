@@ -399,7 +399,7 @@
             {% endfor %}
               <p>{{ product.user }}</p>
         </div>
-             <a href="flane/product-details/{{product.id}}/{{product.product_name}}"><img src="{{ product.product_img.url }}"></a>
+             <a href="product-details/{{product.id}}/{{product.product_name}}"><img src="{{ product.product_img.url }}"></a>
              <p class="p-name">{{ product.product_name }}</p>
                 <p class="p-price"> ${{ product.price }}</p>
 
@@ -626,8 +626,7 @@
 
                   <p1 id="like-count-{{ post.id }}">{{post.no_of_likes}}</p1> like{{post.no_of_likes|pluralize}}
                   <a class="cm" id="comment" href="/flane/comment/{{ post.id }}">comment</a> <a href="https://wa.me/{{post.contact}}?text=I'm interested in your product {{post.caption}} for sale on Maricho.com"> <i class="fa-brands fa-whatsapp"></i></a>
-                  <a href="https://wa.me/{{post.contact}}?text=I'm interested in your product {{post.caption}} for sale on Maricho.com"> <img src="{% static 'media/wbg.png' %}"> </a>
-                  <a href="{{post.contact}}"> <i class="fa-brands fa-whatsapp"></i></a>
+                  <a href="https://wa.me/{{post.contact}}?text=I'm interested in your product {{post.caption}} for sale on Maricho.com"> 
 
               </div>
 
