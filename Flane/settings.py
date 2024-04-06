@@ -143,6 +143,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 REDIS_HOST = dj_redis_url.parse(os.environ.get("REDIS_URL"))
 REDIS_PORT = 6379
+REDIS_DB = 0
 CHANNEL_LAYERS = {
     'default': {
         'BACKEND': 'channels_redis.core.RedisChannelLayer',
