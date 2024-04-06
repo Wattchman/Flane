@@ -155,7 +155,7 @@ CHANNEL_LAYERS = {
 CACHES = {
     'default': {
         'BACKEND': 'django_redis.cache.RedisCache',
-        'LOCATION': ['rediss://red-co7v7sq1hbls73egpgmg:PTE5NQkBGNxOGe3iLNxRDQVa5uh5rlmN@oregon-redis.render.com:6379'],
+        'LOCATION': ['rediss://red-co7v7sq1hbls73egpgmg:PTE5NQkBGNxOGe3iLNxRDQVa5uh5rlmN@oregon-redis.render.com:6379/0'],
         'OPTIONS': {
             'CLIENT_CLASS': 'django_redis.client.DefaultClient',
         }
