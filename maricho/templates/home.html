@@ -156,7 +156,6 @@
     <i class="fa-solid fa-bars"></i>
     <ul>
         <li><a href="{% url 'home' %}"><i class="fa-solid fa-house"></i></a></li>
-        <li><a href="{{ profiles }}"><i class="notification-count"><small>6+</small></i>Notifications</a></li>
         <li><a href="{% url 'logout' %}">Logout</a></li>
         <li><a href="#" id="job"><i class="notification-count"><small>4+</small></i>Jobs</a></li>
         <li><a href="#"><i class="fa-solid fa-bell"></i></a></li>
@@ -400,7 +399,7 @@
             {% endfor %}
               <p>{{ product.user }}</p>
         </div>
-             <a href="product_details/{{product.id}}/{{product.product_name}}"><img src="{{ product.product_img.url }}"></a>
+             <a href="flane/product-details/{{product.id}}/{{product.product_name}}"><img src="{{ product.product_img.url }}"></a>
              <p class="p-name">{{ product.product_name }}</p>
                 <p class="p-price"> ${{ product.price }}</p>
 
