@@ -86,7 +86,7 @@ class Post(models.Model):
         return f'{self.user.username}: {self.caption}'
 
     class Meta:
-        ordering = ['-created']
+        ordering = ['-created_at']
 
 
 
