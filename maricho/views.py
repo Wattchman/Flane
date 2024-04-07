@@ -253,7 +253,7 @@ def post_create(request):
 
 def comment_details(request, post_id, slug):
     post = Post.objects.get(id=post_id)
-    total_views = r.incr(f'image:{post.id}:views')
+    #total_views = r.incr(f'image:{post.id}:views')
     slug = slug
     profiles = Profile.objects.all()
 
