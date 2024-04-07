@@ -257,16 +257,16 @@ def comment_details(request, post_id, slug):
     slug = slug
     profiles = Profile.objects.all()
 
-    return render(request, 'commentdetails.html', {'post': post, 'profiles': profiles,  'total_views': total_views})
+    return render(request, 'commentdetails.html', {'post': post, 'profiles': profiles})
 
 @login_required(login_url='signin')
 def blog_details(request, blog_id, blog_title):
     blog = Blog.objects.get(id=blog_id)
     profiles = Profile.objects.all()
 
-    total_views = r.incr(f'blog_image:{blog.id}:views')
+    #total_views = r.incr(f'blog_image:{blog.id}:views')
 
-    return render(request, 'blog-details.html', {'blog': blog, 'profiles': profiles, 'total_views': total_views})
+    return render(request, 'blog-details.html', {'blog': blog, 'profiles': profiles})
 
 
 @login_required(login_url='signin')
