@@ -57,7 +57,7 @@
     <h3> <a href="{% url 'profile' profile.id %}"><img src="{{ profile.profileimg.url }}"> </a>{{ post.user }}</h3>
     {% endif %}
     {% endfor %}
-    <h4> {{ total_views }} views</h4>
+    
     <img src="{{post.image.url}}">
     <p>{{ post.caption }}</p>
 {% if not post.comments.all %}
