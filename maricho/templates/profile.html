@@ -10,14 +10,15 @@
 {% block content %}
 <body>
 <style>
-    *{
-        margin: 0;
-        padding: 0;
-    }
+
 
     body{
+         display: flex;
+         flex-direction: column;
+         margin: 5px;
+         box-sizing: border-box;
 
-    }
+         }
 
 </style>
 
@@ -34,9 +35,10 @@
         }
 
         .bg-image{
-                   border: 2px solid lightseagreen;
+
                    border-radius: 0;
                    height: 250px;
+                   width: 100%;
                    margin-top: 25px;
                    margin-right: 20px;
                    margin-left: 20px;
@@ -47,14 +49,16 @@
                  border-radius: 0;
                  width: 100%;
                  height: 100%;
+                 padding-right: 20px;
 
         }
 </style>
-    <a href="{% url 'home' %}">home</a>
     <div class="bg-image">
         <a href="{{ profile.coverimg.url }}"> <img src="{{ profile.coverimg.url }}" width="100%" height="400">
          </a>
+         </div>
         <style>
+
             button{
                 float: right;
                 width: 120px;
@@ -72,7 +76,7 @@
 
         </style>
 
-    </div>
+
     <div class="p-image">
        <a href="{{ profile.profileimg.url}}"> <img src="{{ profile.profileimg.url}}" height="100" width="100">
            </a>
@@ -93,7 +97,7 @@
     <p2 id="follow-count-{{ profile.id }}">{{profile.followers}}
     {{profile.followed_by}}</p2> followers
 <div class="follow-btn">
-    <a href="https://wa.me/{{profile.phone_number}}?text=I saw your products on your profile {{Profile.user.username}} on Maricho.com, I'm interested in your products"><button type="submit" >Message</button></a>
+    <a href="{% url 'chat' profile.user.id %}"> <button type="submit" >Message</button></a>
     <button class="follow-button" id="follow-button"  profile_id="{{ profile.id }}">Follow</button>
      {% if profile.user == request.user %}
     <a href="/flane/job"><button> + Post Job</button></a>
@@ -107,10 +111,12 @@
         .prof-details{
          margin-left: 20px;
          margin-right: 20px;
+
         }
         .ads ul{
-            margin: 100px 0px 5px;
             border-top: 8px solid lightgrey;
+            margin: 100px 0px 5px;
+
             display: flex;
             list-style: none;
             gap: 8px;
@@ -139,9 +145,33 @@
     </ul>
 </div>
 
+    <div class="posts">
 <div class="post" id="post">
+     {% for post in posts %}
+    {% if profile.user == post.user %}
+    <a href="/flane/comment-details/{{post.id}}/{{post.slug|slugify}}"><img src="{{ post.image.url }}"></a>
+    {% endif %}
+     {% endfor %}
+</div>
+
+    <div class="products">
+<div class="product" id="product">
     <style>
 
+    </style>
+     {% for product in products %}
+    {% if profile.user == products.user %}
+    <a href="/flane/product-details/{{product.id}}/{{product.product_name}}"><img src="{{ product.product_img.url }}"></a>
+    {% endif %}
+     {% endfor %}
+</div>
+        <style>
+        .posts, .products {
+            margin-right: 100px;
+            margin-left: -55px;
+            padding-right: 50px;
+
+         }
         ul button{
          background: lightgrey;
          border: 1px solid lightseagreen;
@@ -153,21 +183,20 @@
          color: white;
          }
 
-        .post{
-            margin-top: 50px;
-            margin-right: 20px;
-            margin-left: 20px;
+       .post, .product {
+            margin-right: 100px;
             display: none;
+            padding-right: 60px;
+            align-items: center;
+            flex-direction: column;
             grid-template-columns: auto auto auto auto auto auto;
-
-
-        }
+}
         .post img{
           width: 200px;
           height: 200px;
           margin-left: 5px;
         }
-        .post:hover {
+        .post, .product:hover {
          display: flex;
         }
 
@@ -179,28 +208,17 @@
             width: 100px;
             height: 130px;
                         }
-          .post{
+          .post, product {
+          padding-right: 50px;
+          margin-right: 50px;
           grid-template-columns: auto auto auto;
           margin-left: 10px;
           }
-}
-    </style>
-     {% for post in posts %}
-    {% if profile.user == post.user %}
-    <a href="/flane/comment-details/{{post.id}}/{{post.slug|slugify}}"><img src="{{ post.image.url }}"></a>
-    {% endif %}
-     {% endfor %}
-</div>
-</div>
-<div class="product">
-{% for product in products %}
-    {% if profile.user == product.user %}
-    <a href="/flane/product-details/{{product.id}}/{{product.product_name|slugify}}"><img src="{{ product.product_img.url }}"></a>
-    {% endif %}
-     {% endfor %}
-</div>
-</div>
-</body>
+
+        </style>
+    </div>
+    </div>
+    </div>
 <script>
 
 $(document).ready(function(){
@@ -248,4 +266,6 @@ adsEl.style.background = "lightseagreen"
 };
 </script>
 {% endblock %}
+</div>
+</body>
 </html>

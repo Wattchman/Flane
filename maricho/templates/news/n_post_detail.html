@@ -1,0 +1,208 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ post.title }}</title>
+
+    <!-- Embedded CSS -->
+    <style>
+        /* Basic styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        .navbar {
+            background-color: lightseagreen;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            font-size: 1.5rem;
+        }
+
+        .container {
+            padding: 20px;
+            max-width: 1000px;
+            margin: auto;
+        }
+
+        .post {
+            background-color: white;
+            margin-bottom: 20px;
+            padding: 20px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+
+        .post img {
+            max-width: 100%;
+            border-radius: 8px;
+            margin-top: 10px;
+        }
+
+        .comments {
+            margin-top: 30px;
+            background-color: #f9f9f9;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .comment {
+            margin-bottom: 10px;
+        }
+        .comment {
+            background: lightgrey;
+            padding: 5px;
+            margin: 5px 10px 10px;
+            border-radius: 5px;
+        }
+        .comment-form {
+            margin-top: 20px;
+            background-color: #f9f9f9;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+            display: none; /* Initially hidden */
+        }
+
+        button {
+            background-color: lightseagreen;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: lightseagreen;
+        }
+
+        /* Responsive media queries */
+        @media (max-width: 768px) {
+            .navbar {
+                font-size: 1.2rem;
+            }
+
+            .post {
+                padding: 15px;
+            }
+
+            .comment-form {
+                padding: 10px;
+            }
+
+            button {
+                padding: 8px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .navbar {
+                font-size: 1rem;
+                padding: 10px;
+            }
+
+            .container {
+                padding: 10px;
+            }
+
+            .post {
+                padding: 10px;
+            }
+
+            button {
+                width: 100%;
+                padding: 12px;
+                font-size: 1rem;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="navbar">
+        <h1>MariCho News</h1>
+    </div>
+
+    <div class="container">
+        <!-- Post Details -->
+        <div class="post">
+            <h2>{{ post.title }}</h2>
+            {% if post.image %}
+            <img src="{{ post.image.url }}" width="400" height="300" alt="news image">
+            <p>{{ post.content }}</p>
+
+            {% endif %}
+        </div>
+
+        <!-- Comments Section -->
+        <div class="comments">
+            <h3>Comments</h3>
+            {% for comment in comments %}
+            <div class="comment">
+                <strong>{{ comment.author }}: </strong>  {{ comment.content }}
+
+            </div>
+            {% empty %}
+            <p>No comments yet.</p>
+            {% endfor %}
+        </div>
+
+        <!-- Comment Form (Initially Hidden) -->
+        <div class="comment-form" id="comment-form-{{ post.id }}">
+            <h3>Add a Comment</h3>
+            <form method="POST">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+
+        <!-- Button to Toggle Comment Form -->
+        <button onclick="toggleCommentForm({{ post.id }})">Comment</button>
+    </div>
+
+    <!-- Embedded JavaScript -->
+    <script>
+        // Show or hide the comment form for the given post ID
+        function toggleCommentForm(postId) {
+            const commentForm = document.getElementById('comment-form-' + postId);
+            if (commentForm.style.display === 'none' || commentForm.style.display === '') {
+                commentForm.style.display = 'block';
+            } else {
+                commentForm.style.display = 'none';
+            }
+        }
+
+        // Show post with a fade-in animation on load
+        window.addEventListener('DOMContentLoaded', (event) => {
+            const post = document.querySelector('.post');
+            post.style.opacity = '1';
+            post.style.transform = 'translateY(0)';
+        });
+    </script>
+
+</body>
+</html>

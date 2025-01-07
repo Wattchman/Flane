@@ -1,24 +1,41 @@
-from channels.generic.websocket import WebsocketConsumer
-from channels.consumer import async_to_sync
 import json
+from channels.generic.websocket import AsyncWebsocketConsumer
+from django.contrib.auth.models import User
+from .models import Message
 
-class ChatConsumer(WebsocketConsumer):
+class ChatConsumer(AsyncWebsocketConsumer):
+    async def connect(self):
+        self.room_name = f"chat_{self.scope['user'].id}"
+        self.room_group_name = f"chat_{self.scope['user'].id}"
+        await self.channel_layer.group_add(self.room_group_name, self.channel_name)
+        await self.accept()
 
-    def connect(self):
-        self.user = self.scope['user']
-        self.group_name = 'user_{}'.format(self.user.id)
+    async def disconnect(self, close_code):
+        await self.channel_layer.group_discard(self.room_group_name, self.channel_name)
 
-        async_to_sync(self.channel_layer.group_add)
-        (self.group_name, self.channel_name)
-        self.accept()
-
-    def disconnect(self, close_code):
-        async_to_sync(self.channel_layer.group_discard)
-        (self.group_name, self.channel_name)
-
-
-    def recieve(self, text_data):
+    async def receive(self, text_data):
         data = json.loads(text_data)
-        if data['type'] == 'new_message':
-            self.send(json.dumps(data['message']))
+        content = data['content']
+        recipient_id = data['recipient_id']
 
+        recipient = await self.get_user(recipient_id)
+        message = Message.objects.create(sender=self.scope['user'], recipient=recipient, content=content)
+
+        await self.channel_layer.group_send(
+            f"chat_{recipient_id}",
+            {
+                'type': 'chat_message',
+                'content': content,
+                'sender': self.scope['user'].username,
+            }
+        )
+
+    async def chat_message(self, event):
+        await self.send(text_data=json.dumps({
+            'content': event['content'],
+            'sender': event['sender'],
+        }))
+
+    @staticmethod
+    async def get_user(user_id):
+        return await User.objects.get(id=user_id)

@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ company.name }} Profile</title>
+    <style>
+        /* General styling */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+        /* Header styling */
+        .header {
+            background-color: #20B2AA;
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        .header h1 {
+            margin: 0;
+        }
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+        }
+        /* Mobile hamburger menu */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+        }
+        .hamburger span {
+            background-color: white;
+            height: 3px;
+            width: 25px;
+            margin: 4px 0;
+            border-radius: 5px;
+        }
+        .mobile-menu {
+            display: none;
+            flex-direction: column;
+            background-color: #20B2AA;
+            padding: 10px;
+        }
+        .mobile-menu a {
+            color: white;
+            text-decoration: none;
+            padding: 10px 0;
+        }
+        /* Company profile styling */
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+            text-align: center;
+        }
+        .company-info img {
+            width: 200px;
+            height: 200px;
+            object-fit: cover;
+            margin: 0 auto 20px;
+        }
+        .company-details h2 {
+            color: #20B2AA;
+            margin: 10px 0;
+        }
+        /* Aligned attributes styling */
+        .company-attributes {
+            display: grid;
+            grid-template-columns: 150px auto;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 20px;
+            text-align: left;
+        }
+        .company-attributes div {
+            text-align: left;
+        }
+        .company-attributes span {
+            font-weight: bold;
+        }
+        /* Job posting section */
+        .job-section {
+            margin-top: 40px;
+        }
+        .job-section h3 {
+            color: #20B2AA;
+            text-align: center;
+        }
+        .job-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        .job-list li {
+            padding: 10px;
+            border: 1px solid #ddd;
+            margin-bottom: 10px;
+        }
+        .job-button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #20B2AA;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+        /* Responsive styling */
+        @media (max-width: 600px) {
+            .nav-links {
+                display: none;
+            }
+            .hamburger {
+                display: flex;
+            }
+            .mobile-menu.active {
+                display: flex;
+            }
+            .company-attributes {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>Company Profile</h1>
+        <div class="nav-links">
+            <a href="{% url 'home' %}">Home</a>
+            <a href="{% url 'job-list' %}">Jobs</a>
+            <a href="{% url 'logout' %}">Logout</a>
+        </div>
+        <div class="hamburger" onclick="toggleMenu()">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </div>
+
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="{% url 'home' %}">Home</a>
+        <a href="{% url 'job-list' %}">Jobs</a>
+        <a href="{% url 'logout' %}">Logout</a>
+    </div>
+
+    <div class="container">
+        <!-- Company Profile Section -->
+        <div class="company-info">
+            <img src="{{ company.logo.url }}" alt="{{ company.name }} Logo">
+            <div class="company-details">
+                <h2>{{ company.name }}</h2>
+            </div>
+        </div>
+        <div class="company-attributes">
+            <div> <span>Industry:</span>
+             {{ company.industry }}</div>
+            <div><span>Description:</span>
+            {{ company.description }}</div>
+            <div><span>Phone Number:</span>
+                {{ company.phone_number }}</div>
+            <div><span>Email:</span>
+            {{ company.email }}</div>
+            <div><span>Location:</span>
+            {{ company.location }}</div>
+            <div><span>Website:</span>
+            <a href="{{ company.website }}" target="_blank">{{ company.website }}</a></div>
+        </div>
+
+        <!-- Job Posting Section -->
+        <div class="job-section" id="jobs">
+            <h3>Job Openings</h3>
+            <ul class="job-list">
+                {% for job in company.jobs.all %}
+                    <li>
+                        <h4>Job Title: {{ job.title }}</h4>
+                        <p>Location: {{ job.location }}</p>
+                        <p>Description: {{ job.description }}</p>
+                    </li>
+                {% empty %}
+                    <li>No job openings available at this time.</li>
+                {% endfor %}
+            </ul>
+            <a href="{% url 'job' %}" class="job-button">Post a Job</a>
+        </div>
+    </div>
+
+    <script>
+        function toggleMenu() {
+            var menu = document.getElementById("mobileMenu");
+            menu.classList.toggle("active");
+        }
+    </script>
+</body>
+</html>

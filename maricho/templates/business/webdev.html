@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Website Development Services</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
+    }
+
+    nav {
+      background-color: #20b2aa;
+      color: white;
+      padding: 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: relative;
+    }
+
+    nav .logo {
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 1.5rem;
+      margin: 0;
+    }
+
+    nav ul li a {
+      color: white;
+      text-decoration: none;
+      font-size: 1rem;
+      margin-left: 30px;
+    }
+
+    /* Hamburger Icon */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+    }
+
+    .hamburger div {
+      width: 25px;
+      height: 3px;
+      background-color: white;
+      margin: 4px;
+      transition: 0.3s;
+    }
+
+    /* Responsive Menu for mobile */
+    @media (max-width: 768px) {
+      nav ul {
+        display: none;
+        position: absolute;
+        top: 100%;
+        right: 0;
+        background-color: #20b2aa;
+        flex-direction: column;
+        width: 100%;
+        padding: 1rem;
+      }
+
+      nav ul.active {
+        display: flex;
+      }
+
+      .hamburger {
+        display: flex;
+      }
+    }
+
+    header {
+      background-image: url('https://images.pexels.com/photos/11035350/pexels-photo-11035350.jpeg?auto=compress&cs=tinysrgb&w=1600'); /* Example background from Pexels */
+      background-size: cover;
+      background-position: center;
+      height: 400px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      text-align: center;
+    }
+
+    header h1 {
+      font-size: 3rem;
+      margin: 0;
+      text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+    }
+
+    section {
+      padding: 2rem;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    section h2 {
+      font-size: 2rem;
+      color: #333;
+      margin-bottom: 1rem;
+    }
+
+    section p {
+      font-size: 1.1rem;
+      line-height: 1.6;
+      color: #555;
+      margin-bottom: 1.5rem;
+    }
+
+    section ul {
+      list-style: disc;
+      padding-left: 1.5rem;
+    }
+
+    section ul li {
+      margin-bottom: 1rem;
+      font-size: 1rem;
+      color: #555;
+    }
+    button {
+       background: lightseagreen;
+       padding: 10px 5px;
+       color: white;
+       font-size: 20px;
+       border: none;
+    }
+    a {
+      text-decoration: none;
+      color: white;
+    }
+    footer {
+      background-color: #333;
+      color: white;
+      text-align: center;
+      padding: 1.5rem;
+      margin-top: 2rem;
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="logo">Business Solutions</div>
+
+    <!-- Hamburger Icon -->
+    <div class="hamburger" onclick="toggleMenu()">
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+
+    <!-- Navigation Links -->
+    <ul id="nav-links">
+      <li><a href="/flane/business">Home</a></li>
+      <li><a href="#services">Services</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <header>
+    <h1>Website Development Services</h1>
+  </header>
+
+  <section>
+    <h2>Why Choose Our Web Development Services?</h2>
+    <p>
+      At Business Solutions, we specialize in creating custom websites that are tailored to meet your business needs. Whether you need a simple landing page, an e-commerce platform, or a complex web application, we have the expertise to deliver.
+    </p>
+    <h2>Our Services Include:</h2>
+    <ul>
+      <li>Custom Website Design and Development</li>
+      <li>Responsive Web Design for All Devices</li>
+      <li>Content Management Systems (CMS) like WordPress, Joomla, and Drupal</li>
+      <li>E-commerce Solutions and Online Stores</li>
+      <li>Search Engine Optimization (SEO) Best Practices</li>
+      <li>Website Maintenance and Support</li>
+    </ul>
+          <button><a href="https://wa.me/+263784777648?text=I'm interested in web dev services on offer at Maricho.com">Get In Touch</button></a>
+    <p>
+      Our web development process ensures that your website is visually appealing, functional, and user-friendly. We collaborate closely with you to understand your business goals and to create a website that not only looks great but also drives results.
+    </p>
+
+    <h2>Technologies We Use:</h2>
+    <ul>
+      <li>HTML5, CSS3, JavaScript (React, Angular, Vue.js)</li>
+      <li>Back-end Development with Node.js, Python, Ruby on Rails</li>
+      <li>Databases: MySQL, PostgreSQL, MongoDB</li>
+      <li>Cloud Solutions: AWS, Google Cloud, Azure</li>
+      <li>CMS Integration (WordPress, Joomla)</li>
+      <li>E-commerce Platforms (Shopify, WooCommerce, Magento)</li>
+    </ul>
+  </section>
+
+  <footer>
+    <p>&copy; 2024 Business Solutions. All rights reserved.</p>
+  </footer>
+
+  <script>
+    function toggleMenu() {
+      const navLinks = document.getElementById('nav-links');
+      navLinks.classList.toggle('active');
+    }
+  </script>
+
+</body>
+</html>

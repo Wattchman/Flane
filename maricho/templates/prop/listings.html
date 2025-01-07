@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PropertyFinder</title>
+    <style>
+        :root {
+            --primary-color: lightseagreen;
+            --secondary-color: #20b2aa;
+            --text-color: #333;
+            --light-text: #fff;
+            --background-color: #f4f4f4;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--background-color);
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            overflow: hidden;
+        }
+
+        header {
+            background-color: var(--primary-color);
+            color: var(--light-text);
+            padding: 1rem 0;
+        }
+
+        header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav ul li {
+            margin-left: 1rem;
+        }
+
+        nav ul li a {
+            color: var(--light-text);
+            text-decoration: none;
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+        }
+
+        .hamburger span {
+            height: 3px;
+            width: 25px;
+            background-color: var(--light-text);
+            margin-bottom: 4px;
+            border-radius: 5px;
+        }
+
+        .search-container {
+            background-color: var(--light-text);
+            padding: 2rem;
+            margin: 2rem 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .search-container h2 {
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+
+        .search-form {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .form-group {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .listings {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .listing {
+            background-color: var(--light-text);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .listing-details a {
+            background: lightseagreen;
+            text-decoration: none;
+            padding: 3px;
+            border-radius: 5px;
+            color: white;
+        }
+       .image-gallery {
+    position: relative;
+    max-width: 500px; /* Adjust width as needed */
+}
+
+.image-slider img {
+    display: none;
+    width: 100%;
+    height: 300px;
+}
+
+.image-dots {
+    text-align: center;
+    margin-top: 10px;
+}
+
+.image-dot {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    margin: 0 5px;
+    background-color: #bbb;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.image-dot.active {
+    background-color: #333; /* Active dot color */
+}
+
+.slider-nav {
+    position: absolute;
+    top: 50%;
+    width: auto;
+    padding: 10px;
+    color: #333;
+    font-weight: bold;
+    font-size: 20px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.prev {
+    left: 10px;
+    color: lightseagreen;
+}
+
+.next {
+    right: 10px;
+    color: lightseagreen;
+}
+
+        .listing-info {
+            padding: 1rem;
+        }
+
+        .listing-info h3 {
+            margin-bottom: 0.5rem;
+            color: var(--primary-color);
+        }
+
+        .listing-type {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            background-color: var(--secondary-color);
+            color: var(--light-text);
+            border-radius: 4px;
+            font-size: 0.8rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .listing-details {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .listing-price {
+            font-weight: bold;
+            color: var(--primary-color);
+            font-size: 1.2rem;
+            margin-top: 0.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .hamburger {
+                display: flex;
+            }
+            .image-carousel {
+                display: flex;
+                overflow-x: scroll;
+                scroll-snap-type: x mandatory;
+                gap: 10px;
+            }
+            .image-carousel img {
+                scroll-snap-align: start;
+                min-width: 100%;
+                max-height: 400px;
+                object-fit: cover;
+                border-radius: 8px;
+
+            }
+            nav {
+                display: none;
+                width: 100%;
+                position: absolute;
+                top: 60px;
+                left: 0;
+                background-color: var(--primary-color);
+                padding: 1rem;
+            }
+
+            nav.active {
+                display: block;
+            }
+
+            nav ul {
+                flex-direction: column;
+            }
+
+            nav ul li {
+                margin: 0.5rem 0;
+            }
+
+            .search-form {
+                flex-direction: column;
+            }
+
+            .listings {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">MariChoProperty</div>
+            <div class="hamburger" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="{% url 'home' %}" aria-label="Buy properties">Home</a></li>
+                    <li><a href="#" aria-label="Buy properties">Buy</a></li>
+                    <li><a href="#" aria-label="Rent properties">Rent</a></li>
+                    <li><a href="#" aria-label="Sell your property">Sell</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="search-container">
+            <h2>Find Your Perfect Property</h2>
+            <form class="search-form" method="get" id="search-form" action="{% url 'property-list' %}">
+                <div class="form-group">
+                    <label for="city">City:</label>
+                    <select name="city" id="city">
+                        <option value="">All Cities</option>
+                        {% for city_option in cities %}
+                         <option value="{{ city_option }}"
+                                 {% if city_option == city %}
+                                 selected {% endif %} > {{ city_option }} </option>
+                        {% endfor %}
+                    </select>
+
+                </div>
+                <div class="form-group">
+                    <label for="property-type">Property Type</label>
+                    <select id="property-type" name="property-type">
+                        <option value="">All</option>
+                        <option value="buy" {% if listing_type == buy %}
+                                selected {% endif %}>Buy</option>
+                        <option value="rent" {% if listing_type == rent %}
+                                selected {% endif %}>Rent</option>
+                    </select>
+                </div>
+                <button type="submit">Search</button>
+            </form>
+        </section>
+
+        <section class="listings" id="listings">
+            {% if city or listing_type %}
+            <p>Showing results for: {% if city %}
+                City "{{ city }}" {% endif %} {% if listing_type %}
+                - Type: "{{ listing_type|title}}" {% endif %}</p>
+            {% endif %}
+            {% for listing in properties %}
+            <div class="listing">
+                <div class="image-gallery">
+                    <div class="image-slider">
+                        {% for image in listing.images.all %}
+                        <img src="{{ image.image.url }}" alt="Property Image">
+                        {% endfor %}
+                    </div>
+                    <a href="#" class="slider-nav prev" onclick="prevSlide(event, {{ listing.id }})">&#10094;</a>
+                    <a href="#" class="slider-nav next" onclick="nextSlide(event, {{ listing.id }})">&#10095;</a>
+                     <div class="image-dots">
+                      {% for image in listing.images.all %}
+                       <span class="image-dot"></span>
+                        {% endfor %}
+
+                    </div>
+                </div>
+                <div class="listing-info">
+                    <span class="listing-type">{{ listing.property_type }}</span>
+                    <h3>{{ listing.location }}</h3>
+                    <p class="listing-price">${{ listing.price }}</p>
+                    <div class="listing-details">
+                        <span>{{ listing.rooms }} rooms</span>
+                        <span>{{ listing.size }} sq m</span>
+                        <a href="{% url 'listing-detail' listing.id %}">View Details</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </section>
+    </main>
+
+    <script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const listings = document.querySelectorAll('.listing');
+
+    listings.forEach(listing => {
+        let currentIndex = 0;
+        const images = listing.querySelectorAll('.image-slider img');
+        const dots = listing.querySelectorAll('.image-dot');
+        const nextButton = listing.querySelector('.next');
+        const prevButton = listing.querySelector('.prev');
+
+        function showImage(index) {
+            images.forEach((img, i) => {
+                img.style.display = (i === index) ? 'block' : 'none';
+                dots[i].classList.toggle('active', i === index);
+            });
+        }
+
+        function nextImage(event) {
+            if (event)
+            event.preventDefault();
+            currentIndex = (currentIndex + 1) % images.length;
+            showImage(currentIndex);
+        }
+
+        function prevImage(event) {
+            if (event)
+            event.preventDefault();
+            currentIndex = (currentIndex - 1 + images.length) % images.length;
+            showImage(currentIndex);
+        }
+
+        nextButton.addEventListener('click', nextImage);
+        prevButton.addEventListener('click', prevImage);
+
+        // Show the first image initially
+        showImage(currentIndex);
+
+
+    });
+});
+</script>
+
+</body>
+</html>

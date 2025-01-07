@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Company List</title>
+    <style>
+        /* Basic styling */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Header styling */
+        .header {
+            width: 100%;
+            background-color: #20b2aa;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        /* Container styling */
+        .container {
+            width: 90%;
+            max-width: 800px;
+            margin: 20px 0;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            text-decoration: none;
+            justify-content: center;
+        }
+
+        /* Company card styling */
+        .company-card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            width: 180px;
+            text-align: center;
+            padding: 15px;
+            transition: transform 0.3s;
+        }
+
+        .company-card:hover {
+            transform: scale(1.05);
+        }
+
+        .profile-image {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 10px;
+        }
+
+        .company-name {
+            font-size: 16px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        /* Filter input styling */
+        .filter-container {
+            margin: 20px;
+            width: 100%;
+            max-width: 800px;
+            text-align: center;
+        }
+
+        .filter-input {
+            width: 60%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Section -->
+    <header class="header">
+        Company List
+    </header>
+
+    <!-- Filter Input -->
+    <div class="filter-container">
+        <input type="text" id="filterInput" class="filter-input" placeholder="Search for a company..." onkeyup="filterCompanies()">
+    </div>
+
+    <!-- Company List Container -->
+    <div class="container" id="companyContainer">
+        {% for company in companies %}
+       <a href="{% url 'company_profile' company.id %}"><div class="company-card">
+            <img src="{{ company.logo.url }}" alt="{{ company.name }}" class="profile-image">
+           <div class="company-name">{{ company.name }}</div>
+        </div></a>
+        {% empty %}
+        <p>No companies found.</p>
+        {% endfor %}
+    </div>
+
+    <script>
+        // JavaScript for filtering companies by name
+        function filterCompanies() {
+            const filter = document.getElementById("filterInput").value.toUpperCase();
+            const container = document.getElementById("companyContainer");
+            const cards = container.getElementsByClassName("company-card");
+
+            for (let i = 0; i < cards.length; i++) {
+                const name = cards[i].getElementsByClassName("company-name")[0];
+                if (name.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                    cards[i].style.display = "";
+                } else {
+                    cards[i].style.display = "none";
+                }
+            }
+        }
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Twitter Clone</title>
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f8fa;
+            color: #14171a;
+        }
+
+        /* Container */
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header */
+        header {
+            text-align: center;
+            padding: 20px;
+            font-size: 24px;
+            font-weight: bold;
+            border-bottom: 1px solid #e1e8ed;
+        }
+
+        /* Stories Section */
+        .stories-section, .products-section {
+            overflow-x: auto;
+            white-space: nowrap;
+            margin-top: 20px;
+            padding: 10px 0;
+            border-bottom: 1px solid #e1e8ed;
+        }
+
+        .story, .product {
+            display: inline-block;
+            width: 80px;
+            height: 80px;
+            margin: 0 10px;
+            border-radius: 50%;
+            background-color: #657786;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        /* Posts Section */
+        .posts-section {
+            margin-top: 20px;
+        }
+
+        .post {
+            background-color: #fff;
+            border: 1px solid #e1e8ed;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+
+        .post .post-header {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .post .post-content {
+            color: #14171a;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        Twitter Clone
+    </header>
+
+    <!-- Main Container -->
+    <div class="container">
+
+        <!-- Stories Section -->
+        <div class="stories-section">
+            <div class="story">Story 1</div>
+            <div class="story">Story 2</div>
+            <div class="story">Story 3</div>
+            <div class="story">Story 4</div>
+            <div class="story">Story 5</div>
+            <div class="story">Story 6</div>
+        </div>
+
+        <!-- Products Section -->
+        <div class="products-section">
+            <div class="product">Prod 1</div>
+            <div class="product">Prod 2</div>
+            <div class="product">Prod 3</div>
+            <div class="product">Prod 4</div>
+            <div class="product">Prod 5</div>
+            <div class="product">Prod 6</div>
+        </div>
+
+        <!-- Posts Section -->
+        <div class="posts-section">
+            <div class="post">
+                <div class="post-header">User 1</div>
+                <div class="post-content">This is the first post in the Twitter clone!</div>
+            </div>
+            <div class="post">
+                <div class="post-header">User 2</div>
+                <div class="post-content">Here's another example post to show layout.</div>
+            </div>
+            <div class="post">
+                <div class="post-header">User 3</div>
+                <div class="post-content">Just testing the layout here, feel free to customize!</div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // Optional JavaScript functionality (e.g., to simulate stories/products click)
+        document.querySelectorAll('.story').forEach(story => {
+            story.onclick = () => alert('Story Clicked: ' + story.textContent);
+        });
+        document.querySelectorAll('.product').forEach(product => {
+            product.onclick = () => alert('Product Clicked: ' + product.textContent);
+        });
+    </script>
+</body>
+</html>

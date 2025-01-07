@@ -1,51 +1,86 @@
 {% extends 'base.html' %}
+{% block content %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Title</title>
-</head>
-{% block content %}
-<body>
-<style>
+    <title>Post Job</title>
+    <style>
+     /* styles.css */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+}
+
+.container {
+    width: 90%;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    text-align: center;
+    color: lightseagreen;
+}
 
 form {
-    margin-top: 50px;
-    gap: 15px;
-    display: grid;
-    align-items: center;
-    margin-left: 10px;
-    margin-right: 10px;
-     }
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-field {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+form input,
+form textarea,
+form select {
+    width: 100%;
+    height: 40px;
+    padding: 8px;
+    font-size: 16px;
+    border: 1px solid lightseagreen;
+    border-radius: 5px;
+}
+
+form textarea {
+    resize: vertical;
+    height: 80px; /* Set a fixed height for textarea */
+}
 
 form button {
-background: lightseagreen;
-border: none;
-border-radius: 10px;
-height: 45px;
-color: white;
-padding: 5px 20px;
-font-size: 25px;
-}
-form input {
-margin-bottom: 20px;
-border: 1px solid lightseagreen;
-}
-form textarea {
-border: 1px solid lightseagreen;
-}
-form select {
-border: 1px solid lightseagreen;
-width: 150px;
+    background-color: lightseagreen;
+    border: none;
+    color: white;
+    padding: 12px 20px;
+    font-size: 18px;
+    border-radius: 5px;
+    cursor: pointer;
 }
 
-</style>
-<form  method="post" action="{% url 'job' %}" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit" >Post</button>
-</form>
+form button:hover {
+    background-color: darkcyan;
+}
+
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Post Job</h1>
+        <form method="post" action="{% url 'job' %}" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Post</button>
+        </form>
+    </div>
 </body>
 {% endblock %}
 </html>

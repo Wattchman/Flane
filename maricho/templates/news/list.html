@@ -1,0 +1,298 @@
+{% load humanize %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}News App with Stories & Sidebar{% endblock %}</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            overflow-x: hidden;
+        }
+        header {
+            background-color: lightseagreen;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            position: relative;
+        }
+        h1 {
+            margin: 0;
+        }
+
+        /* Hamburger Menu (Three-Line Icon) */
+        .hamburger {
+            position: absolute;
+            left: 20px;
+            top: 15px;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 25px;
+            height: 20px;
+        }
+        .hamburger div {
+            width: 100%;
+            height: 3px;
+            background-color: white;
+        }
+
+        /* Sidebar for Categories */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: -250px;
+            width: 250px;
+            height: 100%;
+            background-color: #333;
+            padding-top: 60px;
+            transition: left 0.3s ease;
+        }
+        .sidebar a {
+            padding: 15px 25px;
+            display: block;
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+        }
+        .sidebar a:hover {
+            background-color: #575757;
+        }
+
+        /* Main Content */
+        .container {
+            width: 90%;
+            margin: 20px auto;
+        }
+
+        /* Latest News (Stories) Section */
+        .latest-news {
+            display: flex;
+            overflow-x: auto;
+            padding: 20px 0;
+            gap: 10px;
+            border-radius: 5px;
+            padding-bottom: 5px;
+            border: 0.6px solid lightseagreen;
+        }
+        .story-card {
+            min-width: 120px;
+            text-align: center;
+            flex-shrink: 0;
+        }
+        .story-card img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            margin-bottom: 10px;
+            cursor: pointer;
+        }
+        .story-card p {
+            font-size: 0.85em;
+            color: #555;
+            margin: 0;
+        }
+
+        /* News Feed Grid */
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        .news-card {
+            margin-top: 35px;
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            border: 0.6px solid lightseagreen;
+            transition: transform 0.3s ease-in-out;
+        }
+        .news-card:hover {
+            transform: scale(1.05);
+        }
+        .news-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        .news-card .content {
+            padding: 15px;
+        }
+        .news-card .content h2 {
+            font-size: 1.2em;
+            margin-bottom: 10px;
+        }
+        .news-card .content p {
+            font-size: 0.9em;
+            color: #555;
+            margin-bottom: 15px;
+        }
+        .news-card .content a {
+            color: #4CAF50;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .news-card .content a:hover {
+            text-decoration: underline;
+        }
+
+        footer {
+            text-align: center;
+            margin: 20px 0;
+            color: #777;
+        }
+
+        /* Modal for Stories */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            width: 80%;
+            max-width: 500px;
+        }
+        .modal img {
+            width: 100%;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+        .modal .close {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 600px) {
+            .news-card img {
+                height: 150px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="hamburger" id="hamburger">
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+    <h1>MariCho News</h1>
+</header>
+
+<!-- Sidebar (Retractable Categories Menu) -->
+<div class="sidebar" id="sidebar">
+    {% for category in categories %}
+            <a href="{% url 'post_list_by_category' category.name %}">{{ category.name }}</a>
+        {% endfor %}
+</div>
+
+<div class="container">
+    <!-- Latest News (Stories) Section -->
+    <h2>Latest News</h2>
+    <div class="latest-news" id="latest-news">
+        {% for story in latest_news %}
+        <div class="story-card" data-image="{{ story.image.url }}">
+            <img src="{{ story.image.url }}" alt="{{ story.title }}">
+            <a href="post/{{ story.id }}/{{ story.title }}"><p>{{ story.title }}</p></a>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- News Feed Grid -->
+    <div class="news-grid" id="news-grid">
+        {% for article in posts %}
+        <div class="news-card">
+            <img src="{{ article.image.url }}" alt="{{ article.title }}">
+            <div class="content">
+                <h2>{{ article.title }}</h2>
+                <p>{{ article.content }}</p>
+                <p>{{article.published|naturaltime}}</p>
+                <a href="post/{{ article.id }}/{{ article.title }}">Read More</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<footer>
+    <p>&copy; 2024 Maricho. All Rights Reserved.</p>
+</footer>
+
+<!-- Modal for Stories -->
+<div class="modal" id="modal">
+    <div class="modal-content">
+        <img src="" alt="Story Image" id="modal-image">
+        <button class="close" id="close-modal">Close</button>
+    </div>
+</div>
+
+<script>
+    // Toggle Sidebar
+    document.getElementById('hamburger').addEventListener('click', function() {
+        const sidebar = document.getElementById('sidebar');
+        sidebar.style.left = sidebar.style.left === '0px' ? '-250px' : '0px';
+    });
+
+    // Close Sidebar when a category is clicked
+    const sidebarLinks = document.querySelectorAll('.sidebar a');
+    sidebarLinks.forEach(link => {
+        link.addEventListener('click', function() {
+            document.getElementById('sidebar').style.left = '-250px';
+        });
+    });
+
+    // Close the modal when the close button is clicked
+    document.getElementById('close-modal').addEventListener('click', function() {
+        document.getElementById('modal').style.display = 'none';
+    });
+
+    // Add event listeners to the stories for modal opening
+    const storyCards = document.querySelectorAll('.story-card');
+    storyCards.forEach(card => {
+        card.addEventListener('click', function() {
+            const imageSrc = card.getAttribute('data-image');
+            document.getElementById('modal-image').src = imageSrc;
+            document.getElementById('modal').style.display = 'flex';
+        });
+    });
+
+    // Function to render news articles
+    function renderNews(filter = "all") {
+        const newsGrid = document.getElementById('news-grid');
+        // Clear current news and re-render if necessary
+        // This is done server-side using Django's template engine
+    }
+
+    // Initial render of all news and latest stories
+    // Rendering is done server-side, so no need for this function
+</script>
+
+</body>
+</html>

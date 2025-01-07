@@ -1,0 +1,237 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <style>
+        /* General Styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        .container {
+            width: 90%;
+            margin: 20px auto;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        /* Profile Header */
+        .profile-header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .cover-img {
+            width: 100%;
+            height: 250px;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: -50px;
+        }
+        .cover-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .profile-img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border: 3px solid lightseagreen;
+        }
+        .profile-info {
+            text-align: center;
+            margin-top: 10px;
+        }
+        .profile-info h3 {
+            margin: 5px 0;
+        }
+        .profile-info p {
+            color: grey;
+            font-size: 14px;
+        }
+
+        /* Buttons */
+        .profile-buttons {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin: 20px auto;
+            justify-content: center;
+            max-width: 300px;
+        }
+        .profile-buttons button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background: lightseagreen;
+            color: white;
+            cursor: pointer;
+            text-align: center;
+        }
+        .profile-buttons button:hover {
+            opacity: 0.8;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        .tabs button {
+            padding: 10px 20px;
+            margin: 0 5px;
+            border: none;
+            border-radius: 5px;
+            background: lightgrey;
+            color: lightseagreen;
+            cursor: pointer;
+        }
+        .tabs button.active {
+            background: lightseagreen;
+            color: white;
+        }
+
+        /* Content */
+        .content {
+            display: none;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+        }
+        .content.active {
+            display: grid;
+        }
+        .content img {
+            width: 100%;
+            height: 150px;
+            border-radius: 10px;
+            object-fit: cover;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Profile Header -->
+        <div class="profile-header">
+            <div class="cover-img">
+                <img src="{{ profile.coverimg.url }}" alt="Cover Image">
+            </div>
+            <img class="profile-img" src="{{ profile.profileimg.url }}" alt="Profile Image">
+            <div class="profile-info">
+                <h3>{{ profile.user }}</h3>
+                <p><strong>Bio:</strong> {{ profile.bio }}</p>
+                <p id="follow-count-{{ profile.id }}">
+                    {{ profile.followers }} followers
+                </p>
+            </div>
+        </div>
+
+        <!-- Profile Buttons -->
+        <div class="profile-buttons">
+            <button class="follow-button" profile_id="{{ profile.id }}">
+                {% if profile.followed %}
+                Unfollow
+                {% else %}
+                Follow
+                {% endif %}
+            </button>
+            <a href="{% url 'chat' profile.user.id %}">
+                <button>Message</button>
+            </a>
+            {% if profile.user == request.user %}
+            <a href="/flane/job"><button>+ Post Job</button></a>
+            <a href="/flane/profile-update/{{ profile.id }}"><button>Prof_update</button></a>
+            {% endif %}
+        </div>
+
+        <!-- Tabs -->
+        <div class="tabs">
+            <button id="ads-tab" class="active">Ads</button>
+            <button id="products-tab">Products</button>
+        </div>
+
+        <!-- Content -->
+        <div id="ads-content" class="content active">
+            {% for post in posts %}
+            {% if profile.user == post.user %}
+            <a href="/flane/comment-details/{{ post.id }}/{{ post.slug|slugify }}">
+                <img src="{{ post.image.url }}" alt="Post">
+            </a>
+            {% endif %}
+            {% endfor %}
+        </div>
+
+        <div id="products-content" class="content">
+            {% for product in products %}
+            {% if profile.user == product.user %}
+            <a href="/flane/product-details/{{ product.id }}/{{ product.product_name }}">
+                <img src="{{  product.product_img.url}}" alt="Product">
+            </a>
+            {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+
+    <script>
+        // Tab Switching Logic
+        const adsTab = document.getElementById("ads-tab");
+        const productsTab = document.getElementById("products-tab");
+        const adsContent = document.getElementById("ads-content");
+        const productsContent = document.getElementById("products-content");
+
+        adsTab.addEventListener("click", () => {
+            adsTab.classList.add("active");
+            productsTab.classList.remove("active");
+            adsContent.classList.add("active");
+            productsContent.classList.remove("active");
+        });
+
+        productsTab.addEventListener("click", () => {
+            productsTab.classList.add("active");
+            adsTab.classList.remove("active");
+            productsContent.classList.add("active");
+            adsContent.classList.remove("active");
+        });
+
+        // Follow/Unfollow Button AJAX Logic
+        $(".follow-button").click(function () {
+            const button = $(this);
+            const profile_id = button.attr("profile_id");
+
+            $.ajax({
+                type: "POST",
+                url: "{% url 'follow-profile' %}",
+                data: {
+                    profile_id: profile_id,
+                    csrfmiddlewaretoken: "{{ csrf_token }}",
+                },
+                success: function (data) {
+                    if (data.liked) {
+                        button.text("Unfollow");
+                    } else {
+                        button.text("Follow");
+                    }
+                    const followersText = `${data.followers} ${data.followers === 1 ? "follower" : "followers"}`;
+                    $("#follow-count-" + profile_id).text(followersText);
+                },
+                error: function (xhr, errmsg, err) {
+                    alert("An error occurred. Please try again.");
+                },
+            });
+        });
+    </script>
+</body>
+</html>
+{% endblock %}

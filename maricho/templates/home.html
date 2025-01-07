@@ -1,4 +1,5 @@
 {% load static %}
+{% load humanize %}
 <!DOCTYPE html>
 <style>
     *{
@@ -157,6 +158,7 @@
     <ul>
         <li><a href="{% url 'home' %}"><i class="fa-solid fa-house"></i></a></li>
         <li><a href="{% url 'logout' %}">Logout</a></li>
+        <li><a href="{% url 'news' %}">News</a></li>
         <li><a href="#" id="job"><i class="notification-count"><small>4+</small></i>Jobs</a></li>
         <li><a href="#"><i class="fa-solid fa-bell"></i></a></li>
 
@@ -213,10 +215,17 @@
               margin-left: 15px;
         }
     </style>
-
+ {% if user.is_authenticated %}
+ {% for c_u_p in c_u_ps %}
+    {% if c_u_p.user == request.user %}
     <a href="{% url 'profile' c_u_p.id %}"> <img src="{{ c_u_p.profileimg.url }}"> </a>
     <a href="{% url 'post' %}"><input placeholder="What's Selling Today??"></a>
     <a class="ad" href="{% url 'post' %}"> + PostAd</a>
+    {% endif %}
+    {% endfor %}
+{% else %}
+    <p>login to view </p>
+    {% endif %}
 
 </div>
 
@@ -309,11 +318,6 @@
               </li>
               {% endfor %}
           </ul>
-
-
-
-
-
 {% for job in jobs %}
           <h3>Job title: <a href="job-details/{{job.id}}">{{job.position}}</a></h3>
 
@@ -470,13 +474,14 @@
               padding: 2px 5px 2px;
               }
           </style>
+
            {% for profile in profiles %}
           {{ post.user.profile.profile.bio }}
           {% if post.user == profile.user %}
             <a href="{% url 'profile' profile.id %}"> <img src="{{ profile.profileimg.url }}" width="100" height="100"></a>
             <p>{{ profile.user}}</p>
 
-            <a id="flw"><p6>{{ profile.followers }} follower{{ profile.followers|pluralize}}</p6>
+            <a id="flw"><p6>{{ profile.followers }} subscriber{{ profile.followers|pluralize}}</p6>
             <div id="flws">
             {% for follower in followers %}
 
@@ -498,7 +503,7 @@
             margin-bottom: 5px;
              }
               </style>
-            <p1>{{ post.created_at }}</p1>
+            <p1>{{post.created_at|naturaltime}}</p1>
                 </div>
           <div class="post">
               <style>
@@ -547,14 +552,11 @@
                               border-radius: 15px;
                               background: lightgrey;
                               padding: 5px 20px;
-                              margin-top: 2px;
-
-
-                          }
+                              margin-top: 2px; }
 
                   </style>
                   <div class="caption">
-                      <style>
+                      <style>s
 
                           div{
                               width: 100%;
@@ -711,7 +713,9 @@
            }
         </style>
           <div class="blog">
+              {% if user.is_authenticated %}
               <a href="{% url 'blog_create' %}"><button>Create Blog Post</button></a>
+              {% endif %}
               <div class="blog-det">
           {% for blog in blogs %}
               <a href="blog-details/{{blog.id}}/{{blog.title|slugify}}"> <img src="{{ blog.image.url }}"> </a>
@@ -759,9 +763,9 @@ $(document).ready(function(){
                             });
                             });
 
-</script>
 
-<script>
+
+
    let jobEl = document.getElementById('job');
 let mainEl = document.getElementById('main');
 let leftSb = document.getElementById('left-sb');
@@ -782,9 +786,6 @@ flwEl.addEventListener('click', loadFollowers)
 function loadFollowers(){
 flwsEl.style.display ="grid"
 }
-
-
-
 
 </script>
 </body>

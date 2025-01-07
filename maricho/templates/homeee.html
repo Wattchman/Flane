@@ -1,0 +1,293 @@
+{% load static %}
+{% load humanize %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Social Timeline with Stories and Pexels API</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #eef1f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 50px;
+            font-size: 36px;
+        }
+        /* Stories Section */
+        .stories {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            margin-bottom: 40px;
+            overflow-x: auto;
+        }
+        .story-card {
+            flex: 0 0 200px;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background-color: white;
+            text-align: center;
+            position: relative;
+            padding-bottom: 20px;
+        }
+        .story-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        .story-info {
+            padding: 10px;
+        }
+        .story-info h3 {
+            margin: 10px 0;
+            font-size: 18px;
+            color: #333;
+        }
+        .story-info .price {
+            color: #2E8B57;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+        .story-info button {
+            background-color: #2E8B57;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+        .story-info button:hover {
+            background-color: #256746;
+        }
+        .add-to-cart {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            background-color: #ffa500;
+        }
+
+        /* Timeline Section */
+        .timeline {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .timeline::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background-color: #2E8B57;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        .timeline-item {
+            display: flex;
+            justify-content: space-between;
+            background-color: white;
+            padding: 15px;
+            width: 45%;
+            margin-bottom: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+        .timeline-item-content {
+            flex: 1;
+            padding: 0 20px;
+        }
+        .timeline-item-content h2 {
+            margin-top: 0;
+            color: #333;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .timeline-item-content p {
+            color: #666;
+            font-size: 14px;
+            margin: 10px 0;
+        }
+        .image-preview {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 20px;
+        }
+        .post-image {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+            margin-top: 10px;
+        }
+        .interaction-buttons {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 15px;
+        }
+        .interaction-buttons button {
+            background-color: #2E8B57;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin-right: 10px;
+            cursor: pointer;
+            border-radius: 6px;
+            font-size: 12px;
+        }
+        .interaction-buttons button:hover {
+            background-color: #256746;
+        }
+        .timestamp {
+            color: #999;
+            font-size: 12px;
+            margin-top: 10px;
+        }
+
+        /* Mobile Design - Adjust size and spacing */
+        @media (max-width: 768px) {
+            .timeline-item {
+                width: 90% !important;
+                justify-content: flex-start;
+            }
+            .timeline::before {
+                left: 5%;
+                width: 1px;
+            }
+            .story-card {
+                width: 180px;
+                flex: none;
+            }
+            .stories {
+                overflow-x: scroll;
+                gap: 10px;
+            }
+            .image-preview {
+                width: 50px;
+                height: 50px;
+            }
+            .timeline-item-content h2 {
+                font-size: 16px;
+            }
+            .timeline-item-content p {
+                font-size: 12px;
+            }
+            .interaction-buttons button {
+                padding: 5px 10px;
+                font-size: 10px;
+            }
+            .post-image {
+                margin-top: 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Social Timeline with Stories and Pexels API</h1>
+
+        <!-- Stories Section -->
+        <div class="stories" id="stories-section">
+            {% for story in products %}
+                <div class="story-card">
+                    <img src="{{ story.product_img.url }}" alt="{{ story.product_name }}" class="story-image">
+                    <div class="story-info">
+                        <h3>{{ story.product_name }}</h3>
+                        <div class="price">{{ story.price }}</div>
+                        <button>Buy Now</button>
+                        <button class="add-to-cart">Add to Cart</button>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+        <!-- Timeline Section -->
+        <div class="timeline" id="timeline-section">
+            {% for post in posts %}
+             {% for profile in profiles %}
+          {{ post.user.profile.profile.bio }}
+          {% if post.user == profile.user %}
+                <div class="timeline-item">
+                    <div class="image-preview">
+                        <img src="{{ profile.profileimg.url}}" alt="{{ post.user.name }}" class="image-preview">
+                    </div>
+                    <div class="timeline-item-content">
+                        <h2>{{ profile.user}}</h2>
+                        <p>{{ post.user.profile.profile.bio}}</p>
+                        <p>Followers: {{ profile.followers }} subscriber{{ profile.followers|pluralize}}</p>
+                         {% for follower in followers %}
+
+               {% if profile.user.username == follower.followed %}
+                {{ follower.username }}
+               {% endif %}
+            {% endfor %}
+                       <a href="/flane/comment-details/{{ post.id }}/{{post.slug|slugify}}">
+                           <img src="{{ post.image.url }}" alt="{{ post.content.title }}" class="post-image"></a>
+                        <h2>{{ post.title }}</h2>
+                        <p>{{ post.caption }}</p>
+                        <div class="interaction-buttons">
+                            <button onclick="likePost(this)">Like <span class="like-count">{{ post.content.likes }}</span></button>
+                            <button onclick="toggleCommentForm(this)">Comment</button>
+                        </div>
+                        <div class="comment-form" style="display: none;">
+                            <input type="text" class="comment-input" placeholder="Write a comment...">
+                            <button class="comment-submit" onclick="addComment(this)">Submit</button>
+                        </div>
+                        <div class="comments-list"></div>
+                        <span class="timestamp">{{ post.created_at }}</span>
+                    </div>
+                </div>
+            {% endif %}
+            {% endfor %}
+           {% endfor %}
+        </div>
+    </div>
+
+    <script>
+        // JavaScript functions for liking posts, toggling comments, and adding comments
+
+        function likePost(button) {
+            const likeCount = button.querySelector('.like-count');
+            likeCount.textContent = parseInt(likeCount.textContent) + 1;
+        }
+
+        function toggleCommentForm(button) {
+            const commentForm = button.closest('.timeline-item').querySelector('.comment-form');
+            commentForm.style.display = commentForm.style.display === 'none' || commentForm.style.display === '' ? 'block' : 'none';
+        }
+
+        function addComment(button) {
+            const commentInput = button.previousElementSibling;
+            const commentText = commentInput.value.trim();
+            if (commentText) {
+                const commentsList = button.closest('.timeline-item').querySelector('.comments-list');
+                const newComment = document.createElement('div');
+                newComment.textContent = commentText;
+                commentsList.appendChild(newComment);
+                commentInput.value = '';
+            }
+        }
+
+        // Initialize the timeline
+        window.onload = function() {
+            // Additional initialization can be added here
+        }
+    </script>
+</body>
+</html>

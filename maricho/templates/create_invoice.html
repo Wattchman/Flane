@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Invoice</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+        .container {
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            animation: slideIn 0.5s ease-in-out;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #2a9d8f;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #21867a;
+        }
+        /* Animation */
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Create Invoice</h2>
+        <form id="invoiceForm" method="POST">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="id_customer">Customer</label>
+                {{ form.customer }}
+            </div>
+            <button type="submit">Create Invoice</button>
+        </form>
+    </div>
+
+    <script>
+        // Slide animation for form submission
+        const form = document.getElementById('invoiceForm');
+        form.addEventListener('submit', function(event) {
+            const container = document.querySelector('.container');
+            container.style.animation = 'slideOut 0.5s ease-in-out';
+            setTimeout(() => {
+                container.style.display = 'none';
+            }, 500);
+        });
+
+        // Slide-out animation
+        const container = document.querySelector('.container');
+        container.style.animation = 'slideIn 0.5s ease-in-out';
+    </script>
+</body>
+</html>

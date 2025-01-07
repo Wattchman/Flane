@@ -1,0 +1,928 @@
+{% load static %}
+{% load humanize %}
+<!DOCTYPE html>
+<style>
+    *{
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        list-style: none;
+        text-decoration: none;
+        font-family: sans-serif;
+    }
+    body {
+    margin: 0px auto 5px;
+    }
+</style>
+<head>
+    <script src="https://kit.fontawesome.com/34a56207d1.js" crossorigin="anonymous"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE-edge">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-
+2811308505659881" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+<header>
+
+    <style>
+    header {
+    position: fixed;
+    color: white;
+    width: 100%;
+    height: 45px;
+    padding: 6px 10px 5px;
+    display: flex;
+    align-items: center;
+    background: lightseagreen;
+    justify-content: space-between;
+    }
+     header form {
+     display: flex;
+     }
+     nav {
+     display: flex;
+     color: white;
+     justify-content: space-between;
+     align-items: center;
+     background: lightseagreen;
+     }
+     nav .notification-count small{
+     background: red;
+     border-radius: 50%;
+     width: fit-content;
+     margin-top: -6px;
+     color: white;
+     top: 0.5rem;
+     position: absolute;
+      }
+     nav ul {
+       margin-top: 5px;
+       display: flex;
+       gap: 8px;
+       padding-right: 20px;
+     }
+
+     nav a {
+       color: white;
+     }
+     .search {
+       background: white;
+       padding: 2px 10px 2px;
+       width: 220px;
+       border-radius: 15px;
+       margin-left: -130%;
+     }
+
+     .search form input{
+        border: none;
+        width: 100px;
+
+     }
+     .search form button{
+       width: 90px;
+       font-size: 15px;
+
+     }
+
+
+
+      @media (max-width: 500px) {
+        .post img{
+        padding-right: 20px; }
+       .main {
+         display: grid;
+         margin: 5px auto 5px;
+         box-shadow: 0;
+         border-radius: 0;
+         flex-basis: 80%;
+         width: 115%;
+         padding-left: 25px;
+         }
+
+         footer{
+         text-align: center
+         }
+
+        .top-profile a {
+         margin-top: 55px;
+        }
+        nav {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: lightseagreen;
+        color: white;
+        float: left;
+        }
+        nav a {
+        color: white;
+        }
+        #check {
+        display: none;
+        }
+
+        .main{
+        flex-basis: 80%;
+        }
+      }
+    </style>
+
+    <div class="logo">
+<h1>Mari<span>Cho</span></h1>
+</div>
+<div class=search>
+        <form method="get" action="{% url 'category' %}">
+            <input type="text" list="categorylist" name="query" value="{{ query }}" placeholder="search item">
+            <datalist id="categorylist">
+                {% for category in categories %}
+                <option value="{{ category.name }}"></option>
+               {% endfor %}
+               {% for post in posts %}
+                <option value="{{ post.user }}"></option>
+                <option value="{{ post.caption }}"></option>
+                {% endfor %}
+
+            </datalist>
+            <button> Search </button>
+
+        </form>
+    </div>
+<nav>
+    <i class="fa-solid fa-bars"></i>
+    <ul>
+        <li><a href="{% url 'home' %}"><i class="fa-solid fa-house"></i></a></li>
+        <li><a href="{{ profiles }}"><i class="notification-count"><small>6+</small></i>Notifications</a></li>
+        <li><a href="{% url 'logout' %}">Logout</a></li>
+        <li><a href="{% url 'news' %}">News</a></li>
+        <li><a href="#" id="job"><i class="notification-count"><small>4+</small></i>Jobs</a></li>
+        <li><a href="#"><i class="fa-solid fa-bell"></i></a></li>
+
+
+    </ul>
+
+</nav>
+
+</header>
+<div class="bd">
+    <style>
+        .bd{
+            border-bottom: 5px solid lightgrey;
+            padding-top: 15px;
+        }
+    </style>
+</div>
+<div class="top-profile">
+    <style>
+    .top-profile{
+        display: flex;
+        align-items: center;
+        margin-top: 30px;
+        gap: 10px;
+        margin-bottom: 30px;
+
+        }
+
+        .top-profile input{
+             border: none;
+             background: lightgrey;
+             color: black;
+             padding-right: 35px;
+             padding-left: 10px;
+             padding-top: 10px;
+             padding-bottom: 10px;
+             border-radius: 15px;
+        }
+
+        .top-profile .ad{
+            text-decoration: none;
+            color: white;
+            border: none;
+            border-radius: 15px;
+            background: lightseagreen;
+            padding: 4px 10px;
+
+        }
+
+        .top-profile a img{
+              height: 40px;
+              width: 40px;
+              border-radius: 50%;
+              margin-left: 15px;
+        }
+    </style>
+
+ {% if user.is_authenticated %}
+ {% for c_u_p in c_u_ps %}
+    {% if c_u_p.user == request.user %}
+    <a href="{% url 'profile' c_u_p.id %}"> <img src="{{ c_u_p.profileimg.url }}"> </a>
+
+    {% endif %}
+    {% endfor %}
+{% else %}
+    <p>login to view </p>
+    {% endif %}
+    <a href="{% url 'post' %}"><input placeholder="What's Selling Today??"></a>
+    <a class="ad" href="{% url 'post' %}"> + PostAd</a>
+</div>
+
+
+
+<div class="container">
+  <style>
+             .container{
+                  display: flex;
+                  background-size: cover;
+        }
+        </style>
+
+      <div class="left-sidebar" id="left-sb">
+        <style>
+             .left-sidebar{
+                  padding: 5px 20px 5px;
+                  flex-basis: 25%;
+                  height: 100%;
+                  margin: 20px auto 5px;
+                  border-radius: 15px;
+                  box-sizing: border-box;
+                  box-shadow: 0 0 2px 2px lightseagreen;
+        }
+        .left-sidebar h3 a {
+                text-decoration: none;
+        }
+        .left-sidebar ul li {
+           background: lightgrey;
+           margin-top: 15px;
+           margin-bottom: 15px;
+           padding: 4px 8px 4px;
+           height: 100%;
+           width: 100%;
+           border-radius: 10px;
+ }
+
+        .left-sidebar ul li:hover {
+            background: lightseagreen;
+            box-shadow: 0 0 2px 2px purple;
+          }
+      @media (max-width: 769px) {
+           .left-sidebar {
+             flex-basis: 110%;
+             display: none;
+             width: 170%;
+           }
+           .left-sidebar ul li {
+           height: 40px;
+}
+      }
+     .left-sidebar input {
+       border: none;
+       background: lightgrey;
+       margin-left: 5px;
+       }
+       .left-sidebar form {
+      background: lightgrey;
+      border-radius: 15px;
+       }
+        .left-sidebar h1, h2 {
+        color: lightseagreen;
+        }
+
+
+
+        </style>
+           <h1>JOBS</h1>
+
+
+          <form method="get" action="job-list">
+              <input type="text" list="joblist" name="query" value="{{ query }}" placeholder="search item">
+            <datalist id="joblist">
+                {% for job in jobs %}
+                <option value="{{job.title}}"></option>
+               {% endfor %}
+
+            </datalist>
+              <button type="submit"> Search </button>
+          </form>
+
+
+
+          <h2>Categories</h2>
+
+          <ul>
+              {% for category in j_categories %}
+              <li>
+                  <a href="{% url 'job-cat' %}?query={{ category.id }}">{{ category.name }} </a>
+              </li>
+              {% endfor %}
+          </ul>
+{% for job in jobs %}
+          <h3>Job title: <a href="job-details/{{job.id}}">{{job.position}}</a></h3>
+
+          {% endfor %}
+      </div>
+
+      <div class="main" id="main">
+             <!-- Stories Section with Product Cards and Images -->
+    <div class="story-section">
+        <style>        /* Stories Section */
+        .story-section {
+            display: flex;
+            flex-direction: row;
+            overflow-x: scroll;
+            margin-bottom: 20px;
+            width: 100%;
+            padding: 10px 0;
+            scrollbar-width: none;
+        }
+
+        .story-section::-webkit-scrollbar {
+            display: none;
+        }
+
+        .story {
+            display: flex;
+            flex-direction: column;
+            background-color: white;
+            width: 340px;
+            margin-right: 10px;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid lightseagreen;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            flex-shrink: 0;
+        }
+
+        .story img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+        }
+
+        .product-card {
+            display: flex;
+            flex-direction: row;
+            width: 100%;
+        }
+
+        .product-image {
+            width: 40%;
+            background-color: #eee;
+        }
+
+        .product-image img {
+            width: 140px;
+            height: 200px;
+        }
+
+        .product-details {
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            flex: 1;
+        }
+
+        .product-details h2 {
+            margin: 0;
+            font-size: 16px;
+        }
+
+        .product-details p {
+            color: #666;
+            margin: 5px 0;
+            font-size: 14px;
+        }
+
+        .product-details .price {
+            color: lightseagreen;
+            font-weight: bold;
+            margin-top: 5px;
+        }
+
+        .like-btn, .buy-btn, .post-btn {
+            margin-top: 5px;
+            padding: 5px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+            font-size: 12px;
+        }
+
+        .like-btn {
+            background-color: #ffeb3b;
+        }
+
+        .like-btn:hover {
+            background-color: #ffc107;
+        }
+
+        .buy-btn, .post-btn {
+            background-color: lightseagreen;
+            color: white;
+        }
+
+        .buy-btn:hover {
+            background-color: #00897b;
+        }
+ </style>
+        {% for story in products %}
+        <div class="story">
+            <img src="{{ story.story_img.url }}" alt="Story Image">
+            <div class="product-card">
+                <div class="product-image">
+                    <a href="product-details/{{story.id}}/{{story.product_name}}"> <img src="{{ story.product_img.url }}" alt="Product Image"> </a>
+                </div>
+                <div class="product-details">
+                    <h2>{{ story.product_name }}</h2>
+                    <p>{{ story.description }}</p>
+                    <div class="price">${{ story.price }}</div>
+                    <button class="like-btn">Buy Now</button>
+                    <a href="{% url 'product' %}"><button class="buy-btn">Add Product</button></a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+          <style>
+             .main{
+                  flex-basis: 46%;
+                  height: 100%;
+                  margin: 24px auto 5px;
+                  border-radius: 10px;
+                  padding: 5px 15px 5px;
+                  box-sizing: border-box;
+                  box-shadow: 0 0 2px 2px white;
+
+        }
+        </style>
+          <style>
+          .popup {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            text-align: center;
+            z-index: 1000;
+        }
+        .popup-header {
+            background-color: lightseagreen;
+            padding: 10px;
+            color: white;
+            font-size: 18px;
+            border-radius: 10px 10px 0 0;
+        }
+        .popup-content {
+            padding: 20px;
+        }
+        .popup-content a {
+            background-color: #25D366;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 16px;
+        }
+        .popup-content a:hover {
+            background-color: #1da851;
+        }
+        .close-btn {
+            position: absolute;
+            top: 5px;
+            right: 10px;
+            background-color: red;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 16px;
+            width: 25px;
+            height: 25px;
+            text-align: center;
+        }
+        #whatsappButton {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background-color: #25D366;
+            border: none;
+            border-radius: 50%;
+            padding: 15px;
+            cursor: pointer;
+            z-index: 999;
+        }
+        #whatsappButton img {
+            width: 30px;
+            height: 30px;
+        }
+    </style>
+
+    <div class="popup" id="whatsappPopup">
+        <div class="popup-header">
+            Contact us on WhatsApp
+            <button class="close-btn" onclick="closePopup()">x</button>
+        </div>
+        <div class="popup-content">
+            <p>Chat with us on WhatsApp!</p>
+            <a href="https://wa.me/+263784777648?text=I'm interested in your services on Maricho.com" target="_blank">Start Chat</a>
+        </div>
+    </div>
+
+    <button id="whatsappButton" onclick="openPopup()">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp">
+    </button>
+
+      <!-- Display the posts -->
+{% for post in posts %}
+      <div class="card mt-3">
+        <div class="top">
+          <style>
+            .top {
+                display: flex;
+                align-items: center;
+                font-weight: 600;
+                font-size: 20px;
+                margin-bottom: 5px;
+                justify-content: inline-block;
+
+            }
+            .top a img{
+                border-radius: 50%;
+                width: 40px;
+                height: 40px;
+                margin-right: 10px;
+            }
+
+            .top p1{
+            justify-content: block;
+            font-weight: 200;
+            font-size: 10px;
+             }
+            .top p6 {
+            color: lightseagreen;
+            margin-left: 10px;
+            font-size: 10px;
+            }
+            .top p7 {
+             margin: 8px 10px 2px;
+             font-size: 10px;
+             font-weight: 500;
+            }
+
+            #flw{
+              cursor: pointer;
+            }
+          #flws {
+              display: none;
+              font-size: 10px;
+              background: lightgrey;
+              color: lightseagreen;
+              padding: 2px 5px 2px;
+              }
+          </style>
+
+           {% for profile in profiles %}
+          {{ post.user.profile.profile.bio }}
+          {% if post.user == profile.user %}
+            <a href="{% url 'profile' profile.id %}"> <img src="{{ profile.profileimg.url }}" width="100" height="100"></a>
+            <p>{{ profile.user}}</p>
+
+            <a id="flw"><p6>{{ profile.followers }} subscriber{{ profile.followers|pluralize}}</p6>
+            <div id="flws">
+            {% for follower in followers %}
+
+               {% if profile.user.username == follower.followed %}
+                {{ follower.username }}
+               {% endif %}
+            {% endfor %}
+                </div>
+                </a>
+            <p7>{{ profile.bio }}</p7>
+
+        </div>
+          <div>
+              <style>
+            p1{
+            justify-content: block;
+            font-weight: 200;
+            font-size: 15px;
+            margin-bottom: 5px;
+             }
+              </style>
+            <p1>{{post.created_at|naturaltime}}</p1>
+                </div>
+          <div class="post">
+              <style>
+
+                  .post{
+
+                  }
+
+                  .post img{
+
+                      width: 100%;
+                      height: 100%;
+                      border-radius: 5px;
+                      box-shadow: 0 5px 5px, rgba(0, 0, 0, 0.8);
+                      margin-top: 5px;
+
+                  }
+              </style>
+              <a href="/flane/comment-details/{{ post.id }}/{{post.slug|slugify}}">
+         <img src="{{ post.image.url }}" width="100%" height="500">
+                  </a>
+              <div class="bottom">
+                  <style>
+                      .bottom{
+                           height: 60px;
+                           margin-bottom: 30px;
+                           display: flex;
+                           align-items: center;
+                           justify-content: inline-block;
+                           width: 400px;
+
+                      }
+
+                      button{
+                          background: lightseagreen;
+                          color: black;
+                          padding: 5px 20px;
+                          margin-top: 2px;
+                          margin-left: 10px;
+                          margin-right: 5px;
+                          border: none;
+                          border-radius: 15px;
+                          }
+
+                          p2{
+                              border-radius: 15px;
+                              background: lightgrey;
+                              padding: 5px 20px;
+                              margin-top: 2px;
+
+
+                          }
+
+                  </style>
+                  <div class="caption">
+                      <style>
+
+                          div{
+                              width: 100%;
+                          }
+                          .caption{
+                               white-space: nowrap;
+                               margin-bottom: 15px;
+                               font-size: 12px;
+                               width: 400px;
+                               overflow: hidden;
+                               text-overflow: ellipsis;
+                               }
+
+                          .caption:hover {
+                               white-space: normal;
+                               overflow: visible;
+                               width: 100%;
+
+                          }
+                          .caption p{
+                              font-weight: bold;
+                          }
+                          .caption p span{
+                              font-weight: 400;
+                          }
+
+                      </style>
+                      <p>{{post.user}} <span>{{ post.caption }}</span> </p>
+                      </div>
+                  </div>
+
+              <div class="comment">
+
+
+                          <style>
+                          .comment{
+                          border-top: 2px solid lightgrey;
+                          margin-top: -35px;
+                          margin-bottom: 15px;
+                          padding-top: 2px;
+
+                          }
+                          .cm{
+                             text-decoration: none;
+                             background: lightgrey;
+                             padding: 5px 20px;
+                             border-radius: 15px;
+                             color: black;
+                          }
+
+                          .comment a img {
+                                     align-items: center;
+                                     display: flex;
+                                     width: 85px;
+                                     height: 50px;
+
+
+                           }
+
+                         .comment a i {
+                           font-size: 25px;
+                           background: green;
+                           color: white;
+                           border-radius: 45%;
+                         }
+                      </style>
+                  <button type="button" class="like-button"
+                          post_id="{{ post.id }}"> Like</button>
+
+                  <p1 id="like-count-{{ post.id }}">{{post.no_of_likes}}</p1> like{{post.no_of_likes|pluralize}}
+                  <a class="cm" id="comment" href="/flane/comment/{{ post.id }}">comment</a> <a href="https://wa.me/{{post.contact}}?text=I'm interested in your product {{post.caption}} for sale on Maricho.com"> <i class="fa-brands fa-whatsapp"></i></a>
+                  <a href="https://wa.me/{{post.contact}}?text=I'm interested in your product {{post.caption}} for sale on Maricho.com"> <img src="{% static 'media/wbg.png' %}"> </a>
+                  <a href="{{post.contact}}"> <i class="fa-brands fa-whatsapp"></i></a>
+
+              </div>
+
+</div>
+          <div class="comment-pst">
+                   <style>
+
+                      .comment-pst p{
+                          link-style: none;
+                          border-radius: 15px;
+
+
+                      }
+                      .comment-pst a {
+                         text-decoration: none;
+                         color: black;
+                      }
+                      .comment-pst {
+                           margin-bottom: 20px;
+                           border-bottom: 5px solid lightgrey;
+                           }
+                          .comment-pst form {
+                           display: none;
+                           }
+                  </style>
+                    {% if not post.comments.all %}
+                     <p>No comments yet</p>
+                    {% else %}
+               <a href="/flane/comment-details/{{ post.id }}/{{post.slug|slugify}}">View all {{ post.comments.all.count }} comment{{ post.comments.all.count| pluralize}}</a>
+              {% endif %}
+              </div>
+  </div>
+{% endif %}
+           {% endfor %}
+           {% endfor %}
+
+</div>
+
+      <div class="right-sidebar">
+        <style>
+             .right-sidebar{
+                  flex-basis: 25%;
+                  margin: 20px auto 5px;
+                  border-radius: 15px;
+                  height: 100vh;
+                  box-sizing: border-box;
+                  box-shadow: 0 0 2px 2px lightseagreen;
+        }
+         @media (max-width: 769px) {
+           .right-sidebar {
+             display: none;
+           }
+      }
+           .blog .blog-det {
+           display: grid;
+           background: lightgrey;
+           align-items: center;
+           margin-left: 25px;
+           margin-right: 15px;
+           margin-top: 15px;
+           margin-bottom: 15px;
+           box-shadow: 0 0 1px 1px lightseagreen;
+           width: 250px;
+           border-radius: 10px;
+           }
+           .blog img {
+                height: 80px;
+                width: 120px;
+                margin-top: 20px;
+                margin-right: 10px;
+                border-radius: 15px;
+                }
+           .blog a {
+               margin-left: 30px;
+           }
+           .blog a button {
+               margin: 5px 0px 3px;
+               color: white;
+           }
+
+           button:hover {
+           box-shadow: 0 0 2px 2px purple;
+           }
+        </style>
+          <div class="blog">
+              {% if user.is_authenticated %}
+              <a href="{% url 'blog_create' %}"><button>Create Blog Post</button></a>
+              {% endif %}
+              <div class="blog-det">
+          {% for blog in blogs %}
+              <a href="blog-details/{{blog.id}}/{{blog.title|slugify}}"> <img src="{{ blog.image.url }}"> </a>
+
+              <a href="blog-details/{{blog.id}}/{{blog.title|slugify}}"> {{ blog.title }} </a>
+
+          {% endfor %}
+                  </div>
+       </div>
+
+      </div>
+</div>
+
+<footer> Copyright @ Ohrots.inc 2024</footer>
+<script>
+        function openPopup() {
+            document.getElementById('whatsappPopup').style.display = 'block';
+        }
+
+        function closePopup() {
+            document.getElementById('whatsappPopup').style.display = 'none';
+        }
+
+
+
+$(document).ready(function(){
+
+            $(".like-button").click(function(){
+              var post_id = $(this).attr("post_id");
+
+                          $.ajax({
+                            type: 'POST',
+                            url : "{% url 'like-post' %}",
+                            data: {
+                              post_id: post_id,
+                              csrfmiddlewaretoken: '{{ csrf_token }}',
+                              },
+                            success: function(data){
+                              if(data.liked === true){
+
+                            $(this).removeClass("like-button").addClass("unlike-button");
+                            $(".like-button").text('Unlike');
+                            } else {
+                            $(this).removeClass("unlike-button").addClass("like-button");
+                            $(".like-button").text('Like');
+                            }
+                            $("#like-count-" + post_id).text(data.likes);
+
+                            console.log(data);
+                           },
+                            error: function(xhr, errmsg, err){
+                            alert('error getting response');
+                            }
+                            });
+                            });
+                            });
+
+</script>
+
+<script>
+   let jobEl = document.getElementById('job');
+let mainEl = document.getElementById('main');
+let leftSb = document.getElementById('left-sb');
+jobEl.addEventListener('click', loadJob)
+
+function loadJob(){
+jobEl.style.display = "grid"
+leftSb.style.display = "grid"
+mainEl.style.display = "none"
+console.log('me')
+};
+
+let flwEl = document.getElementById('flw')
+let flwsEl = document.getElementById('flws')
+
+flwEl.addEventListener('click', loadFollowers)
+
+function loadFollowers(){
+flwsEl.style.display ="grid"
+}
+
+
+
+
+</script>
+</body>
+
+</html>

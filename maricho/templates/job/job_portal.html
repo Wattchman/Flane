@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MariCho Jobs</title>
+    <style>
+        /* General styling */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Light sea green theme color */
+        :root {
+            --main-color: #20B2AA;
+        }
+
+        /* Header */
+        .header {
+            background-color: var(--main-color);
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #fff;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 1.5rem;
+        }
+
+        .header nav {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .header nav a {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        /* Hamburger Menu for Mobile */
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            font-size: 1.5rem;
+        }
+
+        .hamburger-menu {
+            display: none;
+            position: absolute;
+            top: 60px;
+            right: 20px;
+            background-color: #fff;
+            border: 1px solid var(--main-color);
+            padding: 1rem;
+            z-index: 10;
+        }
+
+        .hamburger-menu a {
+            display: block;
+            color: var(--main-color);
+            text-decoration: none;
+            padding: 0.5rem 0;
+        }
+
+        /* Search Section */
+        .search-section {
+            padding: 1rem;
+            background-color: #f8f8f8;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            text-align: center;
+        }
+        .user_profile {
+           display: flex;
+           align-items: center;
+           margin-bottom: 30px;
+           font-size: 20px;
+           color: lightseagreen;
+        }
+        .user_profile img {
+           height: 50px;
+           width: 50px;
+           border-radius: 50%;
+           margin-right: 10px;
+           }
+        .search-section input[type="text"],
+        .search-section select,
+        .search-section button {
+            padding: 0.5rem;
+            margin: 0.5rem 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 100%;
+            max-width: 300px;
+        }
+        h2 {
+        margin-left: -105px;
+        color: lightseagreen;
+        }
+        .search-section button {
+            background-color: var(--main-color);
+            color: #fff;
+            cursor: pointer;
+        }
+
+        /* Job Listings */
+        .job-listings {
+            padding: 1rem;
+        }
+
+        .job-card {
+            border: 1px solid #ddd;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-radius: 5px;
+        }
+
+        .job-card h3 {
+            color: var(--main-color);
+            margin: 0;
+        }
+
+        .job-card p {
+            margin: 0.5rem 0;
+        }
+
+        /* Company Logos Slider */
+        .logo-slider {
+            display: flex;
+            overflow: auto;
+            padding: 1rem;
+            background-color: #f8f8f8;
+        }
+         a {
+         text-decoration: none;
+         color: black;
+         }
+        .logo-slider img {
+            height: 50px;
+            margin-right: 1rem;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        /* Responsive Styling */
+        @media (max-width: 768px) {
+            .hamburger {
+                display: block;
+            }
+
+            .header nav {
+                display: none;
+            }
+
+            .hamburger-menu.active {
+                display: block;
+            }
+
+            .search-section {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="header">
+        <h1>MariCho Jobs</h1>
+        <nav>
+            <a href="">Home</a>
+            <a href="{% url 'job-list' %}">Jobs</a>
+            <a href="{% url 'company-list' %}">Companies</a>
+            <a href="">Profile</a>
+            {% if user.is_authenticated %}
+                <a href="{% url 'logout' %}">Logout</a>
+            {% else %}
+                <a href="{% url 'signin' %}">Login</a>
+            {% endif %}
+        </nav>
+        <div class="hamburger" onclick="toggleHamburger()">☰</div>
+    </header>
+
+    <!-- Hamburger Menu for Mobile -->
+    <div class="hamburger-menu" id="hamburgerMenu">
+        <a href="">Home</a>
+        <a href="{% url 'job-list' %}">Jobs</a>
+        <a href="{% url 'company-list' %}">Companies</a>
+        <a href="">Profile</a>
+        {% if user.is_authenticated %}
+            <a href="{% url 'logout' %}">Logout</a>
+        {% else %}
+            <a href="{% url 'signin' %}">Login</a>
+        {% endif %}
+    </div>
+
+    <!-- Search Section -->
+    <section class="search-section">
+        <h2>Find Your Dream Job</h2>
+        <form method="GET">
+           <div class="user_profile">{% if user.is_authenticated %}
+               {% if user.company_profile %}
+           <a href="{% url 'company_profile' user.company_profile.id %}"><img src="{{ user.company_profile.logo.url }}"> </a> <p>{{ user.company_profile.name }}</p>
+            {% elif user.jobseeker %}
+               <a href="{% url 'jobseeker_profile' user.jobseeker.id %}"><img src="{{ user.jobseeker.image.url }}"></a> <p>{{ user.jobseeker.user.username }} </p>
+               {% else %}
+               <p>user profile not found</p>
+            {% endif %}
+
+
+ {% else %}
+            <p></p>
+        {% endif %} </div>
+               <input type="text" name="query" placeholder="Job Title or Keywords">
+            <select name="industry">
+                <option value="">Industry</option>
+                {% for industry in industries %}
+                    <option value="{{ industry.id }}">{{ industry.name }}</option>
+                {% endfor %}
+            </select>
+            <button type="submit">Search</button>
+        </form>
+    </section>
+
+    <!-- Company Logo Slider -->
+    <section class="logo-slider">
+        {% for company in companies %}
+            <img src="{{ company.logo.url }}" alt="{{ company.name }} Logo">
+        {% endfor %}
+    </section>
+
+    <!-- Job Listings -->
+    <section class="job-listings">
+        {% for job in jobs %}
+            <a href="{% url 'job-details' job.id %}"><div class="job-card">
+                <h3>{{ job.title }}</h3>
+                <p>Company: {{ job.company.name }}</p>
+                <p>Location: {{ job.location }}</p>
+                <p>Salary: {{ job.salary }}</p>
+            </div></a>
+        {% empty %}
+            <p>No jobs available at the moment.</p>
+        {% endfor %}
+    </section>
+
+    <!-- JavaScript for Hamburger Menu Toggle -->
+    <script>
+        function toggleHamburger() {
+            const menu = document.getElementById('hamburgerMenu');
+            menu.classList.toggle('active');
+        }
+    </script>
+
+</body>
+</html>

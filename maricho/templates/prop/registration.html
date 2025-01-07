@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Company Registration Form</title>
+    <style>
+        /* CSS styling */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .registration-form {
+            background-color: white;
+            width: 100%;
+            max-width: 500px;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .submit-btn {
+            width: 100%;
+            padding: 10px;
+            background-color: #20b2aa;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .submit-btn:hover {
+            background-color: #178f8b;
+        }
+    </style>
+</head>
+<body>
+    <div class="registration-form">
+        <h2>Property Account Registration</h2>
+        <form id="companyForm" method="post" action="" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="submit-btn">Register</button>
+        </form>
+    </div>
+
+    <script>
+        // JavaScript for form validation
+        document.getElementById("companyForm").onsubmit = function() {
+            let isValid = true;
+            const inputs = document.querySelectorAll("#companyForm input, #companyForm select");
+
+            inputs.forEach(input => {
+                const error = input.nextElementSibling;
+                if (input.value.trim() === "") {
+                    error && (error.style.display = "block");
+                    isValid = false;
+                } else {
+                    error && (error.style.display = "none");
+                }
+            });
+
+            return isValid;
+        }
+    </script>
+</body>
+</html>

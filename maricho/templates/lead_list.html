@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lead List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color:lightseagreen;
+            color:white;
+            margin: 0;
+            padding: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #fff;
+        }
+        th {
+            background-color: #2E8B57; /* Darker shade for header */
+        }
+        a {
+            color: white;
+            text-decoration: none;
+            margin-bottom: 10px;
+            display: inline-block;
+        }
+        button {
+            padding: 10px 15px;
+            background-color: #2E8B57;
+            border: none;
+            color: white;
+            cursor: pointer;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Lead List</h1>
+    <a href="{% url 'lead_create' %}"><button>Add New Lead</button></a>
+    <table>
+        <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Score</th>
+            <th>Assigned To</th>
+            <th>Status</th>
+            <th>Created At</th>
+            <th>Next Follow-Up</th>
+        </tr>
+        {% for lead in leads %}
+        <tr>
+            <td>{{ lead.first_name }}</td>
+            <td>{{ lead.last_name }}</td>
+            <td>{{ lead.email }}</td>
+            <td>{{ lead.phone }}</td>
+            <td>{{ lead.score }}</td>
+            <td>{{ lead.assigned_to }}</td>
+            <td>{{ lead.status }}</td>
+            <td>{{ lead.created_at }}</td>
+             <td>{{ lead.next_follow_up }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <script>
+        console.log("Lead List Loaded");
+    </script>
+</body>
+</html>

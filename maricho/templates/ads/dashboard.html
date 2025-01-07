@@ -1,0 +1,121 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<style>
+    h1 {
+        margin-top: 40px;
+    }
+</style>
+<h1>Ad Analytics Dashboard</h1>
+
+<h2>Advertisement Performance</h2>
+<div id="adPerformanceChart" style="width: 100%; height: 400px;"></div>
+<div id="ctrChart" style="width: 100%; height: 400px; margin-top: 50px;"></div>
+
+<h2>Recent User Activities</h2>
+<ul>
+    {% for activity in user_activities %}
+        <li>{{ activity.user.username }} - {{ activity.activity_type }} at {{ activity.activity_time }}</li>
+    {% endfor %}
+</ul>
+
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<script>
+    // Data passed from the view
+    const adNames = {{ ad_names|safe }};
+    const impressionsData = {{ impressions_list|safe }};
+    const clicksData = {{ clicks_list|safe }};
+    const ctrData = {{ ctr_list|safe }};
+
+    // Set up dimensions and margins
+    const margin = {top: 30, right: 20, bottom: 50, left: 50},
+          width = 800 - margin.left - margin.right,
+          height = 400 - margin.top - margin.bottom;
+
+    // Bar Chart for Impressions and Clicks
+    const svg1 = d3.select("#adPerformanceChart")
+        .append("svg")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+        .append("g")
+        .attr("transform", `translate(${margin.left},${margin.top})`);
+
+    const x1 = d3.scaleBand()
+        .domain(adNames)
+        .range([0, width])
+        .padding(0.2);
+
+    const y1 = d3.scaleLinear()
+        .domain([0, d3.max(impressionsData.concat(clicksData))])
+        .nice()
+        .range([height, 0]);
+
+    svg1.append("g")
+        .selectAll("rect")
+        .data(impressionsData)
+        .join("rect")
+        .attr("x", (d, i) => x1(adNames[i]))
+        .attr("y", y1)
+        .attr("width", x1.bandwidth() / 2)
+        .attr("height", d => height - y1(d))
+        .attr("fill", "lightblue");
+
+    svg1.append("g")
+        .selectAll("rect")
+        .data(clicksData)
+        .join("rect")
+        .attr("x", (d, i) => x1(adNames[i]) + x1.bandwidth() / 2)
+        .attr("y", y1)
+        .attr("width", x1.bandwidth() / 2)
+        .attr("height", d => height - y1(d))
+        .attr("fill", "orange");
+
+    svg1.append("g")
+        .attr("transform", `translate(0,${height})`)
+        .call(d3.axisBottom(x1))
+        .selectAll("text")
+        .attr("transform", "rotate(-45)")
+        .style("text-anchor", "end");
+
+    svg1.append("g").call(d3.axisLeft(y1));
+
+    // Line Chart for CTR
+    const svg2 = d3.select("#ctrChart")
+        .append("svg")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+        .append("g")
+        .attr("transform", `translate(${margin.left},${margin.top})`);
+
+    const x2 = d3.scaleBand()
+        .domain(adNames)
+        .range([0, width])
+        .padding(0.1);
+
+    const y2 = d3.scaleLinear()
+        .domain([0, d3.max(ctrData)])
+        .nice()
+        .range([height, 0]);
+
+    const line = d3.line()
+        .x((d, i) => x2(adNames[i]) + x2.bandwidth() / 2)
+        .y(d => y2(d));
+
+    svg2.append("path")
+        .datum(ctrData)
+        .attr("fill", "none")
+        .attr("stroke", "green")
+        .attr("stroke-width", 2)
+        .attr("d", line);
+
+    svg2.append("g")
+        .attr("transform", `translate(0,${height})`)
+        .call(d3.axisBottom(x2))
+        .selectAll("text")
+        .attr("transform", "rotate(-45)")
+        .style("text-anchor", "end");
+
+    svg2.append("g").call(d3.axisLeft(y2));
+</script>
+{% endblock %}

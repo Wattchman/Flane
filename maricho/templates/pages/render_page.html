@@ -1,0 +1,23 @@
+    <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ content.title }}</title>
+    <!-- Include any required CSS from the saved page -->
+    {% for style in content.styles %}
+    <link href="{{ style }}" rel="stylesheet">
+    {% endfor %}
+</head>
+<body>
+    <!-- Render the saved content -->
+    <div>
+        {{ content.components|safe }}
+    </div>
+
+    <!-- Include any required JavaScript from the saved page -->
+    {% for script in content.scripts %}
+    <script src="{{ script }}"></script>
+    {% endfor %}
+</body>
+</html>

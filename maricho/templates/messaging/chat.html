@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Maricho Chat</title>
+   <style>
+       /* CSS similar to the earlier example */
+   </style>
+</head>
+<body>
+<div class="chat-container">
+   <div class="messages" id="message-box">
+       <!-- Messages will appear here -->
+   </div>
+   <div class="input-area">
+       <input type="text" id="message-input" placeholder="Type a message..." autocomplete="off">
+       <button onclick="sendMessage()">Send</button>
+   </div>
+</div>
+
+<script>
+   const user_id = "{{ user_id }}";
+   const recipient_id = "{{ recipient_id }}";
+
+
+   const ws_url = `ws://${window.location.host}/ws/chat/${user_id}/`;
+   const socket = new WebSocket(ws_url);
+
+   socket.onmessage = function(event) {
+       const data = JSON.parse(event.data);
+       displayMessage(data.content, data.sender === user_id ? 'sent' : 'received');
+   };
+
+   function displayMessage(content, type) {
+       const messageBox = document.getElementById("message-box");
+       const messageDiv = document.createElement("div");
+       messageDiv.classList.add("message", type);
+       messageDiv.textContent = content;
+       messageBox.appendChild(messageDiv);
+       messageBox.scrollTop = messageBox.scrollHeight;
+   }
+
+   function sendMessage() {
+       const messageInput = document.getElementById("message-input");
+       const content = messageInput.value;
+       if (content.trim()) {
+           socket.send(JSON.stringify({ content: content, recipient_id: recipient_id}));
+           displayMessage(content, "sent");
+           messageInput.value = "";
+       }
+   }
+</script>
+</body>
+</html>

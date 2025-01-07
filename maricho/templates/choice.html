@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h>Choose the type of account that you want</h>
+<a href="{% url 'settings' %}"><button type="submit">General</button></a>
+<a href="{% url 'company' %}"><button type="submit">Company</button></a>
+<a href="{% url 'jobseeker' %}"><button type="submit">JobSeeker</button></a>
+<a href="{% url 'property' %}"><button type="submit">Property</button></a>
+
+</body>
+</html>

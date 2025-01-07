@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Maricho Business</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
+    }
+
+    /* Navigation Bar */
+    nav {
+      background-color: #20b2aa;
+      color: white;
+      padding: 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1000;
+    }
+
+    nav .logo {
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+
+    /* Hamburger Menu */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+      margin-right: 30px;
+    }
+
+    .hamburger div {
+      width: 25px;
+      height: 3px;
+      background-color: white;
+      margin: 3px 0;
+      transition: 0.4s;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 1.5rem;
+    }
+
+    nav ul li {
+      position: relative;
+    }
+
+    nav ul li a {
+      color: white;
+      text-decoration: none;
+      font-size: 1rem;
+    }
+
+    /* Expandable Services Dropdown */
+    nav ul .services-menu {
+      display: none;
+      position: absolute;
+      background-color: #fff;
+      top: 2rem;
+      left: 0;
+      padding: 0;
+      list-style: none;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    nav ul .services-menu li {
+      padding: 0.5rem 1rem;
+      white-space: nowrap;
+    }
+
+    nav ul .services-menu li a {
+      color: #333;
+      text-decoration: none;
+    }
+
+    /* Mobile View */
+    @media (max-width: 768px) {
+      .hamburger {
+        display: flex;
+      }
+
+      nav ul {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+        position: absolute;
+        top: 4rem;
+        left: 0;
+        background-color: #20b2aa;
+        padding: 1rem 0;
+      }
+
+      nav ul.active {
+        display: flex;
+      }
+
+      nav ul li {
+        text-align: center;
+        margin: 0;
+      }
+    }
+
+    /* Introduction */
+    .intro {
+      max-width: 700px;
+      margin: 6rem auto 1rem;
+      padding: 0 1rem;
+      text-align: center;
+    }
+
+    .intro h2 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+
+    .intro p {
+      font-size: 1rem;
+      color: #555;
+    }
+
+    /* Story Section with Slider */
+    .stories-slider {
+      position: relative;
+      max-width: 100%;
+      margin: 2rem auto;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .stories-container {
+      display: flex;
+      transition: transform 0.5s ease-in-out;
+    }
+
+    .story-card {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      overflow: hidden;
+      position: relative;
+      margin: 0 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s;
+      flex-shrink: 0;
+    }
+
+    .story-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+    }
+
+    .story-card .story-content {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      padding: 0.5rem;
+      background-color: rgba(0, 0, 0, 0.6);
+      color: white;
+      text-align: center;
+      font-size: 0.75rem;
+    }
+
+    .story-card:hover {
+      transform: scale(1.1);
+    }
+
+    /* Previous and Next buttons */
+    .prev, .next {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background-color: rgba(0, 0, 0, 0.5);
+      color: white;
+      border: none;
+      padding: 10px;
+      cursor: pointer;
+      font-size: 18px;
+    }
+
+    .prev {
+      left: 10px;
+    }
+
+    .next {
+      right: 10px;
+    }
+
+    /* Post Container */
+    .posts-container {
+      max-width: 700px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+
+    /* Individual Post */
+    .post {
+      background-color: white;
+      border-radius: 10px;
+      overflow: hidden;
+      margin-bottom: 2rem;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      opacity: 0;
+      transform: translateY(50px);
+      animation: fadeInUp 1s forwards;
+      position: relative;
+    }
+
+    .post img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+
+    .post .post-content {
+      padding: 1rem;
+    }
+
+    .post .post-content h3 {
+      font-size: 1.5rem;
+      margin: 0.5rem 0;
+    }
+
+    .post .post-content p {
+      font-size: 1rem;
+      margin-bottom: 1rem;
+      color: #666;
+    }
+
+    .post .post-content button {
+      background-color: #20b2aa;
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .post .post-content button:hover {
+      background-color: #17a09e;
+    }
+
+    /* Animation */
+    @keyframes fadeInUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .post:hover {
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+      transition: box-shadow 0.3s;
+    }
+
+    footer {
+      background-color: #333;
+      color: white;
+      text-align: center;
+      padding: 1.5rem;
+      margin-top: 2rem;
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="logo">Business Solutions</div>
+
+    <!-- Hamburger Menu Icon -->
+    <div class="hamburger" onclick="toggleMenu()">
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+
+    <!-- Navigation Links -->
+    <ul id="nav-links">
+      <li><a href="#services">Services</a>
+        <ul class="services-menu">
+          <li><a href="/flane/web-dev">Website Development</a></li>
+          <li><a href="/flane/graphic-design">Graphic Design & Branding</a></li>
+          <li><a href="/flane/ai">AI Training for Business</a></li>
+          <li><a href="/flane/finance">Financial Management</a></li>
+          <li><a href="/flane/company-reg">Company Registration</a></li>
+          <li><a href="https://wa.me/+263784777648?text=I'm interested in your product business services on offer at Maricho.com">Contact</a></li>
+        </ul>
+      </li>
+    </ul>
+  </nav>
+
+  <!-- Introduction Section -->
+  <section class="intro">
+    <h2>Our Services</h2>
+    <p>At Maricho Business, we offer a range of professional services to help your business thrive. Explore our offerings below to see how we can support your business growth and success.</p>
+  </section>
+
+  <!-- Stories Section with Slider -->
+  <div class="stories-slider">
+    <button class="prev">&#10094;</button>
+    <div class="stories-container"></div>
+    <button class="next">&#10095;</button>
+  </div>
+
+  <!-- Posts Section -->
+  <div class="posts-container"></div>
+
+  <footer>
+    <p>&copy; 2024 Business Solutions. All rights reserved.</p>
+  </footer>
+
+  <script>
+    // Toggle Hamburger Menu
+    function toggleMenu() {
+      const navLinks = document.getElementById('nav-links');
+      navLinks.classList.toggle('active');
+    }
+
+    // Toggle Services Menu
+    const servicesMenu = document.querySelector('.services-menu');
+    const servicesNavItem = document.querySelector('nav ul li a[href="#services"]');
+
+    servicesNavItem.addEventListener('click', (event) => {
+      event.preventDefault(); // Prevent scrolling to section
+      servicesMenu.style.display = servicesMenu.style.display === 'block' ? 'none' : 'block';
+    });
+
+    // Sample Services Data
+    const services = [
+      { title: 'Website Development', description: 'Professional web development services for your business.', searchQuery: 'website development' },
+      { title: 'Graphic Design & Branding', description: 'Enhance your brand identity with our expert design services.', searchQuery: 'graphic design' },
+      { title: 'AI Training for Business', description: 'Empower your team with AI-driven solutions and training.', searchQuery: 'AI training' },
+      { title: 'Financial Management', description: 'Get expert financial management and planning services.', searchQuery: 'financial management' },
+      { title: 'Company Registration', description: 'We help you with a seamless company registration process.', searchQuery: 'company registration' }
+    ];
+
+    const storiesContainer = document.querySelector('.stories-container');
+    const postsContainer = document.querySelector('.posts-container');
+
+    // Fetch images from Pexels API (you need to replace 'YOUR_API_KEY' with an actual API key)
+    async function fetchImages(query) {
+      try {
+        const response = await fetch(`https://api.pexels.com/v1/search?query=${query}`, {
+          headers: {
+            Authorization: 'NiVHvueLaoALYd41z3fyKZwNBFrWAd3Kqsj8GX14TyYfM0jP1rtmJdMH'
+          }
+        });
+        const data = await response.json();
+        return data.photos[0].src.medium; // Return the first image
+      } catch (error) {
+        console.error('Error fetching image:', error);
+        return 'default-image.jpg'; // Fallback image
+      }
+    }
+
+    // Create a story card
+    function createStoryCard(service, imageUrl) {
+      const storyCard = document.createElement('div');
+      storyCard.classList.add('story-card');
+      storyCard.innerHTML = `
+        <img src="${imageUrl}" alt="${service.title}">
+        <div class="story-content">${service.title}</div>
+      `;
+      storiesContainer.appendChild(storyCard);
+    }
+
+    // Create a post
+    function createPost(service, imageUrl) {
+      const post = document.createElement('div');
+      post.classList.add('post');
+      post.innerHTML = `
+        <img src="${imageUrl}" alt="${service.title}">
+        <div class="post-content">
+          <h3>${service.title}</h3>
+          <p>${service.description}</p>
+          <a href="https://wa.me/+263784777648?text=I'm interested in your product business services on offer at Maricho.com"><button>Learn More</button></a>
+        </div>
+      `;
+      postsContainer.appendChild(post);
+    }
+
+    // Initialize stories and posts
+    async function loadContent() {
+      for (let service of services) {
+        const imageUrl = await fetchImages(service.searchQuery);
+        createStoryCard(service, imageUrl);
+        createPost(service, imageUrl);
+      }
+    }
+
+    // Slider functionality
+    let currentIndex = 0;
+
+    function showSlide(index) {
+      const totalStories = services.length;
+      if (index >= totalStories) currentIndex = 0;
+      if (index < 0) currentIndex = totalStories - 1;
+      const offset = -currentIndex * 120; // Adjust to match the story card size + margin
+      storiesContainer.style.transform = `translateX(${offset}px)`;
+    }
+
+    document.querySelector('.next').addEventListener('click', () => {
+      currentIndex++;
+      showSlide(currentIndex);
+    });
+
+    document.querySelector('.prev').addEventListener('click', () => {
+      currentIndex--;
+      showSlide(currentIndex);
+    });
+
+    // Auto slide
+    setInterval(() => {
+      currentIndex++;
+      showSlide(currentIndex);
+    }, 3000); // Change slide every 3 seconds
+
+    // Load stories and posts on page load
+    loadContent();
+  </script>
+</body>
+</html>
+

@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ property.name }} - Profile</title>
+    <style>
+        /* Basic Reset */
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+        }
+
+        /* Header */
+        .header {
+            background-color: #20b2aa; /* Light sea green */
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            color: white;
+        }
+
+        .header-logo {
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 15px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 5px;
+            transition: background 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            background-color: #1b8b82;
+        }
+
+        /* Company Profile */
+        .profile-container {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 40px;
+            background-color: #ffffff;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        .company-header {
+            display: flex;
+            align-items: center;
+            padding-bottom: 20px;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #ddd;
+            gap: 20px;
+        }
+
+        .company-logo img {
+            width: 80px;
+            height: 80px;
+            margin_right: 20px;
+        }
+
+        .company-info {
+            flex-grow: 1;
+            align-items: center;
+        }
+
+        .company-info h2 {
+            margin: 0;
+            color: #20b2aa;
+        }
+
+        .company-info p {
+            margin: 5px 0;
+            color: #555;
+
+        }
+
+        /* Description */
+        .description {
+            margin-top: 15px;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Job Openings */
+        .job-openings {
+            margin-top: 20px;
+        }
+
+        .job-openings h3 {
+            color: #20b2aa;
+        }
+
+        .job-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .job-list li {
+            padding: 15px;
+            border-bottom: 1px solid #ddd;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .job-title {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .apply-link {
+            color: #20b2aa;
+            text-decoration: none;
+            font-weight: bold;
+            border: 1px solid #20b2aa;
+            padding: 8px 12px;
+            border-radius: 5px;
+            transition: background 0.3s ease;
+        }
+
+        .apply-link:hover {
+            background-color: #20b2aa;
+            color: white;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .company-header {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+
+            .company-info {
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Header -->
+<div class="header">
+    <div class="header-logo">Job Portal</div>
+    <div class="nav-links">
+        <a href="{% url 'job-list' %}">Jobs</a>
+
+        {% if user.is_authenticated %}
+            <a href="{% url 'logout' %}">Logout</a>
+        {% else %}
+            <a href="{% url 'login' %}">Login</a>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Company Profile Container -->
+<div class="profile-container">
+
+    <!-- Company Header -->
+    <div class="company-header">
+        <div class="company-logo">
+            <img src="{{ property.logo.url }}" alt="{{ property.name }} Logo">
+        </div>
+        <div class="company-info">
+            <h2>{{ property.name }}</h2>
+            <p><strong>Location:</strong> {{ property.location }}</p>
+            <p><strong>Industry:</strong> {{ property.industry }}</p>
+            <p><strong>Website:</strong> <a href="{{ property.website.url }}" target="_blank">{{ company.website }}</a></p>
+             <a href="{% url 'create-list' %}"><button> + Post Property</button></a>
+        </div>
+    </div>
+
+    <!-- Company Description -->
+    <div class="description">
+        <p><strong>Description:</strong>  </br> {{ property.description }}</p>
+    </div>
+
+    <!-- Job Openings -->
+    <div class="job-openings">
+        <h3>Property Listings</h3>
+        <ul class="job-list">
+
+                <li>
+                    <span class="job-title">{{ property.title }}</span>
+
+                </li>
+
+                <li>No Current Listings</li>
+
+        </ul>
+    </div>
+
+</div>
+
+</body>
+</html>
