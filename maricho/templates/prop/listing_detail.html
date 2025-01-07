@@ -1,0 +1,345 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ property.title }}</title>
+
+    <!-- Font Awesome Link -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <style>
+        /* General styling */
+        body {
+          margin: 5px;
+        }
+
+
+        .container {
+            max-width: 100%;
+            margin: auto;
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .ratings-section {
+            margin-top: 20px;
+            overflow-x: auto;
+            white-space: nowrap;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border-radius: 10px;
+            }
+        .rating-card {
+            display: inline-block;
+            width: 300px;
+            margin-right: 10px;
+            padding: 10px;
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            }
+        .rating-stars {
+            color: #FFD700;
+            }
+        .rating-comment {
+            margin-top: 8px;
+            font-size: 14px;
+            color: #555;
+            }
+
+        .header {
+            display: flex;
+            align-items: center;
+            padding: 15px 20px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .header img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-right: 15px;
+        }
+
+        .header h2 {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+
+        .header p {
+            font-size: 14px;
+            color: #777;
+        }
+
+        .gallery {
+            display: flex;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+        }
+
+        .gallery img {
+            min-width: 100%;
+            height: 400px;
+            object-fit: cover;
+            scroll-snap-align: start;
+        }
+
+        .details {
+            padding: 20px;
+        }
+
+        .details h3 {
+            font-size: 22px;
+            margin-bottom: 10px;
+        }
+
+        .details p {
+            font-size: 16px;
+            line-height: 1.5;
+            margin-bottom: 15px;
+        }
+
+        .info-section {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 0;
+            border-top: 1px solid #ddd;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .info-section div {
+            text-align: center;
+        }
+
+        .info-section h4 {
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+
+        .info-section p {
+            font-size: 14px;
+            color: #777;
+        }
+
+        .cta {
+            padding: 20px;
+            text-align: center;
+        }
+
+        .cta button {
+            padding: 12px 20px;
+            font-size: 16px;
+            color: white;
+            background-color: #3CB371;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .cta button:hover {
+            background-color: #2e8b57;
+        }
+
+        /* Footer */
+        .footer {
+            display: flex;
+            justify-content: space-around;
+            padding: 20px;
+            background-color: #f1f1f1;
+            border-top: 1px solid #ddd;
+        }
+
+        .footer a {
+            text-decoration: none;
+            color: #333;
+            font-size: 18px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: color 0.3s ease;
+        }
+
+        /* Green color for WhatsApp and Call icons */
+        .footer a.whatsapp-icon, .footer a.call-icon {
+            color: #25D366; /* WhatsApp green */
+        }
+
+        .footer a:hover {
+            color: #3CB371;
+        }
+
+        /* Responsive styling */
+        @media (max-width: 768px) {
+
+            .sidebar {
+              display: none;
+            }
+            .gallery img {
+                height: 250px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <img src="{{ profile.logo.url }}" alt="Host Image">
+        <div>
+            <h2>{{ listing.title }}</h2>
+            <p>Hosted by {{ profile.user.username }}</p>
+        </div>
+    </div>
+
+    <div class="gallery">
+        {% for image in listing.images.all %}
+            <img src="{{ image.image.url }}" alt="Property Image {{ forloop.counter }}">
+        {% endfor %}
+    </div>
+
+    <div class="details">
+        <h3>About this space</h3>
+        <p>{{ listing.description }}</p>
+    </div>
+
+    <div class="info-section">
+        <div>
+            <h4>{{ listing.guests }} Guests</h4>
+            <p>Capacity</p>
+        </div>
+        <div>
+            <h4>{{ listing.bedrooms }} Bedrooms</h4>
+            <p>Sleeping space</p>
+        </div>
+        <div>
+            <h4>{{ listing.bathrooms }} Bathrooms</h4>
+            <p>Ensuite bathrooms</p>
+        </div>
+    </div>
+        <div class="ratings-section" id="ratings-section"></div>
+
+    <!-- Add Rating Section -->
+    <div class="add-rating-section">
+        <h3>Add a Rating</h3>
+        <form id="rating-form">
+            <label for="stars">Stars:</label>
+            <select id="stars" name="stars">
+                <option value="1">1 Star</option>
+                <option value="2">2 Stars</option>
+                <option value="3">3 Stars</option>
+                <option value="4">4 Stars</option>
+                <option value="5">5 Stars</option>
+            </select>
+            <br><br>
+            <label for="comment">Comment:</label>
+            <textarea id="comment" name="comment" rows="4" cols="50"></textarea>
+            <br><br>
+            <button type="submit">Submit Rating</button>
+        </form>
+    </div>
+
+    <div class="cta">
+        <button onclick="bookNow()">Book Now</button>
+    </div>
+
+    <!-- Contact Options with Font Awesome icons and green color for WhatsApp & Call icons -->
+    <div class="footer">
+        <a href="https://wa.me/{{ property.phone_number }}" target="_blank" class="whatsapp-icon"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+        <a href="tel:{{ listing.phone_number }}" class="call-icon"><i class="fas fa-phone"></i> Call</a>
+        <a href="mailto:{{ listing.email }}"><i class="fas fa-envelope"></i> Email</a>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        loadRatings();
+
+        function loadRatings() {
+            fetch("{% url 'listing-ratings' listing.id %}")
+                .then(response => response.json())
+                .then(data => {
+                    const ratingsSection = document.getElementById("ratings-section");
+                    ratingsSection.innerHTML = "";
+
+                    data.ratings.forEach(rating => {
+                        const ratingCard = document.createElement("div");
+                        ratingCard.classList.add("rating-card");
+
+                        const stars = document.createElement("div");
+                        stars.classList.add("rating-stars");
+                        for (let i = 0; i < rating.stars; i++) {
+                            stars.innerHTML += "&#9733;";
+                        }
+
+                        const comment = document.createElement("p");
+                        comment.classList.add("rating-comment");
+                        comment.textContent = `${rating.user__username}: ${rating.comment}`;
+
+                        ratingCard.appendChild(stars);
+                        ratingCard.appendChild(comment);
+                        ratingsSection.appendChild(ratingCard);
+                    });
+                })
+                .catch(error => console.error("Error loading ratings:", error));
+        }
+
+        // Add new rating without reloading
+        document.getElementById("rating-form").addEventListener("submit", function(e) {
+            e.preventDefault();
+            const stars = document.getElementById("stars").value;
+            const comment = document.getElementById("comment").value;
+
+            fetch("{% url 'add_rating' listing.id %}", {
+                method: "POST",
+                headers: {
+                    "X-CSRFToken": "{{ csrf_token }}",
+                    "Content-Type": "application/x-www-form-urlencoded"
+                },
+                body: `stars=${stars}&comment=${encodeURIComponent(comment)}`
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Display new rating without reloading
+                const ratingCard = document.createElement("div");
+                ratingCard.classList.add("rating-card");
+
+                const starsDiv = document.createElement("div");
+                starsDiv.classList.add("rating-stars");
+                for (let i = 0; i < data.stars; i++) {
+                    starsDiv.innerHTML += "&#9733;";
+                }
+
+                const commentDiv = document.createElement("p");
+                commentDiv.classList.add("rating-comment");
+                commentDiv.textContent = `${data.username}: ${data.comment}`;
+
+                ratingCard.appendChild(starsDiv);
+                ratingCard.appendChild(commentDiv);
+                document.getElementById("ratings-section").appendChild(ratingCard);
+
+                // Clear form
+                document.getElementById("rating-form").reset();
+            })
+            .catch(error => console.error("Error adding rating:", error));
+        });
+    });
+
+</script>
+
+<script>
+    function bookNow() {
+        alert("Booking request sent!");
+    }
+</script>
+
+</body>
+</html>
+{% endblock content %}

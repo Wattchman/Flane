@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #20B2AA; /* white */
+            color: white;
+            margin: 0;
+            padding: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #fff;
+        }
+        th {
+            background-color: #2E8B57; /* Darker shade for header */
+        }
+        a {
+            color: white;
+            text-decoration: none;
+            margin-bottom: 10px;
+            display: inline-block;
+        }
+        button {
+            padding: 10px 15px;
+            background-color: #2E8B57;
+            border: none;
+            color: white;
+            cursor: pointer;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Task List</h1>
+    <a href="{% url 'task_create' %}"><button>Add New Task</button></a>
+    <table>
+        <tr>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Assigned To</th>
+            <th>Due Date</th>
+            <th>Completed</th>
+        </tr>
+        {% for task in tasks %}
+        <tr>
+            <td>{{ task.title }}</td>
+            <td>{{ task.description }}</td>
+            <td>{{ task.assigned_to }}</td>
+            <td>{{ task.due_date }}</td>
+            <td>{{ task.completed|yesno:"Yes,No" }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <script>
+        console.log("Task List Loaded");
+    </script>
+</body>
+</html>
+

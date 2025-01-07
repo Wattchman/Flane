@@ -1,0 +1,297 @@
+{% load humanize %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>News Feed</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+
+        }
+
+
+        /* Navbar */
+        .navbar {
+            background-color: lightseagreen;
+            color: white;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar h1 {
+            margin: 0;
+            font-size: 1.5rem;
+        }
+
+        .menu-icon {
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Category Menu */
+        .category-menu {
+            display: none;
+            background-color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            position: absolute;
+            width: 100%;
+            z-index: 1000;
+        }
+
+        .category-menu a {
+            display: block;
+            padding: 15px;
+            text-decoration: none;
+            color: lightseagreen;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .category-menu a:hover {
+            background-color: #f9f9f9;
+        }
+
+        /* Post Container */
+        .post-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .post {
+            background-color: white;
+            margin-bottom: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            position: relative;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        .post img {
+            width: 100%;
+            border-radius: 8px;
+        }
+
+        .post h2 {
+            color: black;
+            margin-bottom: 10px;
+        }
+
+        .post p {
+            margin-bottom: 10px;
+        }
+        .latest-news {
+            display: flex;
+            margin: 30px 20px 20px;
+            background: white;
+            justify-content: space-between;
+            flex-direction: horizontal;
+            align-items: center;
+            height: 250px;
+            padding: 5px 20px 5px;
+            border-radius: 15px;
+            border: 4px solid grey;
+
+
+        }
+        .latest-news img {
+            margin-left: 20px;
+            border-radius: 10px;
+            flex-direction: column;
+        }
+        .latest-news a {
+            margin-top: 30px;
+        }
+        .latest-news p {
+            margin-bottom: 20px;
+            margin-left: 20px;
+
+         }
+        .latest-news h2 {
+            margin: 20px 20px 15px;
+            margin-top: 20px;
+            border-radius: 10px;
+        }
+
+        /* Comment Form */
+        .comment-form {
+            display: none;
+            margin-top: 10px;
+        }
+
+        .comment-button {
+            background-color: lightseagreen;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .comment-button:hover {
+            background-color: #138d75;
+        }
+        .comment {
+            background: lightgrey;
+            padding: 5px;
+            margin: 5px 10px 10px;
+            border-radius: 5px;
+        }
+        /* Animations */
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .post-container {
+               padding: 10px;
+            }
+            .latest-news {
+               padding: 10px;
+               font-size: 0.6rem;
+               height: 50px;
+            }
+           .latest-news img {
+               padding: 10px;
+               font-size: 0.6rem;
+               height: 50px;
+               display: none;
+            }
+            .latest-news a
+            .navbar h1 {
+                font-size: 1.2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .navbar {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .navbar h1 {
+                margin-bottom: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <div class="navbar">
+        <h1>MariCho News</h1>
+        <div class="menu-icon" onclick="toggleMenu()">&#8942;
+        </div>
+    </div>
+
+    <!-- Category Menu -->
+    <div class="category-menu" id="categoryMenu">
+        {% for category in categories %}
+            <a href="category/{{ category.name }}">{{ category.name }}</a>
+        {% endfor %}
+    </div>
+ <div class="latest-news">
+     <h2>Latest News</h2>
+
+    {% for news in latest_news %}
+
+    <a href="{% url 'n_post_detail' news.id %}"><img src="{{ news.image.url }}" width="200" height="200"><p>{{ news.title }}</p></a>
+    {% endfor %}
+
+     </div>
+    <!-- Post Container -->
+    <div class="post-container">
+        {% for post in posts %}
+            <div class="post">
+                <h2>{{ post.title }}</h2>
+
+                {% if post.image %}
+                    <img src="{{ post.image.url }}" width="400" height="300" alt="Post Image">
+                {% endif %}
+                <p>{{ post.content|truncatewords:30 }}</p>
+                {{ post.published|naturaltime }}
+                <a href="{% url 'n_post_detail' post.id %}">Read more</a>
+
+               <div class="comment-form" id="comment-form-{{ post.id }}">
+                <!-- Comment Button -->
+
+                <h3>Add a Comment</h3>
+            <form method="POST">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit">Submit</button>
+            </form>
+
+                </div>
+
+                <!-- Comments Section -->
+               <!-- <div class="comments">
+                    <h4>Comments</h4>
+                    {% for comment in post.comments.all %}
+                        <div class="comment">
+                            <strong>{{ comment.author }}: </strong> {{ comment.content }}
+                        </div>
+                    {% endfor %}
+                </div> -->
+            </div>
+        {% endfor %}
+    </div>
+
+    <script>
+        // Toggle category menu
+        function toggleMenu() {
+            var menu = document.getElementById('categoryMenu');
+            if (menu.style.display === 'block') {
+                menu.style.display = 'none';
+            } else {
+                menu.style.display = 'block';
+            }
+        }
+
+        // Toggle comment form for each post
+        function toggleCommentForm(formId) {
+            var form = document.getElementById(formId);
+            if (form.style.display === 'block') {
+                form.style.display = 'none';
+            } else {
+                form.style.display = 'block';
+            }
+        }
+
+                // Handle form submission with JavaScript
+        document.getElementById('statusForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const form = event.target;
+            const formData = new FormData(form);
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', form.action, true);
+            xhr.setRequestHeader('X-CSRFToken', form.querySelector('[name=csrfmiddlewaretoken]').value);
+
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    // On success, reload the page to see the new post
+                    window.location.reload();
+                }
+            };
+
+            xhr.send(formData);
+        });
+
+    </script>
+</body>
+</html>
