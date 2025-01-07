@@ -31,9 +31,10 @@ def send_message(request):
     channel_layers.group_send(group_name, {'type': 'new_message', 'message': message_data})
 
     return Response(message_data)
-r = redis.Redis(host=settings.REDIS_HOST,
-               port=settings.REDIS_PORT,
-               db=settings.REDIS_DB)
+    
+# r = redis.Redis(host=settings.REDIS_HOST,
+              # port=settings.REDIS_PORT,
+                # db=settings.REDIS_DB)
 
 
 # Create your views here.
