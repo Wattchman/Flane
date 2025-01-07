@@ -13,7 +13,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 from pathlib import Path
 import os
 import dj_database_url
-import dj_redis_url
+#import dj_redis_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -141,26 +141,26 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-REDIS_HOST = dj_redis_url.parse(os.environ.get("REDIS_URL"))
-REDIS_PORT = 6379
-REDIS_DB = 0
-CHANNEL_LAYERS = {
-    'default': {
-        'BACKEND': 'channels_redis.core.RedisChannelLayer',
-        'CONFIG': {
-            'hosts': [('rediss://red-co7v7sq1hbls73egpgmg:PTE5NQkBGNxOGe3iLNxRDQVa5uh5rlmN@oregon-redis.render.com', 6379)],
-        },
-    },
-}
-CACHES = {
-    'default': {
-        'BACKEND': 'django_redis.cache.RedisCache',
-        'LOCATION': ['rediss://red-co7v7sq1hbls73egpgmg:PTE5NQkBGNxOGe3iLNxRDQVa5uh5rlmN@oregon-redis.render.com:6379/0'],
-        'OPTIONS': {
-            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
-        }
-    }
-}
+#REDIS_HOST = dj_redis_url.parse(os.environ.get("REDIS_URL"))
+#REDIS_PORT = 6379
+#REDIS_DB = 0
+#CHANNEL_LAYERS = {
+    #'default': {
+       # 'BACKEND': 'channels_redis.core.RedisChannelLayer',
+       # 'CONFIG': {
+           # 'hosts': [('rediss://red-co7v7sq1hbls73egpgmg:PTE5NQkBGNxOGe3iLNxRDQVa5uh5rlmN@oregon-redis.render.com', 6379)],
+        # },
+   # },
+# }
+# CACHES = {
+  #  'default': {
+    #    'BACKEND': 'django_redis.cache.RedisCache',
+       # 'LOCATION': ['rediss://red-co7v7sq1hbls73egpgmg:PTE5NQkBGNxOGe3iLNxRDQVa5uh5rlmN@oregon-redis.render.com:6379/0'],
+       # 'OPTIONS': {
+         #   'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+       # }
+    # }
+# }
 
 SESSION_ENGINE = "django.contrib.sessions.backends.cache"
 SESSION_CACHE_ALIAS = "default"
