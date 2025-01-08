@@ -31,6 +31,19 @@
         .form-group {
             margin-bottom: 15px;
         }
+        input, select, textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        .error-message {
+            color: red;
+            font-size: 12px;
+            display: none;
+            margin-top: 5px;
+        }
         .submit-btn {
             width: 100%;
             padding: 10px;
@@ -48,32 +61,37 @@
 </head>
 <body>
     <div class="registration-form">
-        <h2>Company Registration</h2>
+        <h2>Jobseeker Registration</h2>
         <form id="jobseekerForm" method="post" action="" enctype="multipart/form-data">
             {% csrf_token %}
-            {{ form.as_p }}
+            <div class="form-group">
+                {{ form.as_p }}
+                <span class="error-message">This field is required</span>
+            </div>
             <button type="submit" class="submit-btn">Register</button>
         </form>
     </div>
 
     <script>
         // JavaScript for form validation
-        document.getElementById("jobseekerForm").onsubmit = function() {
+        document.getElementById("jobseekerForm").onsubmit = function(event) {
             let isValid = true;
             const inputs = document.querySelectorAll("#jobseekerForm input, #jobseekerForm select");
 
             inputs.forEach(input => {
-                const error = input.nextElementSibling;
+                const error = input.closest(".form-group").querySelector(".error-message");
                 if (input.value.trim() === "") {
-                    error && (error.style.display = "block");
+                    error.style.display = "block";
+                    input.style.borderColor = "red";
                     isValid = false;
                 } else {
-                    error && (error.style.display = "none");
+                    error.style.display = "none";
+                    input.style.borderColor = "#ccc";
                 }
             });
 
-            return isValid;
-        }
+            if (!isValid) event.preventDefault();
+        };
     </script>
 </body>
 </html>
