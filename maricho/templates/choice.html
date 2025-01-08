@@ -2,14 +2,54 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Choose Account Type</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f9f9f9;
+            padding: 50px;
+        }
+
+        h {
+            font-size: 24px;
+            color: #333;
+            display: block;
+            margin-bottom: 30px;
+        }
+
+        a {
+            text-decoration: none;
+            margin: 10px;
+        }
+
+        button {
+            font-size: 18px;
+            padding: 15px 30px;
+            background-color: lightseagreen;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #2e8b57; /* Slightly darker green for hover */
+            transform: scale(1.1); /* Enlarges the button slightly */
+        }
+
+        button:active {
+            transform: scale(0.95); /* Shrinks slightly on click */
+        }
+    </style>
 </head>
 <body>
-<h>Choose the type of account that you want</h>
-<a href="{% url 'settings' %}"><button type="submit">General</button></a>
-<a href="{% url 'company' %}"><button type="submit">Company</button></a>
-<a href="{% url 'jobseeker' %}"><button type="submit">JobSeeker</button></a>
-<a href="{% url 'property' %}"><button type="submit">Property</button></a>
-
+    <h>Choose the type of account that you want</h>
+    <a href="{% url 'settings' %}"><button type="submit">General</button></a>
+    <a href="{% url 'company' %}"><button type="submit">Company</button></a>
+    <a href="{% url 'jobseeker' %}"><button type="submit">JobSeeker</button></a>
+    <a href="{% url 'property' %}"><button type="submit">Property</button></a>
 </body>
 </html>
