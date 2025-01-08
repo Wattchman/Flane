@@ -313,11 +313,10 @@ class JobSeekerForm(forms.ModelForm):
     class Meta:
         model = JobSeeker
         fields = [
-            "user", "bio", "phone_number", "image", "industry",
+            "bio", "phone_number", "image", "industry",
             "country", "resume", "skills", "education", "coverimg"
         ]
         widgets = {
-            "user": forms.Select(attrs={"class": "form-control"}),
             "bio": forms.Textarea(attrs={"class": "form-control", "rows": 5, "placeholder": "Brief biography"}),
             "phone_number": forms.TextInput(attrs={"class": "form-control", "placeholder": "Phone number"}),
             "image": forms.ClearableFileInput(attrs={"class": "form-control-file"}),
@@ -336,12 +335,10 @@ class CompanyForm(forms.ModelForm):
     class Meta:
         model = Company
         fields = [
-            "user", "company_id", "name", "industry", "description",
+            "name", "industry", "description",
             "phone_number", "email", "logo", "location", "website"
         ]
         widgets = {
-            "user": forms.Select(attrs={"class": "form-control"}),
-            "company_id": forms.NumberInput(attrs={"class": "form-control"}),
             "name": forms.TextInput(attrs={"class": "form-control", "placeholder": "Company name"}),
             "industry": forms.Select(attrs={"class": "form-control"}),
             "description": forms.Textarea(attrs={"class": "form-control", "rows": 5, "placeholder": "Description"}),
@@ -359,12 +356,10 @@ class PropertyForm(forms.ModelForm):
     class Meta:
         model = Property
         fields = [
-            "user", "company_id", "name", "industry", "description",
+            "name", "industry", "description",
             "phone_number", "email", "logo", "location", "website"
         ]
         widgets = {
-            "user": forms.Select(attrs={"class": "form-control"}),
-            "company_id": forms.NumberInput(attrs={"class": "form-control"}),
             "name": forms.TextInput(attrs={"class": "form-control", "placeholder": "Property name"}),
             "industry": forms.Select(attrs={"class": "form-control"}),
             "description": forms.Textarea(attrs={"class": "form-control", "rows": 5, "placeholder": "Description"}),
