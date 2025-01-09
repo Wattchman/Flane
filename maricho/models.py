@@ -431,6 +431,7 @@ class NewsPost(models.Model):
     title = models.CharField(max_length=200)
     content = models.TextField()
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='newsposts')
+    user_id = user.id
     category = models.ForeignKey(NewsCategory, on_delete=models.CASCADE)
     image = models.ImageField(upload_to='news_images', blank=True, null=True)
     published = models.DateTimeField(default=timezone.now)
