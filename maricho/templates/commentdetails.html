@@ -1,81 +1,188 @@
 {% extends 'base.html' %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title> comment_details </title>
-</head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+{% load static %}
 
 {% block content %}
-<body>
-<style>
-       .comments {
-           margin: 30px 20px 5px;
+<div class="post-container">
+    <!-- Post Header -->
+    <div class="post-header">
+        {% for profile in profiles %}
+            {% if profile.user == post.user %}
+                <div class="user-info">
+                    <a href="{% url 'profile' profile.id %}">
+                        <img src="{{ profile.profileimg.url }}" alt="{{ profile.user.username }}'s profile picture">
+                    </a>
+                    <div>
+                        <span class="username">{{ profile.user.username }}</span>
+                        <span class="post-time">{{ post.created_at|date:"F j, Y, g:i a" }}</span>
+                    </div>
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
 
-       }
-       .comments img{
-          margin-bottom: 10px;
-          border-radius: 15px;
-          height: 300px;
-          width: 100%;
-       }
-       .comments h3 img{
-           height: 40px;
-           width: 40px;
-           border-radius: 50%;
-           margin-bottom: 10px;
-       }
-       .comments h3 {
-         gap: 5px;
-         display: flex;
-         align-items: center;
-       }
-       .comments p1 {
-       width: 70%;
-       display: grid;
-       border-top: 1px solid lightgrey;
-       margin-top: 20px;
-       background: lightgrey;
-       padding: 5px 10px;
-       border-radius: 15px;
-       }
-       h4 {
-         border: 1px solid lightseagreen;
-         margin: 2px 3px 2px;
-         color: white;
-         background: lightseagreen;
-         width: 20%;
-         padding: 3px 5px 3px;
-         border-radius: 15px;
-       }
-</style>
+    <!-- Number of Views -->
+    <h4 class="views-count">{{ total_views }} views</h4>
 
-<div class="comments">
-    {% for profile in profiles %}
-    {% if profile.user == post.user %}
-    <h3> <a href="{% url 'profile' profile.id %}"><img src="{{ profile.profileimg.url }}"> </a>{{ post.user }}</h3>
-    {% endif %}
-    {% endfor %}
-    
-    <img src="{{post.image.url}}">
-    <p>{{ post.caption }}</p>
-{% if not post.comments.all %}
-<p> no comments yet </p>
-{% else %}
+    <!-- Post Image -->
+    <div class="post-image">
+        <img src="{{ post.image.url }}" alt="Post image">
+    </div>
 
-{% for comment in post.comments.all %}
+    <!-- Post Interactions -->
+    <div class="post-interactions">
+        <span class="icon">
+            <i class="fas fa-thumbs-up"></i> {{ post.no_of_likes }}
+        </span>
+        <span class="icon" onclick="toggleComments()">
+            <i class="fas fa-comments"></i> {{ post.comments.count }}
+        </span>
+        <span class="icon">
+               <a href="https://wa.me/{{post.contact}}?text=Hello I'm interested in your product
+               {{post.caption}} for sale on Maricho.com" target="_blank"><i class="fab fa-whatsapp"></i>
+               </a>
+        </span>
+    </div>
 
-    <p1><span>@{{comment.user}} </span>{{ comment.body }}</p1>
+    <!-- Post Caption -->
+    <div class="post-caption">
+        <span class="username">{{ post.user.username }}</span> {{ post.caption }}
+    </div>
 
-    {% endfor %}
-
-{% endif %}
-
+    <!-- Comments Section (Retractable) -->
+    <div id="comments-section" class="comments-section">
+        {% if post.comments.count == 0 %}
+            <p class="no-comments">No comments yet</p>
+        {% else %}
+            {% for comment in post.comments.all %}
+                <div class="comment-box">
+                    <span class="comment-user">{{ comment.user.username }}</span>
+                    <span class="comment-body">{{ comment.body }}</span>
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
 </div>
 
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: #f9f9f9;
+        margin: 0;
+        padding: 0;
+    }
 
+    .post-container {
+        max-width: 600px;
+        margin: 20px auto;
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+    }
 
-</body>
+    .post-header {
+        display: flex;
+        align-items: center;
+        padding: 15px;
+        border-bottom: 1px solid #eaeaea;
+    }
+
+    .user-info {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .user-info img {
+        height: 50px;
+        width: 50px;
+        border-radius: 50%;
+    }
+
+    .username {
+        font-weight: bold;
+        color: #333;
+    }
+
+    .post-time {
+        font-size: 0.8rem;
+        color: gray;
+    }
+
+    .views-count {
+        padding: 10px 15px;
+        margin: 0;
+        font-weight: bold;
+        color: lightseagreen;
+        font-size: 1rem;
+    }
+
+    .post-image img {
+        width: 100%;
+        height: auto;
+    }
+
+    .post-interactions {
+        padding: 10px 15px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid #eaeaea;
+    }
+
+    .icon {
+        color: lightseagreen;
+        font-size: 24px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    .icon i {
+        margin-right: 5px;
+    }
+
+    .post-caption {
+        padding: 10px 15px;
+    }
+
+    .comments-section {
+        padding: 10px 15px;
+        display: none; /* Hidden by default */
+    }
+
+    .comment-box {
+        background: #f1f1f1;
+        border-radius: 10px;
+        padding: 10px;
+        margin-bottom: 10px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .comment-user {
+        font-weight: bold;
+        color: lightseagreen;
+        margin-right: 5px;
+    }
+
+    .comment-body {
+        color: #555;
+    }
+
+    .no-comments {
+        color: gray;
+        text-align: center;
+        margin-top: 10px;
+    }
+</style>
+
+<script>
+    function toggleComments() {
+        const commentsSection = document.getElementById('comments-section');
+        if (commentsSection.style.display === 'none' || commentsSection.style.display === '') {
+            commentsSection.style.display = 'block';
+        } else {
+            commentsSection.style.display = 'none';
+        }
+    }
+</script>
 {% endblock content %}
-</html>
