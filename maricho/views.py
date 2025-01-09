@@ -304,28 +304,21 @@ def profile(request, pk):
     return render(request, 'profil.html', {'profile': profile, 'posts': posts, 'products': products})
 
 @login_required(login_url='signin')
-def profile_update(request, id):
-    profile = Profile.objects.get(id=id)
+def profile_update(request):
+    # Get the user's profile, or return a 404 if it doesn't exist
+    user_profile = get_object_or_404(Profile, user=request.user)
 
-    if request.method =='POST':
-        bio = request.POST['bio']
-        location = request.POST['location']
-        phone_number = request.POST['number']
-        profile_img = request.POST['profimg']
-        cover_img = request.POST['coverimg']
-
-        profile.user = request.user
-        profile.bio = bio
-        profile.location = location
-        profile.phone_number = phone_number
-        profile.profileimg = profile_img
-        profile.coverimg = cover_img
-        profile.save()
-        return redirect('profile')
-
+    if request.method == 'POST':
+        # Bind the form to POST data and files, pre-populated with the existing profile
+        form = ProfileForm(request.POST, request.FILES, instance=user_profile)
+        if form.is_valid():
+            form.save()
+            return redirect('profile_detail')  # Replace with the actual URL name for the profile detail view
     else:
-        return render(request, 'profile_update.html')
+        # Pre-populate the form with existing profile data
+        form = ProfileForm(instance=user_profile)
 
+    return render(request, 'profile_update.html', {'form': form})
 
 @login_required(login_url='signin')
 def post_create(request):

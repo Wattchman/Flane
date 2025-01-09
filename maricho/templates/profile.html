@@ -101,7 +101,7 @@
     <button class="follow-button" id="follow-button"  profile_id="{{ profile.id }}">Follow</button>
      {% if profile.user == request.user %}
     <a href="/flane/job"><button> + Post Job</button></a>
-    <a href="/flane/profile-update/{{ profile.id }}"><button>Prof_update</button></a>
+    <a href="/flane/profile-update"><button>Prof_update</button></a>
     {% endif %}
 </div>
 
