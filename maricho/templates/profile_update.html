@@ -4,19 +4,46 @@
 <div class="container">
   <div class="row">
     <div class="col-md-8">
-      <!-- Display the profile image, headline, and summary -->
+      <!-- Display the edit profile form -->
       <div class="card mt-3">
         <div class="card-body">
-          <form method="post" action="{% url 'signup' %}" enctype="multipart/form-data">
-        <p>Edit_Profile</p>
-        {% csrf_token %}
-        <input type="text" name="bio" placeholder="enter bio">
-        <input type="text" name="location" placeholder="enter location">
-        <input type="tel" name="number" placeholder="phone number">
-        <input type="image" name="profimg" placeholder="enter profile image">
-        <input type="image" name="coverimg" placeholder="enter cover image">
-        <button type="submit" class="btn btn-primary">Save</button>
-      </form>
+          <h3>Edit Profile</h3>
+          <form method="post" action="{% url 'edit_profile' %}" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <!-- Bio -->
+            <div class="form-group mb-3">
+              <label for="id_bio">Bio</label>
+              <input type="text" class="form-control" id="id_bio" name="bio" placeholder="Enter bio">
+            </div>
+
+            <!-- Location -->
+            <div class="form-group mb-3">
+              <label for="id_location">Location</label>
+              <input type="text" class="form-control" id="id_location" name="location" placeholder="Enter location">
+            </div>
+
+            <!-- Phone Number -->
+            <div class="form-group mb-3">
+              <label for="id_number">Phone Number</label>
+              <input type="tel" class="form-control" id="id_number" name="number" placeholder="Phone number">
+            </div>
+
+            <!-- Profile Image -->
+            <div class="form-group mb-3">
+              <label for="id_profimg">Profile Image</label>
+              <input type="file" class="form-control" id="id_profimg" name="profimg">
+            </div>
+
+            <!-- Cover Image -->
+            <div class="form-group mb-3">
+              <label for="id_coverimg">Cover Image</label>
+              <input type="file" class="form-control" id="id_coverimg" name="coverimg">
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="btn btn-primary">Save</button>
+          </form>
         </div>
       </div>
     </div>
