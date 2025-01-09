@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Company Registration Form</title>
+    <title>Property Account Registration</title>
     <style>
         /* CSS styling */
         body {
@@ -31,6 +31,19 @@
         .form-group {
             margin-bottom: 15px;
         }
+        input, select, textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        .error-message {
+            color: red;
+            font-size: 12px;
+            display: none;
+            margin-top: 5px;
+        }
         .submit-btn {
             width: 100%;
             padding: 10px;
@@ -49,31 +62,36 @@
 <body>
     <div class="registration-form">
         <h2>Property Account Registration</h2>
-        <form id="companyForm" method="post" action="" enctype="multipart/form-data">
+        <form id="propertyForm" method="post" action="" enctype="multipart/form-data">
             {% csrf_token %}
-            {{ form.as_p }}
+            <div class="form-group">
+                {{ form.as_p }}
+                <span class="error-message">This field is required</span>
+            </div>
             <button type="submit" class="submit-btn">Register</button>
         </form>
     </div>
 
     <script>
         // JavaScript for form validation
-        document.getElementById("companyForm").onsubmit = function() {
+        document.getElementById("propertyForm").onsubmit = function(event) {
             let isValid = true;
-            const inputs = document.querySelectorAll("#companyForm input, #companyForm select");
+            const inputs = document.querySelectorAll("#propertyForm input, #propertyForm select");
 
             inputs.forEach(input => {
-                const error = input.nextElementSibling;
+                const error = input.closest(".form-group").querySelector(".error-message");
                 if (input.value.trim() === "") {
-                    error && (error.style.display = "block");
+                    error.style.display = "block";
+                    input.style.borderColor = "red";
                     isValid = false;
                 } else {
-                    error && (error.style.display = "none");
+                    error.style.display = "none";
+                    input.style.borderColor = "#ccc";
                 }
             });
 
-            return isValid;
-        }
+            if (!isValid) event.preventDefault();
+        };
     </script>
 </body>
 </html>

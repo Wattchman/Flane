@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -41,10 +40,24 @@
             animation: fadeInUp 0.8s ease-out forwards;
         }
 
+        .post h2 {
+            margin-top: 0;
+        }
+
         .post img {
             max-width: 100%;
             border-radius: 8px;
-            margin-top: 10px;
+            margin: 20px 0;
+        }
+
+        .post p, .post h3 {
+            text-align: justify;
+        }
+
+        .author {
+            font-size: 0.9rem;
+            color: gray;
+            margin-bottom: 10px;
         }
 
         .comments {
@@ -56,21 +69,19 @@
         }
 
         .comment {
-            margin-bottom: 10px;
-        }
-        .comment {
             background: lightgrey;
             padding: 5px;
             margin: 5px 10px 10px;
             border-radius: 5px;
         }
+
         .comment-form {
             margin-top: 20px;
             background-color: #f9f9f9;
             padding: 15px;
             border-radius: 5px;
             box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
-            display: none; /* Initially hidden */
+            display: none;
         }
 
         button {
@@ -84,7 +95,7 @@
         }
 
         button:hover {
-            background-color: lightseagreen;
+            background-color: #008b8b;
         }
 
         /* Responsive media queries */
@@ -149,12 +160,18 @@
     <div class="container">
         <!-- Post Details -->
         <div class="post">
+            <div class="author">
+                Written by <strong>{{ post.user }}</strong>
+            </div>
             <h2>{{ post.title }}</h2>
             {% if post.image %}
-            <img src="{{ post.image.url }}" width="400" height="300" alt="news image">
-            <p>{{ post.content }}</p>
-
+            <img src="{{ post.image.url }}" alt="news image">
             {% endif %}
+            <p>{{ post.content }}</p>
+            {% for subheading, text in post.subsections %}
+            <h3>{{ subheading }}</h3>
+            <p>{{ text }}</p>
+            {% endfor %}
         </div>
 
         <!-- Comments Section -->
@@ -162,8 +179,7 @@
             <h3>Comments</h3>
             {% for comment in comments %}
             <div class="comment">
-                <strong>{{ comment.author }}: </strong>  {{ comment.content }}
-
+                <strong>{{ comment.author }}:</strong> {{ comment.content }}
             </div>
             {% empty %}
             <p>No comments yet.</p>
@@ -197,7 +213,7 @@
         }
 
         // Show post with a fade-in animation on load
-        window.addEventListener('DOMContentLoaded', (event) => {
+        window.addEventListener('DOMContentLoaded', () => {
             const post = document.querySelector('.post');
             post.style.opacity = '1';
             post.style.transform = 'translateY(0)';

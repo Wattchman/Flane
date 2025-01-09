@@ -7,22 +7,24 @@
     <title>News Feed</title>
     <style>
         body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
             margin: 0;
             padding: 0;
-
         }
-
 
         /* Navbar */
         .navbar {
             background-color: lightseagreen;
             color: white;
-            padding: 15px;
+            padding: 10px 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
 
         .navbar h1 {
@@ -39,10 +41,12 @@
         .category-menu {
             display: none;
             background-color: white;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             position: absolute;
+            top: 50px;
+            left: 0;
             width: 100%;
-            z-index: 1000;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            z-index: 999;
         }
 
         .category-menu a {
@@ -54,12 +58,50 @@
         }
 
         .category-menu a:hover {
-            background-color: #f9f9f9;
+            background-color: #f2f2f2;
+        }
+
+        /* Latest News Section */
+        .latest-news {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            max-width: 800px;
+            margin: 20px auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .latest-news-item {
+            flex: 1 1 200px;
+            text-align: center;
+        }
+
+        .latest-news img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .latest-news p {
+            margin-top: 10px;
+            color: #333;
+            font-size: 1rem;
+        }
+
+        .latest-news h2 {
+            width: 100%;
+            text-align: center;
+            margin-bottom: 20px;
+            color: lightseagreen;
         }
 
         /* Post Container */
         .post-container {
-            max-width: 600px;
+            max-width: 800px;
             margin: 0 auto;
             padding: 20px;
         }
@@ -70,54 +112,32 @@
             padding: 15px;
             border-radius: 8px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            position: relative;
             animation: fadeIn 1s ease-in-out;
         }
 
         .post img {
             width: 100%;
             border-radius: 8px;
+            margin-bottom: 10px;
         }
 
         .post h2 {
-            color: black;
             margin-bottom: 10px;
+            color: lightseagreen;
         }
 
         .post p {
+            color: #555;
             margin-bottom: 10px;
         }
-        .latest-news {
-            display: flex;
-            margin: 30px 20px 20px;
-            background: white;
-            justify-content: space-between;
-            flex-direction: horizontal;
-            align-items: center;
-            height: 250px;
-            padding: 5px 20px 5px;
-            border-radius: 15px;
-            border: 4px solid grey;
 
+        .post a {
+            color: lightseagreen;
+            text-decoration: none;
+        }
 
-        }
-        .latest-news img {
-            margin-left: 20px;
-            border-radius: 10px;
-            flex-direction: column;
-        }
-        .latest-news a {
-            margin-top: 30px;
-        }
-        .latest-news p {
-            margin-bottom: 20px;
-            margin-left: 20px;
-
-         }
-        .latest-news h2 {
-            margin: 20px 20px 15px;
-            margin-top: 20px;
-            border-radius: 10px;
+        .post a:hover {
+            text-decoration: underline;
         }
 
         /* Comment Form */
@@ -130,7 +150,7 @@
             background-color: lightseagreen;
             color: white;
             border: none;
-            padding: 10px;
+            padding: 10px 15px;
             border-radius: 5px;
             cursor: pointer;
         }
@@ -138,12 +158,15 @@
         .comment-button:hover {
             background-color: #138d75;
         }
+
         .comment {
-            background: lightgrey;
-            padding: 5px;
-            margin: 5px 10px 10px;
+            background-color: #f0f0f0;
+            padding: 10px;
+            margin: 10px 0;
             border-radius: 5px;
+            color: #333;
         }
+
         /* Animations */
         @keyframes fadeIn {
             0% {
@@ -159,33 +182,15 @@
         /* Responsive Design */
         @media (max-width: 768px) {
             .post-container {
-               padding: 10px;
+                padding: 10px;
             }
+
             .latest-news {
-               padding: 10px;
-               font-size: 0.6rem;
-               height: 50px;
+                flex-direction: column;
             }
-           .latest-news img {
-               padding: 10px;
-               font-size: 0.6rem;
-               height: 50px;
-               display: none;
-            }
-            .latest-news a
+
             .navbar h1 {
                 font-size: 1.2rem;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .navbar {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-
-            .navbar h1 {
-                margin-bottom: 10px;
             }
         }
     </style>
@@ -195,8 +200,7 @@
     <!-- Navbar -->
     <div class="navbar">
         <h1>MariCho News</h1>
-        <div class="menu-icon" onclick="toggleMenu()">&#8942;
-        </div>
+        <div class="menu-icon" onclick="toggleMenu()">&#8942;</div>
     </div>
 
     <!-- Category Menu -->
@@ -205,15 +209,20 @@
             <a href="category/{{ category.name }}">{{ category.name }}</a>
         {% endfor %}
     </div>
- <div class="latest-news">
-     <h2>Latest News</h2>
 
-    {% for news in latest_news %}
+    <!-- Latest News Section -->
+    <div class="latest-news">
+        <h2>Latest News</h2>
+        {% for news in latest_news %}
+            <div class="latest-news-item">
+                <a href="{% url 'n_post_detail' news.id %}">
+                    <img src="{{ news.image.url }}" alt="News Image">
+                    <p>{{ news.title|truncatewords:5 }}</p>
+                </a>
+            </div>
+        {% endfor %}
+    </div>
 
-    <a href="{% url 'n_post_detail' news.id %}"><img src="{{ news.image.url }}" width="200" height="200"><p>{{ news.title }}</p></a>
-    {% endfor %}
-
-     </div>
     <!-- Post Container -->
     <div class="post-container">
         {% for post in posts %}
@@ -221,33 +230,23 @@
                 <h2>{{ post.title }}</h2>
 
                 {% if post.image %}
-                    <img src="{{ post.image.url }}" width="400" height="300" alt="Post Image">
+                    <img src="{{ post.image.url }}" alt="Post Image">
                 {% endif %}
                 <p>{{ post.content|truncatewords:30 }}</p>
-                {{ post.published|naturaltime }}
+                <p><small>{{ post.published|naturaltime }}</small></p>
                 <a href="{% url 'n_post_detail' post.id %}">Read more</a>
 
-               <div class="comment-form" id="comment-form-{{ post.id }}">
                 <!-- Comment Button -->
+                <button class="comment-button" onclick="toggleCommentForm('comment-form-{{ post.id }}')">Add Comment</button>
 
-                <h3>Add a Comment</h3>
-            <form method="POST">
-                {% csrf_token %}
-                {{ form.as_p }}
-                <button type="submit">Submit</button>
-            </form>
-
+                <!-- Comment Form -->
+                <div class="comment-form" id="comment-form-{{ post.id }}">
+                    <form method="POST">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <button type="submit" class="comment-button">Submit</button>
+                    </form>
                 </div>
-
-                <!-- Comments Section -->
-               <!-- <div class="comments">
-                    <h4>Comments</h4>
-                    {% for comment in post.comments.all %}
-                        <div class="comment">
-                            <strong>{{ comment.author }}: </strong> {{ comment.content }}
-                        </div>
-                    {% endfor %}
-                </div> -->
             </div>
         {% endfor %}
     </div>
@@ -255,43 +254,15 @@
     <script>
         // Toggle category menu
         function toggleMenu() {
-            var menu = document.getElementById('categoryMenu');
-            if (menu.style.display === 'block') {
-                menu.style.display = 'none';
-            } else {
-                menu.style.display = 'block';
-            }
+            const menu = document.getElementById('categoryMenu');
+            menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
         }
 
-        // Toggle comment form for each post
+        // Toggle comment form
         function toggleCommentForm(formId) {
-            var form = document.getElementById(formId);
-            if (form.style.display === 'block') {
-                form.style.display = 'none';
-            } else {
-                form.style.display = 'block';
-            }
+            const form = document.getElementById(formId);
+            form.style.display = form.style.display === 'block' ? 'none' : 'block';
         }
-
-                // Handle form submission with JavaScript
-        document.getElementById('statusForm').addEventListener('submit', function(event) {
-            event.preventDefault();
-            const form = event.target;
-            const formData = new FormData(form);
-            const xhr = new XMLHttpRequest();
-            xhr.open('POST', form.action, true);
-            xhr.setRequestHeader('X-CSRFToken', form.querySelector('[name=csrfmiddlewaretoken]').value);
-
-            xhr.onreadystatechange = function() {
-                if (xhr.readyState == 4 && xhr.status == 200) {
-                    // On success, reload the page to see the new post
-                    window.location.reload();
-                }
-            };
-
-            xhr.send(formData);
-        });
-
     </script>
 </body>
 </html>

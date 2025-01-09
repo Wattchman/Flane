@@ -232,7 +232,7 @@
             <img src="{{ article.image.url }}" alt="{{ article.title }}">
             <div class="content">
                 <h2>{{ article.title }}</h2>
-                <p>{{ article.content }}</p>
+                <p>{{ article.content|truncatewords:50}}</p>
                 <p>{{article.published|naturaltime}}</p>
                 <a href="post/{{ article.id }}/{{ article.title }}">Read More</a>
             </div>

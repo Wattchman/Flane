@@ -367,7 +367,7 @@ def comment_details(request, post_id, slug):
     slug = slug
     profiles = Profile.objects.all()
 
-    return render(request, 'commentdetails.html', {'post': post, 'profiles': profiles,  'total_views': total_views})
+    return render(request, 'commentdetails.html', {'post': post, 'profiles': profiles})
 
 
 def blog_details(request, blog_id, blog_title):
@@ -592,7 +592,6 @@ def job_list(request):
     return render(request, 'job/job_portal.html', context)
 
 
-@login_required(login_url='signin')
 def job_cat(request):
     query = request.GET.get('query', '')
     categories = Job_category.objects.all()
@@ -602,7 +601,7 @@ def job_cat(request):
         jobs = jobs.filter(job_category_id=query)
 
     return render(request, 'job-list.html', {'jobs': jobs, 'categories': categories})
-@login_required(login_url='signin')
+
 def job_details(request, job_id):
     job = Job.objects.get(id=job_id)
     return render(request, 'job/job-details.html', {'job': job})

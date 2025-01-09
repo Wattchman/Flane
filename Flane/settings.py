@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'redis',
+    'django.contrib.humanize',
 ]
 
 MIDDLEWARE = [
@@ -139,8 +140,7 @@ STATICFILES = (os.path.join(BASE_DIR, 'static'),)
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-
+MEDIA_ROOT = '/mnt/data/media'
 #REDIS_HOST = dj_redis_url.parse(os.environ.get("REDIS_URL"))
 #REDIS_PORT = 6379
 #REDIS_DB = 0
