@@ -601,7 +601,7 @@ def job_cat(request):
         jobs = jobs.filter(job_category_id=query)
 
     return render(request, 'job-list.html', {'jobs': jobs, 'categories': categories})
-@login_required(login_url='signin')
+
 def job_details(request, job_id):
     job = Job.objects.get(id=job_id)
     return render(request, 'job/job-details.html', {'job': job})
