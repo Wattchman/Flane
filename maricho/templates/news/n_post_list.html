@@ -210,7 +210,7 @@
 
     {% for news in latest_news %}
 
-    <a href="{% url 'n_post_detail' news.id %}"><img src="{{ news.image.url }}" width="200" height="200"><p>{{ news.title }}</p></a>
+    <a href="{% url 'n_post_detail' news.id %}"><img src="{{ news.image.url }}" width="200" height="200"><p>{{ news.title|truncatewords:30 }}</p></a>
     {% endfor %}
 
      </div>
