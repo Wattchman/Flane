@@ -313,7 +313,7 @@ def profile_update(request):
         form = ProfileForm(request.POST, request.FILES, instance=user_profile)
         if form.is_valid():
             form.save()
-            return redirect('profile_detail')  # Replace with the actual URL name for the profile detail view
+            return redirect('home')  # Replace with the actual URL name for the profile detail view
     else:
         # Pre-populate the form with existing profile data
         form = ProfileForm(instance=user_profile)
