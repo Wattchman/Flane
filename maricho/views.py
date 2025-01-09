@@ -367,7 +367,7 @@ def comment_details(request, post_id, slug):
     slug = slug
     profiles = Profile.objects.all()
 
-    return render(request, 'commentdetails.html', {'post': post, 'profiles': profiles,  'total_views': total_views})
+    return render(request, 'commentdetails.html', {'post': post, 'profiles': profiles})
 
 
 def blog_details(request, blog_id, blog_title):
