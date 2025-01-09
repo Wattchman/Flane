@@ -592,7 +592,6 @@ def job_list(request):
     return render(request, 'job/job_portal.html', context)
 
 
-@login_required(login_url='signin')
 def job_cat(request):
     query = request.GET.get('query', '')
     categories = Job_category.objects.all()
