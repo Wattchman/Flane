@@ -60,7 +60,7 @@ def send_message(request):
 def signup(request):
     if request.method == 'POST':
         username = request.POST['username']
-        firstname = request.POST['lastname']
+        firstname = request.POST['firstname']
         lastname = request.POST['lastname']
         email = request.POST['email']
         password = request.POST['password']
