@@ -633,7 +633,7 @@
     {% endif %}
     {% endfor %}
 {% else %}
-    <p>login to view </p>
+    <a href="{% url 'signin' %}">Login to view</a>
     {% endif %}
     <a href="{% url 'post' %}"><input placeholder="What's Selling Today??"></a>
     <a class="ad" href="{% url 'post' %}"> + PostAd</a>
