@@ -572,10 +572,26 @@
 
 <div id="menu">
     <ul>
-        <li><a href="{% url 'news' %}">News</a></li>
-        <li><a href="{% url 'property-list' %}">Property</a></li>
-        <li><a href="{% url 'job-land' %}">Jobs</a></li>
-        <li><a href="{% url 'business' %}">Services</a></li>
+        <li>
+  <a href="{% url 'news' %}">
+    <i class="fas fa-newspaper" style="font-size: 24px; color: white;"></i> News
+  </a>
+</li>
+<li>
+  <a href="{% url 'property-list' %}">
+    <i class="fas fa-home" style="font-size: 24px; color: white;"></i> Property
+  </a>
+</li>
+<li>
+  <a href="{% url 'job-land' %}">
+    <i class="fas fa-briefcase" style="font-size: 24px; color: white;"></i> Jobs
+  </a>
+</li>
+<li>
+  <a href="{% url 'business' %}">
+    <i class="fas fa-cogs" style="font-size: 24px; color: white;"></i> Services
+  </a>
+</li>
          {% if user.is_authenticated %}
            <li><a href="{% url 'logout' %}">Logout</a></li>
         {% else %}
