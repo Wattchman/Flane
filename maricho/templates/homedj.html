@@ -546,57 +546,7 @@
         }
     </style>
 </head>
-<header>
-    <div class="logo">
-        <a href="{% url 'home' %}">Maricho</a>
-    </div>
-    
-    <div>
-        <form method="get" action="{% url 'category' %}">
-            <input type="text" list="categorylist" name="query" value="{{ query }}" placeholder="search item">
-            <datalist id="categorylist">
-                {% for category in categories %}
-                <option value="{{ category.name }}"></option>
-                {% endfor %}
-                {% for pair in post_ad_pairs %}
-                <option value="{{ pair.post.user }}"></option>
-                <option value="{{ pair.post.caption }}"></option>
-                {% endfor %}
-            </datalist>
-            <button> Search </button>
-        </form>
-    </div>
-    
-    <div class="hamburger" onclick="toggleMenu()">☰</div>
-</header>
-
-<style>
-    header {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 10px 20px;
-        background-color: lightseagreen; /* Matches the theme */
-        border-bottom: 2px solid #ccc;
-    }
-
-    .logo {
-        font-size: 24px;
-        font-weight: bold;
-        color: white; /* White logo */
-        margin-right: 20px;
-    }
-
-    .logo a {
-        text-decoration: none;
-        color: inherit; /* Inherits white color */
-    }
-
-    form {
-        flex-grow: 1;
-        display: flex;
-        justify-content: center;
-<header>
+        <header>
     <div class="logo">
         <a href="{% url 'home' %}">Maricho</a>
     </div>
@@ -618,6 +568,7 @@
     </div>
 
     <div class="hamburger" onclick="toggleMenu()">☰</div>
+
 <style>
     header {
         display: flex;
@@ -689,8 +640,7 @@
         right: 20px;
     }
 </style>
-</header>
-
+        </header>
 <div id="menu">
     <ul>
         <li>
