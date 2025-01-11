@@ -596,38 +596,97 @@
         flex-grow: 1;
         display: flex;
         justify-content: center;
+<header>
+    <div class="logo">
+        <a href="{% url 'home' %}">Maricho</a>
+    </div>
+
+    <div class="search-container">
+        <form method="get" action="{% url 'category' %}">
+            <input type="text" list="categorylist" name="query" value="{{ query }}" placeholder="Search item">
+            <datalist id="categorylist">
+                {% for category in categories %}
+                <option value="{{ category.name }}"></option>
+                {% endfor %}
+                {% for pair in post_ad_pairs %}
+                <option value="{{ pair.post.user }}"></option>
+                <option value="{{ pair.post.caption }}"></option>
+                {% endfor %}
+            </datalist>
+            <button>Search</button>
+        </form>
+    </div>
+
+    <div class="hamburger" onclick="toggleMenu()">☰</div>
+<style>
+    header {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 10px 20px;
+        background-color: lightseagreen; /* Matches the theme */
+        border-bottom: 2px solid #ccc;
     }
 
-    .hamburger {
+    .logo {
         font-size: 24px;
-        cursor: pointer;
-        color: white; /* White to match logo */
+        font-weight: bold;
+        color: white;
+        margin-bottom: 10px; /* Adds space between logo and search box */
+        text-align: center;
+    }
+
+    .logo a {
+        text-decoration: none;
+        color: inherit; /* Inherits white color */
+    }
+
+    .search-container {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+
+    form {
+        width: 100%;
+        max-width: 600px;
+        display: flex;
+        align-items: center;
     }
 
     input {
-        padding: 5px;
-        margin-right: 10px;
-        border: 1px solid white;
-        border-radius: 5px;
-        background-color: transparent;
-        color: white; /* Text input in white */
+        flex-grow: 1;
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 5px 0 0 5px;
+        background-color: white; /* White search box */
+        color: black; /* Black text inside the input */
     }
 
     input::placeholder {
-        color: #f0f0f0; /* Light placeholder text */
+        color: #888; /* Gray placeholder text */
     }
 
     button {
         background-color: white;
         color: lightseagreen;
-        border: none;
-        padding: 5px 10px;
-        border-radius: 5px;
+        border: 1px solid lightseagreen;
+        padding: 8px 15px;
+        border-radius: 0 5px 5px 0;
         cursor: pointer;
     }
 
     button:hover {
         background-color: #f0f0f0;
+    }
+
+    .hamburger {
+        font-size: 24px;
+        cursor: pointer;
+        color: white;
+        position: absolute;
+        top: 10px;
+        right: 20px;
     }
 </style>
 </header>
