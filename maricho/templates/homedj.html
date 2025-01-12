@@ -712,6 +712,37 @@
             {% endfor %}
         </div>
 
+          <div>
+  <style>
+    .add-product-btn {
+      background-color: lightseagreen;
+      color: white;
+      border: none;
+      padding: 12px 25px;
+      font-size: 18px;
+      font-weight: bold;
+      border-radius: 8px;
+      cursor: pointer;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+    .add-product-btn:hover {
+      background-color: #209b9b;
+      transform: scale(1.05);
+    }
+
+    .add-product-btn:active {
+      background-color: #1a7a7a;
+      transform: scale(0.95);
+    }
+  </style>
+</head>
+
+  <button class="add-product-btn">Add Product</button>
+</div>
+
+          
         <!-- Products Section -->
         <div class="product-container">
     <h2 style="color: lightseagreen;">Our Products</h2>
