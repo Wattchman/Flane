@@ -653,61 +653,7 @@
         border-radius: 0 5px 5px 0;
         cursor: pointer;
     }
-
-    .hamburger {
-        font-size: 24px;
-        cursor: pointer;
-        color: white;
-    }
-
-    /* Menu styling */
-    #menu {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        background-color: lightseagreen;
-        color: white;
-        display: none;
-        z-index: 1000;
-        padding: 20px 0;
-    }
-
-    #menu ul {
-        list-style: none;
-        margin: 0;
-        padding: 0;
-        text-align: center;
-    }
-
-    #menu li {
-        padding: 10px;
-    }
-
-    #menu li a {
-        text-decoration: none;
-        color: white;
-        font-size: 18px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    #menu li a i {
-        margin-right: 8px;
-        font-size: 20px;
-    }
-
-    .hidden {
-        display: none;
-    }
-
-    .visible {
-        display: block;
-    }
-</style>
-
-
+      </style>
          {% if user.is_authenticated %}
            <li><a href="{% url 'logout' %}">Logout</a></li>
         {% else %}
