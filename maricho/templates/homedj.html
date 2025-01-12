@@ -611,11 +611,103 @@
         border-radius: 5px 0 0 5px;
         background-color: white; /* White search box */
         color: black; /* Black text inside the input */
-        width: 200px; /* Set a fixed width for consistency */
+<header>
+    <div class="logo">
+        <a href="{% url 'home' %}">Maricho</a>
+    </div>
+
+    <div class="search-container">
+        <form method="get" action="{% url 'category' %}">
+            <input type="text" list="categorylist" name="query" value="{{ query }}" placeholder="Search item">
+            <datalist id="categorylist">
+                {% for category in categories %}
+                <option value="{{ category.name }}"></option>
+                {% endfor %}
+                {% for pair in post_ad_pairs %}
+                <option value="{{ pair.post.user }}"></option>
+                <option value="{{ pair.post.caption }}"></option>
+                {% endfor %}
+            </datalist>
+            <button>Search</button>
+        </form>
+        <div class="hamburger" onclick="toggleMenu()">☰</div>
+    </div>
+</header>
+
+<div id="menu" class="hidden">
+    <ul>
+        <li>
+            <a href="{% url 'news' %}">
+                <i class="fas fa-newspaper"></i> News
+            </a>
+        </li>
+        <li>
+            <a href="{% url 'property-list' %}">
+                <i class="fas fa-home"></i> Property
+            </a>
+        </li>
+        <li>
+            <a href="{% url 'job-land' %}">
+                <i class="fas fa-briefcase"></i> Jobs
+            </a>
+        </li>
+        <li>
+            <a href="{% url 'business' %}">
+                <i class="fas fa-cogs"></i> Services
+            </a>
+        </li>
+        {% if user.is_authenticated %}
+        <li><a href="{% url 'logout' %}">Logout</a></li>
+        {% else %}
+        <li><a href="{% url 'signin' %}">Login</a></li>
+        {% endif %}
+    </ul>
+</div>
+
+<style>
+    header {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 10px 20px;
+        background-color: lightseagreen; /* Theme color */
+        position: relative;
     }
 
-    input::placeholder {
-        color: #888; /* Gray placeholder text */
+    .logo {
+        font-size: 24px;
+        font-weight: bold;
+        color: white;
+        margin-bottom: 10px;
+    }
+
+    .logo a {
+        text-decoration: none;
+        color: inherit;
+    }
+
+    .search-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        max-width: 600px;
+    }
+
+    form {
+        display: flex;
+        flex-grow: 1;
+        margin-right: 10px;
+    }
+
+    input {
+        flex-grow: 1;
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 5px 0 0 5px;
+        background-color: white;
+        color: black;
+        width: 200px;
     }
 
     button {
@@ -627,42 +719,60 @@
         cursor: pointer;
     }
 
-    button:hover {
-        background-color: #f0f0f0;
-    }
-
     .hamburger {
         font-size: 24px;
         cursor: pointer;
         color: white;
+    }
+
+    /* Menu styling */
+    #menu {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        background-color: lightseagreen;
+        color: white;
+        display: none;
+        z-index: 1000;
+        padding: 20px 0;
+    }
+
+    #menu ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        text-align: center;
+    }
+
+    #menu li {
+        padding: 10px;
+    }
+
+    #menu li a {
+        text-decoration: none;
+        color: white;
+        font-size: 18px;
         display: flex;
         align-items: center;
         justify-content: center;
     }
+
+    #menu li a i {
+        margin-right: 8px;
+        font-size: 20px;
+    }
+
+    .hidden {
+        display: none;
+    }
+
+    .visible {
+        display: block;
+    }
 </style>
-        </header>
-<div id="menu">
-    <ul>
-        <li>
-  <a href="{% url 'news' %}">
-    <i class="fas fa-newspaper" style="font-size: 24px; color: white;"></i> News
-  </a>
-</li>
-<li>
-  <a href="{% url 'property-list' %}">
-    <i class="fas fa-home" style="font-size: 24px; color: white;"></i> Property
-  </a>
-</li>
-<li>
-  <a href="{% url 'job-land' %}">
-    <i class="fas fa-briefcase" style="font-size: 24px; color: white;"></i> Jobs
-  </a>
-</li>
-<li>
-  <a href="{% url 'business' %}">
-    <i class="fas fa-cogs" style="font-size: 24px; color: white;"></i> Services
-  </a>
-</li>
+
+
          {% if user.is_authenticated %}
            <li><a href="{% url 'logout' %}">Logout</a></li>
         {% else %}
@@ -1268,6 +1378,19 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
+</script>
+              
+<script>
+    function toggleMenu() {
+        const menu = document.getElementById('menu');
+        if (menu.classList.contains('hidden')) {
+            menu.classList.remove('hidden');
+            menu.classList.add('visible');
+        } else {
+            menu.classList.remove('visible');
+            menu.classList.add('hidden');
+        }
+    }
 </script>
 </div>
 </body>
