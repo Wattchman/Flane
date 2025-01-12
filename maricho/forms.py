@@ -30,7 +30,7 @@ class CommentForm(forms.ModelForm):
 class ProductForm(forms.ModelForm):
     class Meta:
         model = Product
-        fields = ['product_img', 'product_name', 'price', 'category', 'description', 'contact']
+        fields = ['product_img', 'story_img', 'product_name', 'price', 'category', 'description', 'contact']
         widgets = {'product_name': forms.Textarea(attrs={'placeholder': 'add product', 'rows': 3}),
                    'description': forms.Textarea(attrs={'placeholder': 'product description', 'rows': 3})}
 
