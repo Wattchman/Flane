@@ -654,12 +654,6 @@
         cursor: pointer;
     }
       </style>
-         {% if user.is_authenticated %}
-           <li><a href="{% url 'logout' %}">Logout</a></li>
-        {% else %}
-           <li><a href="{% url 'signin' %}">Login</a></li>
-        {% endif %}
-    </ul>
 </div>
 
 <div class="container">
