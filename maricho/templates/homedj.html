@@ -828,11 +828,11 @@
                     <div>
                         <h3>{{ pair.post.user }}</h3>
                     </div>
-                      <div>
+                </div>
+                  <div>
                         <p style="color: lightseagreen; ">{{ profile.followers }} Follower{{ profile.followers|pluralize}}</p>
                         <p> {{ pair.post.user.profile.bio|truncatewords:7}}</p>
                       </div>
-                </div>
                 <div class="post-content">
                     <p>{{pair.post.created_at|naturaltime}}</p>
                     <img src="{{ pair.post.image.url }}" alt="Post image">
