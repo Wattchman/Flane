@@ -828,7 +828,7 @@
                     <div>
                         <h3>{{ pair.post.user }}</h3>
                         <p style="color: lightseagreen; ">{{ profile.followers }} Follower{{ profile.followers|pluralize}}</p>
-                        <p> {{ pair.post.user.profile.bio }}</p>
+                        <p> {{ pair.post.user.profile.bio|truncatewords:7}}</p>
                     </div>
                 </div>
                 <div class="post-content">
