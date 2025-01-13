@@ -820,7 +820,6 @@
             {% for pair in post_ad_pairs  %}
 
            {% for profile in profiles %}
-          {{ pair.post.user.profile.bio }}
           {% if pair.post.user == profile.user %}
             <div class="post" data-post-id="post-{{ pair.post.id }}">
                 <div class="post-header">
