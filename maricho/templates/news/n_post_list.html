@@ -217,7 +217,7 @@
             <div class="latest-news-item">
                 <a href="{% url 'n_post_detail' news.id %}">
                     <img src="{{ news.image.url }}" alt="News Image">
-                    <p>{{ news.title|truncatewords:5 }}</p>
+                    <p>{{ news.title|truncatewords:4 }}</p>
                 </a>
             </div>
         {% endfor %}
