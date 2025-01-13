@@ -820,7 +820,7 @@
             {% for pair in post_ad_pairs  %}
 
            {% for profile in profiles %}
-          {{ pair.post.user.profile.profile.bio }}
+          {{ pair.post.user.profile.bio }}
           {% if pair.post.user == profile.user %}
             <div class="post" data-post-id="post-{{ pair.post.id }}">
                 <div class="post-header">
@@ -829,7 +829,7 @@
                     <div>
                         <h3>{{ pair.post.user }}</h3>
                         <p style="color: lightseagreen; ">{{ profile.followers }} Follower{{ profile.followers|pluralize}}</p>
-                        <p> {{ pair.post.user.profile.profile.bio }}</p>
+                        <p> {{ pair.post.user.profile.bio }}</p>
                     </div>
                 </div>
                 <div class="post-content">
@@ -851,7 +851,7 @@
          <i id="toggle-comment-form-{{ pair.post.id }}" class="fas fa-comment-dots"
        style="color: lightseagreen; cursor: pointer; font-size: 24px; margin-left: 10px; margin-right: 5px;"></i> {{ pair.post.comments.count }}
         <!-- WhatsApp Share Icon -->
-        <a href="https://wa.me/{{pair.post.contact}}?text=Hello I'm interested in your product {{pair.post.caption}} for sale on Maricho.com" target="_blank">
+        <a href="https://wa.me/{{profile.phone_number}}?text=Hello I'm interested in your product {{pair.post.caption}} for sale on Maricho.com" target="_blank">
             <i class="fab fa-whatsapp icon" title="Share on WhatsApp"></i>
         </a>
       </div>
