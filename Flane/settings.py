@@ -166,11 +166,11 @@ MEDIA_ROOT = '/mnt/data/media'
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 # Email Settings
-EMAIL_HOST = 'smtp.office365.com'
+EMAIL_HOST = 'smtp.gmail.com
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'Marichoonline@outlook.com'
-EMAIL_HOST_PASSWORD = 'btnxvkmoijibifha'
+EMAIL_HOST_USER = 'Tekede96@gmail.com'
+EMAIL_HOST_PASSWORD = 'dtzvwrsjhwsyxomk'
 
 SESSION_ENGINE = "django.contrib.sessions.backends.cache"
 SESSION_CACHE_ALIAS = "default"
