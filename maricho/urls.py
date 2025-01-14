@@ -1,5 +1,7 @@
 from django.urls import path
 from .import views
+from django.contrib.auth import views as auth_views
+
 urlpatterns = [
     path('ajax', views.ajax, name='ajax'),
     path('blog-details/<int:blog_id>/<str:blog_title>', views.blog_details, name='blog-details'),
@@ -74,5 +76,11 @@ urlpatterns = [
     path('video/<int:video_id>/like/', views.toggle_like, name='toggle_like'),
     path('video/<int:video_id>/comment/', views.add_comment, name='add_comment'),
     path('video/<int:video_id>/comments/', views.fetch_comments, name='fetch_comments'),
-]# URL for video upload
+    # Password reset URLs
+    path('password_reset/', auth_views.PasswordResetView.as_view(), name='password_reset'),
+    path('password_reset/done/', auth_views.PasswordResetDoneView.as_view(), name='password_reset_done'),
+    path('reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
+    path('reset/done/', auth_views.PasswordResetCompleteView.as_view(), name='password_reset_complete'),
+]
+# URL for video upload
     # URL for viewing all videos
