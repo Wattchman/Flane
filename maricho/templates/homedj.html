@@ -704,7 +704,7 @@
                 <img src="{{ story.story_img.url }}" alt="{{ story.user.username }}">
                 <div id="story-username" class="story-username">
                       {% if story.user.profile %}
-               <a style="text-decoration: none" href="{% url 'profile' story.user.profile.id %}"> <p>{{ story.user.username }}</p> </a> 
+               <a style="text-decoration: none; color: white;" href="{% url 'profile' story.user.profile.id %}"> <p>{{ story.user.username }}</p> </a> 
                 {% else %}
                       <p> no user profile </p>
                       {% endif %}
