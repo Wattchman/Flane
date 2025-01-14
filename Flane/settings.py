@@ -169,8 +169,8 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.office365.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'marichoonline@outlook.com'
-EMAIL_HOST_PASSWORD = 'eibubdkxpfdmpnkl'
+EMAIL_HOST_USER = 'Marichoonline@outlook.com'
+EMAIL_HOST_PASSWORD = 'btnxvkmoijibifha'
 
 SESSION_ENGINE = "django.contrib.sessions.backends.cache"
 SESSION_CACHE_ALIAS = "default"
