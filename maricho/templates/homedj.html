@@ -702,7 +702,7 @@
             <div class="story" onclick="openFullScreen('{{ story.story_img.url }}')">
                 <img src="{{ story.story_img.url }}" alt="{{ story.user.username }}">
                 <div id="story-username" class="story-username">
-                <p>{{ story.user.username }}</p></div>
+               <a style="text-decoration: none" href="{% url 'profile' story.user.profile.id %}"> <p>{{ story.user.username }}</p> </a> </div>
             </div>
             <!-- Fullscreen Story View -->
 <div id="full-screen-story" onclick="closeFullScreen()">
