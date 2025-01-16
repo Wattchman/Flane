@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.utils.text import slugify
 from django.http import HttpResponse, JsonResponse, Http404
 from django.db import models
 from django.views.decorators.csrf import csrf_exempt
@@ -336,7 +337,7 @@ def post_create(request):
             post = form.save(commit=False)
             # Set the user of the post to the current user
             post.user = request.user
-            post.slug = post.caption
+            post.slug = slugify(post.caption)
 
             post.image = images
             # Save the post object to the database
