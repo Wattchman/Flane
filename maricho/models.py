@@ -1,5 +1,6 @@
 from django.db import models
 import decimal
+from django.utils.text import slugify
 from django.db.models import Max
 from phonenumber_field.modelfields import PhoneNumberField
 from django.contrib.auth.models import User
