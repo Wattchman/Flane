@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="edit-post-container">
+    <h1 class="edit-post-title">Edit Post: {{ post.title }}</h1>
+    <form method="post" enctype="multipart/form-data" class="edit-post-form">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn-save">Save Changes</button>
+        <a href="{% url 'post_detail' post.slug %}" class="btn-cancel">Cancel</a>
+    </form>
+</div>
+{% endblock %}
+
+<style>
+/* General container styling */
+.edit-post-container {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Title styling */
+.edit-post-title {
+    color: #20b2aa; /* Light sea green */
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+/* Form styling */
+.edit-post-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* Input field styling */
+.edit-post-form input, 
+.edit-post-form textarea, 
+.edit-post-form select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+/* Button styling */
+.btn-save, 
+.btn-cancel {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+/* Save button */
+.btn-save {
+    background-color: #20b2aa; /* Light sea green */
+    color: #fff;
+}
+
+.btn-save:hover {
+    background-color: #178f87; /* Slightly darker sea green */
+}
+
+/* Cancel button */
+.btn-cancel {
+    background-color: #ccc;
+    color: #333;
+    margin-left: 10px;
+}
+
+.btn-cancel:hover {
+    background-color: #bbb;
+}
+</style>
