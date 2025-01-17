@@ -22,7 +22,7 @@
 
     <!-- Number of Views -->
     {% if user == post.user %}
-    <a href="{% url 'edit_post' post.slug %}" style="text-decoration: none;"> <h4 class="views-count">{{ total_views }} edit_post </h4>
+    <a href="{% url 'edit_post' post.slug %}" style="text-decoration: none;"> <h4 class="views-count">{{ total_views }} edit_post </h4></a>
         {% endif %}
 
     <!-- Post Image -->
