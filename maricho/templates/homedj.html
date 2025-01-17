@@ -701,7 +701,7 @@
             {% for story in products %}
               
             <div class="story" onclick="openFullScreen('{{ story.story_img.url }}')">
-                <img src="{{ story.story_img.url }}" alt="{{ story.user.username }}">
+                <img src="{{ story.story_img.url }}" alt="{{ story.description }}">
                 <div id="story-username" class="story-username">
                       {% if story.user.profile %}
                <a style="text-decoration: none; color: white;" href="{% url 'profile' story.user.profile.id %}"> <p>{{ story.user.username }}</p> </a> 
@@ -755,7 +755,7 @@
     <div class="product-scroll">
         {% for product in products %}
         <div class="product-card">
-            <img src="{{ product.product_img.url }}" alt="{{ product.name }}">
+            <img src="{{ product.product_img.url }}" alt="{{ product.description }">
             <h3>{{ product.product_name }}</h3>
             <p>${{ product.price }}</p>
             <a href="/flane/product-details/{{product.id}}/{{product.product_name}}" class="buy-now-btn">Buy Now</a>
@@ -841,7 +841,7 @@
                       </div>
                 <div class="post-content">
                     <p>{{pair.post.created_at|naturaltime}}</p>
-                    <img src="{{ pair.post.image.url }}" alt="Post image">
+                    <img src="{{ pair.post.image.url }}" alt="{{pair.post.caption}}">
                     <h2>{{ pair.post.title }}</h2>
                     <p>{{ pair.post.caption }}</p>
                 </div>
