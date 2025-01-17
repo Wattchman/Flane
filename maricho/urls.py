@@ -35,6 +35,7 @@ urlpatterns = [
     path('property_profile/<int:property_id>', views.property_profile, name='property_profile'),
     path('profile-update', views.profile_update, name='profile-update'),
     path('post', views.post_create, name='post'),
+    path('post/<slug:slug>/edit/', views.edit_post, name='edit_post'),
     path('comment/<int:post_id>', views.comment_view, name='comment'),
     path('load_comment/<int:post_id>', views.load_comments, name='load_comment'),
     path('category/', views.categories, name='category'),
