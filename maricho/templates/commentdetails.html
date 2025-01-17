@@ -21,7 +21,9 @@
     </div>
 
     <!-- Number of Views -->
-    <a href="{% url 'post_edit' post.slug %}"> <h4 class="views-count">{{ total_views }} edit_post </h4>
+    {% if user == post.user %}
+    <a href="{% url 'post_edit' post.slug %}" style="text-decoration: none;"> <h4 class="views-count">{{ total_views }} edit_post </h4>
+        {% endif %}
 
     <!-- Post Image -->
     <div class="post-image">
