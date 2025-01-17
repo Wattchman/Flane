@@ -364,7 +364,7 @@ def edit_post(request, slug):
         form = PostForm(request.POST, request.FILES, instance=post)
         if form.is_valid():
             form.save()
-            return redirect('post_detail', slug=post.slug)  # Replace with your post detail URL name
+            return redirect('comment_details', slug=post.slug)  # Replace with your post detail URL name
     else:
         # Prepopulate form with existing data
         form = PostForm(instance=post)
