@@ -354,6 +354,23 @@ def post_create(request):
 
     return render(request, "post_create.html", {'form': form})
 
+@login_required(login_url='signin')
+def edit_post(request, slug):
+    # Fetch the post to be edited
+    post = get_object_or_404(Post, slug=slug, user=request.user)
+    
+    if request.method == 'POST':
+        # Bind form data to the instance
+        form = PostForm(request.POST, request.FILES, instance=post)
+        if form.is_valid():
+            form.save()
+            return redirect('post_detail', slug=post.slug)  # Replace with your post detail URL name
+    else:
+        # Prepopulate form with existing data
+        form = PostForm(instance=post)
+    
+    return render(request, 'edit_post.html', {'form': form, 'post': post})
+
 
 def comment_details(request, post_id, slug):
     post = Post.objects.get(id=post_id)
