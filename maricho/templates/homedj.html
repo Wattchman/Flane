@@ -841,7 +841,7 @@
                       </div>
                 <div class="post-content">
                     <p>{{pair.post.created_at|naturaltime}}</p>
-                      {% if pair.post.image.url %}
+                      {% if pair.post.image and pair.post.image.url %}
                     <img src="{{ pair.post.image.url }}" alt="{{pair.post.caption}}">
                       {% else %}
                       <p>image missing</p>
