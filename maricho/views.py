@@ -328,8 +328,6 @@ def post_create(request):
     if request.method == "POST":
         # Get the form data from the request
 
-        images = request.FILES.get("images")
-
         form = PostForm(request.POST, request.FILES)
         # If the form is valid
         if form.is_valid():
@@ -338,8 +336,6 @@ def post_create(request):
             # Set the user of the post to the current user
             post.user = request.user
             post.slug = slugify(post.caption)
-
-            post.image = images
             # Save the post object to the database
             post.save()
 
