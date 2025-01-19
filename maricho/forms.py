@@ -11,6 +11,9 @@ class ProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
         fields = ["bio", "profileimg", "coverimg", "location", "phone_number"]
+        widgets = {'bio': forms.Textarea(attrs={'placeholder': 'write a brief description about yourself, your business or the services you offer', 'rows': 3})
+                   }
+
 
 class PostForm(forms.ModelForm):
     class Meta:
