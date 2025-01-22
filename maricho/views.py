@@ -588,7 +588,7 @@ def job_list(request):
         )
 
     # Filter jobs by industry, if selected
-     if industry_id:
+    if industry_id:
         jobs = jobs.filter(industry_id=industry_id)
 
     # Pass the data to the template
