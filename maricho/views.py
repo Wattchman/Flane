@@ -579,6 +579,7 @@ def job_list(request):
 
     # Get search parameters
     query = request.GET.get('query', '')
+    industry_id = request.GET.get('industry', '')  
 
 
     # Filter jobs based on search input
