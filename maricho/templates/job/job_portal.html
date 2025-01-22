@@ -36,68 +36,158 @@
             font-size: 1.5rem;
         }
 
-        /* CV Writing Pop-up */
-        .cv-popup {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: #fff;
-            padding: 2rem;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            display: none;
-            z-index: 1000;
+        .header nav {
+            display: flex;
+            gap: 1rem;
         }
 
-        .cv-popup h2 {
-            color: var(--main-color);
-            margin-bottom: 1rem;
-        }
-
-        .cv-popup p {
-            margin: 0.5rem 0 1.5rem;
-            font-size: 1rem;
-            color: #333;
-        }
-
-        .cv-popup a {
-            display: inline-block;
-            padding: 0.5rem 1rem;
-            background-color: var(--main-color);
+        .header nav a {
             color: #fff;
             text-decoration: none;
-            border-radius: 5px;
-        }
-
-        .cv-popup a:hover {
-            background-color: #1b958f;
-        }
-
-        .cv-popup .close-btn {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background: #ff5c5c;
-            color: #fff;
-            border: none;
-            border-radius: 50%;
-            width: 30px;
-            height: 30px;
             font-size: 1rem;
+        }
+
+        .header nav a:focus,
+        .header nav a:hover {
+            text-decoration: underline;
+        }
+
+        /* Hamburger Menu for Mobile */
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            font-size: 1.5rem;
+        }
+
+        .hamburger-menu {
+            display: none;
+            position: absolute;
+            top: 60px;
+            right: 20px;
+            background-color: #fff;
+            border: 1px solid var(--main-color);
+            padding: 1rem;
+            z-index: 10;
+        }
+
+        .hamburger-menu a {
+            display: block;
+            color: var(--main-color);
+            text-decoration: none;
+            padding: 0.5rem 0;
+        }
+
+        /* Search Section */
+        .search-section {
+            padding: 1rem;
+            background-color: #f8f8f8;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            text-align: center;
+        }
+
+        .user_profile {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+            font-size: 20px;
+            color: lightseagreen;
+        }
+
+        .user_profile img {
+            height: 50px;
+            width: 50px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        .search-section input[type="text"],
+        .search-section select,
+        .search-section button {
+            padding: 0.5rem;
+            margin: 0.5rem 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 100%;
+            max-width: 300px;
+        }
+
+        .search-section button {
+            background-color: var(--main-color);
+            color: #fff;
             cursor: pointer;
         }
 
-        /* Overlay */
-        .overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            display: none;
-            z-index: 999;
+        /* Validation Messages */
+        .validation-message {
+            color: red;
+            font-size: 0.9rem;
+            margin: 0.5rem 0;
+        }
+
+        /* Job Listings */
+        .job-listings {
+            padding: 1rem;
+        }
+
+        .job-card {
+            border: 1px solid #ddd;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-radius: 5px;
+        }
+
+        .job-card h3 {
+            color: var(--main-color);
+            margin: 0;
+        }
+
+        .job-card p {
+            margin: 0.5rem 0;
+        }
+
+        /* Loading Animation */
+        .loading {
+            text-align: center;
+            font-size: 1.2rem;
+            color: var(--main-color);
+            display: none; /* Initially hidden */
+        }
+
+        /* Company Logos Slider */
+        .logo-slider {
+            display: flex;
+            overflow: auto;
+            padding: 1rem;
+            background-color: #f8f8f8;
+        }
+
+        .logo-slider img {
+            height: 50px;
+            margin-right: 1rem;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        /* Responsive Styling */
+        @media (max-width: 768px) {
+            .hamburger {
+                display: block;
+            }
+
+            .header nav {
+                display: none;
+            }
+
+            .hamburger-menu.active {
+                display: block;
+            }
+
+            .search-section {
+                padding: 1rem;
+            }
         }
     </style>
 </head>
@@ -105,41 +195,154 @@
     <!-- Header -->
     <header class="header">
         <h1>MariCho Jobs</h1>
-        <button id="cvButton" style="background-color: var(--main-color); color: #fff; padding: 0.5rem 1rem; border: none; border-radius: 5px; cursor: pointer;">Need a CV?</button>
+        <nav>
+            <a href="" aria-label="Home">Home</a>
+            <a href="{% url 'job-list' %}" aria-label="Jobs">Jobs</a>
+            <a href="{% url 'company-list' %}" aria-label="Companies">Companies</a>
+            <a href="" aria-label="Profile">Profile</a>
+            {% if user.is_authenticated %}
+                <a href="{% url 'logout' %}" aria-label="Logout">Logout</a>
+            {% else %}
+                <a href="{% url 'signin' %}" aria-label="Login">Login</a>
+            {% endif %}
+        </nav>
+        <div class="hamburger" onclick="toggleHamburger()">☰</div>
     </header>
 
-    <!-- CV Pop-up -->
-    <div class="cv-popup" id="cvPopup">
-        <button class="close-btn" id="closePopup">×</button>
-        <h2>Do you have a CV?</h2>
-        <p>Let us help you create a CV that will guarantee you a job.</p>
-        <a href="https://wa.me/+263784777648?text=Hi%20MariCho%20Team!%20I%20need%20help%20with%20CV%20writing." target="_blank">Contact Us on WhatsApp</a>
+    <!-- Hamburger Menu for Mobile -->
+    <div class="hamburger-menu" id="hamburgerMenu">
+        <a href="" aria-label="Home">Home</a>
+        <a href="{% url 'job-list' %}" aria-label="Jobs">Jobs</a>
+        <a href="{% url 'company-list' %}" aria-label="Companies">Companies</a>
+        <a href="" aria-label="Profile">Profile</a>
+        {% if user.is_authenticated %}
+            <a href="{% url 'logout' %}" aria-label="Logout">Logout</a>
+        {% else %}
+            <a href="{% url 'signin' %}" aria-label="Login">Login</a>
+        {% endif %}
     </div>
 
-    <!-- Overlay -->
-    <div class="overlay" id="overlay"></div>
+    <!-- Search Section -->
+    <section class="search-section">
+        <h2>Find Your Dream Job</h2>
+        <form method="GET">
+            <div class="user_profile">
+                {% if user.is_authenticated %}
+                    {% if user.company_profile %}
+                        <a href="{% url 'company_profile' user.company_profile.id %}">
+                            <img src="{{ user.company_profile.logo.url }}" alt="Company Logo">
+                        </a>
+                        <p>{{ user.company_profile.name }}</p>
+                    {% elif user.jobseeker %}
+                        <a href="{% url 'jobseeker_profile' user.jobseeker.id %}">
+                            <img src="{{ user.jobseeker.image.url }}" alt="User Profile Picture">
+                        </a>
+                        <p>{{ user.jobseeker.user.username }}</p>
+                    {% else %}
+                        <p>User profile not found</p>
+                    {% endif %}
+                {% else %}
+                    <p>Please log in to see your profile.</p>
+                {% endif %}
+            </div>
+            <input type="text" name="query" placeholder="Job Title or Keywords" aria-label="Job Title or Keywords">
+            <select name="industry" aria-label="Industry">
+                <option value="">Industry</option>
+                {% for industry in industries %}
+                    <option value="{{ industry.id }}">{{ industry.name }}</option>
+                {% endfor %}
+            </select>
+            <button type="submit">Search</button>
+            <div class="validation-message">
+                <!-- Error messages go here -->
+            </div>
+        </form>
+    </section>
 
-    <!-- JavaScript for Pop-up -->
+    <!-- Loading Animation -->
+    <div class="loading" id="loading">Loading jobs...</div>
+
+    <!-- Company Logo Slider -->
+    <section class="logo-slider">
+        {% for company in companies %}
+            <img src="{{ company.logo.url }}" alt="{{ company.name }} Logo">
+        {% endfor %}
+    </section>
+
+    <!-- Job Listings -->
+    <section class="job-listings">
+        {% for job in jobs %}
+            <a href="{% url 'job-details' job.id %}">
+                <div class="job-card">
+                    <h3>{{ job.title }}</h3>
+                    <p>Company: {{ job.company.name }}</p>
+                    <p>Location: {{ job.location }}</p>
+                    <p>Salary: {{ job.salary }}</p>
+                </div>
+            </a>
+        {% empty %}
+            <p>No jobs available at the moment.</p>
+        {% endfor %}
+    </section>
+
+    <!-- JavaScript for Hamburger Menu Toggle -->
+    <!-- Add this section to the body -->
+<div class="cv-popup">
+  <p>Do you have a CV? Let us help you create a CV that will guarantee you a job!</p>
+  <a href="https://wa.me/+263784777648" target="_blank" aria-label="WhatsApp CV Service">
+    Contact Us on WhatsApp
+  </a>
+</div>
+
+<style>
+  /* CV Popup Styling */
+  .cv-popup {
+    position: fixed;
+    right: 10px;
+    bottom: 50px;
+    background-color: var(--main-color);
+    color: #fff;
+    padding: 1rem;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 100;
+    width: 250px;
+    text-align: center;
+  }
+
+  .cv-popup p {
+    margin: 0 0 0.5rem;
+    font-size: 0.9rem;
+  }
+
+  .cv-popup a {
+    display: inline-block;
+    color: #fff;
+    background-color: #004d40;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: bold;
+  }
+
+  .cv-popup a:hover {
+    background-color: #00796b;
+  }
+</style>
+    
+    
     <script>
-        const cvButton = document.getElementById('cvButton');
-        const cvPopup = document.getElementById('cvPopup');
-        const overlay = document.getElementById('overlay');
-        const closePopup = document.getElementById('closePopup');
+        function toggleHamburger() {
+            const menu = document.getElementById('hamburgerMenu');
+            menu.classList.toggle('active');
+        }
 
-        cvButton.addEventListener('click', () => {
-            cvPopup.style.display = 'block';
-            overlay.style.display = 'block';
-        });
-
-        closePopup.addEventListener('click', () => {
-            cvPopup.style.display = 'none';
-            overlay.style.display = 'none';
-        });
-
-        overlay.addEventListener('click', () => {
-            cvPopup.style.display = 'none';
-            overlay.style.display = 'none';
-        });
+        // Simulate loading state
+        window.onload = function () {
+            const loading = document.getElementById('loading');
+            loading.style.display = 'none';
+        }
     </script>
 </body>
 </html>
