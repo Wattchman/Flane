@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="MariCho Jobs - Your trusted platform for job opportunities and career growth.">
+    <meta name="keywords" content="MariCho Jobs, job portal, career, job listings, job search">
+    <meta name="author" content="MariCho Services">
     <title>MariCho Jobs</title>
     <style>
         /* General styling */
@@ -41,6 +44,12 @@
         .header nav a {
             color: #fff;
             text-decoration: none;
+            font-size: 1rem;
+        }
+
+        .header nav a:focus,
+        .header nav a:hover {
+            text-decoration: underline;
         }
 
         /* Hamburger Menu for Mobile */
@@ -78,19 +87,22 @@
             flex-direction: column;
             text-align: center;
         }
+
         .user_profile {
-           display: flex;
-           align-items: center;
-           margin-bottom: 30px;
-           font-size: 20px;
-           color: lightseagreen;
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+            font-size: 20px;
+            color: lightseagreen;
         }
+
         .user_profile img {
-           height: 50px;
-           width: 50px;
-           border-radius: 50%;
-           margin-right: 10px;
-           }
+            height: 50px;
+            width: 50px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
         .search-section input[type="text"],
         .search-section select,
         .search-section button {
@@ -101,14 +113,18 @@
             width: 100%;
             max-width: 300px;
         }
-        h2 {
-        margin-left: -105px;
-        color: lightseagreen;
-        }
+
         .search-section button {
             background-color: var(--main-color);
             color: #fff;
             cursor: pointer;
+        }
+
+        /* Validation Messages */
+        .validation-message {
+            color: red;
+            font-size: 0.9rem;
+            margin: 0.5rem 0;
         }
 
         /* Job Listings */
@@ -132,6 +148,14 @@
             margin: 0.5rem 0;
         }
 
+        /* Loading Animation */
+        .loading {
+            text-align: center;
+            font-size: 1.2rem;
+            color: var(--main-color);
+            display: none; /* Initially hidden */
+        }
+
         /* Company Logos Slider */
         .logo-slider {
             display: flex;
@@ -139,10 +163,7 @@
             padding: 1rem;
             background-color: #f8f8f8;
         }
-         a {
-         text-decoration: none;
-         color: black;
-         }
+
         .logo-slider img {
             height: 50px;
             margin-right: 1rem;
@@ -171,19 +192,18 @@
     </style>
 </head>
 <body>
-
     <!-- Header -->
     <header class="header">
         <h1>MariCho Jobs</h1>
         <nav>
-            <a href="">Home</a>
-            <a href="{% url 'job-list' %}">Jobs</a>
-            <a href="{% url 'company-list' %}">Companies</a>
-            <a href="">Profile</a>
+            <a href="" aria-label="Home">Home</a>
+            <a href="{% url 'job-list' %}" aria-label="Jobs">Jobs</a>
+            <a href="{% url 'company-list' %}" aria-label="Companies">Companies</a>
+            <a href="" aria-label="Profile">Profile</a>
             {% if user.is_authenticated %}
-                <a href="{% url 'logout' %}">Logout</a>
+                <a href="{% url 'logout' %}" aria-label="Logout">Logout</a>
             {% else %}
-                <a href="{% url 'signin' %}">Login</a>
+                <a href="{% url 'signin' %}" aria-label="Login">Login</a>
             {% endif %}
         </nav>
         <div class="hamburger" onclick="toggleHamburger()">☰</div>
@@ -191,14 +211,14 @@
 
     <!-- Hamburger Menu for Mobile -->
     <div class="hamburger-menu" id="hamburgerMenu">
-        <a href="">Home</a>
-        <a href="{% url 'job-list' %}">Jobs</a>
-        <a href="{% url 'company-list' %}">Companies</a>
-        <a href="">Profile</a>
+        <a href="" aria-label="Home">Home</a>
+        <a href="{% url 'job-list' %}" aria-label="Jobs">Jobs</a>
+        <a href="{% url 'company-list' %}" aria-label="Companies">Companies</a>
+        <a href="" aria-label="Profile">Profile</a>
         {% if user.is_authenticated %}
-            <a href="{% url 'logout' %}">Logout</a>
+            <a href="{% url 'logout' %}" aria-label="Logout">Logout</a>
         {% else %}
-            <a href="{% url 'signin' %}">Login</a>
+            <a href="{% url 'signin' %}" aria-label="Login">Login</a>
         {% endif %}
     </div>
 
@@ -206,29 +226,41 @@
     <section class="search-section">
         <h2>Find Your Dream Job</h2>
         <form method="GET">
-           <div class="user_profile">{% if user.is_authenticated %}
-               {% if user.company_profile %}
-           <a href="{% url 'company_profile' user.company_profile.id %}"><img src="{{ user.company_profile.logo.url }}"> </a> <p>{{ user.company_profile.name }}</p>
-            {% elif user.jobseeker %}
-               <a href="{% url 'jobseeker_profile' user.jobseeker.id %}"><img src="{{ user.jobseeker.image.url }}"></a> <p>{{ user.jobseeker.user.username }} </p>
-               {% else %}
-               <p>user profile not found</p>
-            {% endif %}
-
-
- {% else %}
-            <p></p>
-        {% endif %} </div>
-               <input type="text" name="query" placeholder="Job Title or Keywords">
-            <select name="industry">
+            <div class="user_profile">
+                {% if user.is_authenticated %}
+                    {% if user.company_profile %}
+                        <a href="{% url 'company_profile' user.company_profile.id %}">
+                            <img src="{{ user.company_profile.logo.url }}" alt="Company Logo">
+                        </a>
+                        <p>{{ user.company_profile.name }}</p>
+                    {% elif user.jobseeker %}
+                        <a href="{% url 'jobseeker_profile' user.jobseeker.id %}">
+                            <img src="{{ user.jobseeker.image.url }}" alt="User Profile Picture">
+                        </a>
+                        <p>{{ user.jobseeker.user.username }}</p>
+                    {% else %}
+                        <p>User profile not found</p>
+                    {% endif %}
+                {% else %}
+                    <p>Please log in to see your profile.</p>
+                {% endif %}
+            </div>
+            <input type="text" name="query" placeholder="Job Title or Keywords" aria-label="Job Title or Keywords">
+            <select name="industry" aria-label="Industry">
                 <option value="">Industry</option>
                 {% for industry in industries %}
                     <option value="{{ industry.id }}">{{ industry.name }}</option>
                 {% endfor %}
             </select>
             <button type="submit">Search</button>
+            <div class="validation-message">
+                <!-- Error messages go here -->
+            </div>
         </form>
     </section>
+
+    <!-- Loading Animation -->
+    <div class="loading" id="loading">Loading jobs...</div>
 
     <!-- Company Logo Slider -->
     <section class="logo-slider">
@@ -240,12 +272,14 @@
     <!-- Job Listings -->
     <section class="job-listings">
         {% for job in jobs %}
-            <a href="{% url 'job-details' job.id %}"><div class="job-card">
-                <h3>{{ job.title }}</h3>
-                <p>Company: {{ job.company.name }}</p>
-                <p>Location: {{ job.location }}</p>
-                <p>Salary: {{ job.salary }}</p>
-            </div></a>
+            <a href="{% url 'job-details' job.id %}">
+                <div class="job-card">
+                    <h3>{{ job.title }}</h3>
+                    <p>Company: {{ job.company.name }}</p>
+                    <p>Location: {{ job.location }}</p>
+                    <p>Salary: {{ job.salary }}</p>
+                </div>
+            </a>
         {% empty %}
             <p>No jobs available at the moment.</p>
         {% endfor %}
@@ -257,7 +291,12 @@
             const menu = document.getElementById('hamburgerMenu');
             menu.classList.toggle('active');
         }
-    </script>
 
+        // Simulate loading state
+        window.onload = function () {
+            const loading = document.getElementById('loading');
+            loading.style.display = 'none';
+        }
+    </script>
 </body>
 </html>
