@@ -247,11 +247,13 @@
             </div>
             <input type="text" name="query" placeholder="Job Title or Keywords" aria-label="Job Title or Keywords">
             <select name="industry" aria-label="Industry">
-                <option value="">Industry</option>
-                {% for industry in industries %}
-                    <option value="{{ industry.id }}">{{ industry.name }}</option>
-                {% endfor %}
-            </select>
+    <option value="">Industry</option>
+    {% for industry in industries %}
+        <option value="{{ industry.id }}" {% if request.GET.industry == industry.id|stringformat:"s" %}selected{% endif %}>
+            {{ industry.name }}
+        </option>
+    {% endfor %}
+</select>
             <button type="submit">Search</button>
             <div class="validation-message">
                 <!-- Error messages go here -->
