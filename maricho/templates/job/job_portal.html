@@ -239,7 +239,7 @@
                         </a>
                         <p>{{ user.jobseeker.user.username }}</p>
                     {% else %}
-                        <p>No profile, set up profile as <a href="{% url 'company' %}"><button style="color: white; background: lightseagreen; font-size: 24px; padding: 5px;"  type="submit">Company</button></a> or 
+                        <p>No profile, set up profile as <a href="{% url 'company' %}"><button style="color: white; background: lightseagreen; font-size: 24px; padding: 5px;"  type="submit">Company</button></a> </br>
                        <a href="{% url 'jobseeker' %}"><button style="color: white; background: lightseagreen; font-size: 24px; padding: 5px;" type="submit">JobSeeker</button></a> </p> 
                       
                     {% endif %}
