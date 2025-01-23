@@ -69,7 +69,7 @@
             flex-direction: column;
             cursor: pointer;
         }
-
+     .
         .hamburger span {
             height: 3px;
             width: 25px;
@@ -218,6 +218,10 @@
             font-size: 1.2rem;
             margin-top: 0.5rem;
         }
+        .clogo { 
+                width: 50px;
+                height: 50px;
+                border-radius: 50%;
 
         @media (max-width: 768px) {
             .hamburger {
@@ -258,7 +262,7 @@
             nav ul li {
                 margin: 0.5rem 0;
             }
-            .logo { 
+            .clogo { 
                 width: 50px;
                 height: 50px;
                 border-radius: 50%;
@@ -300,7 +304,7 @@
                 {% if user.is_authenticated %}
                     {% if user.property_profile %}
                         <a href="{% url 'property_profile' user.property_profile.id %}">
-                            <img class="logo" src="{{ user.property_profile.logo.url }}" alt="Company Logo">
+                            <img class="clogo" src="{{ user.property_profile.logo.url }}" alt="Company Logo">
                         </a>
                         <p>{{ user.property_profile.name }}</p>
                 
