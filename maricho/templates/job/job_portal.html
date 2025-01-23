@@ -240,9 +240,9 @@
                         <p>{{ user.jobseeker.user.username }}</p>
                     {% else %}
                         <p>No profile, set up profile as </p>
-                        <a href="{% url 'company' %}"><button style="color: white; background: lightseagreen; font-size: 24px; padding: 5px;"  type="submit">Company</button></a> </br>
-                         <a href="{% url 'jobseeker' %}"><button style="color: white; background: lightseagreen; font-size: 24px; padding: 5px;" type="submit">JobSeeker</button></a> </p> 
-                      
+                        <a href="{% url 'company' %}"><button style="color: white; background: lightseagreen; font-size: 24px; padding: 5px;" >Company</button></a> 
+            </br>
+                         <a href="{% url 'jobseeker' %}"><button style="color: white; background: lightseagreen; font-size: 24px; padding: 5px;" >JobSeeker</button></a> 
                     {% endif %}
                 {% else %}
                     <p>Please log in to see your profile.</p>
