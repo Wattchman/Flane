@@ -258,6 +258,10 @@
             nav ul li {
                 margin: 0.5rem 0;
             }
+            .logo { 
+                width: 50px;
+                height: 50px;
+                border-radius: 50%;
 
             .search-form {
                 flex-direction: column;
@@ -296,7 +300,7 @@
                 {% if user.is_authenticated %}
                     {% if user.property_profile %}
                         <a href="{% url 'property_profile' user.property_profile.id %}">
-                            <img src="{{ user.property_profile.logo.url }}" alt="Company Logo">
+                            <img class="logo" src="{{ user.property_profile.logo.url }}" alt="Company Logo">
                         </a>
                         <p>{{ user.property_profile.name }}</p>
                 
