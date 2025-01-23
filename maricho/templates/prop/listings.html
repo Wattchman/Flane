@@ -317,7 +317,7 @@
 </a>
                 {% endif %}
                 {% else %}
-                    <p>Please log in to see your profile.</p>
+                    <p><a style="text-decoration: none; color: lightseagreen;" href={% url 'signin' %}> No Profile, Login </a> </p>
                 {% endif %}
             <form class="search-form" method="get" id="search-form" action="{% url 'property-list' %}">
                 <div class="form-group">
