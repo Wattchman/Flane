@@ -239,7 +239,9 @@
                         </a>
                         <p>{{ user.jobseeker.user.username }}</p>
                     {% else %}
-                        <p>User profile not found</p>
+                        <p>No profile, set up profile as <a href="{% url 'company' %}"><button type="submit">Company</button></a> or 
+                       <a href="{% url 'jobseeker' %}"><button type="submit">JobSeeker</button></a> </p> 
+                      
                     {% endif %}
                 {% else %}
                     <p>Please log in to see your profile.</p>
