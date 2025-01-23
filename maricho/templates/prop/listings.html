@@ -292,6 +292,35 @@
     <main class="container">
         <section class="search-container">
             <h2>Find Your Perfect Property</h2>
+            <div class="user_profile">
+                {% if user.is_authenticated %}
+                    {% if user.company_profile %}
+                        <a href="{% url 'company_profile' user.company_profile.id %}">
+                            <img src="{{ user.company_profile.logo.url }}" alt="Company Logo">
+                        </a>
+                        <p>{{ user.company_profile.name }}</p>
+                    {% elif user.jobseeker %}
+                        <a href="{% url 'jobseeker_profile' user.jobseeker.id %}">
+                            <img src="{{ user.jobseeker.image.url }}" alt="User Profile Picture">
+                        </a>
+                        <p>{{ user.jobseeker.user.username }}</p>
+                    {% else %}
+                        <p>No profile, set up profile as </p>
+                        <a href="{% url 'company' %}" style="text-decoration: none;">
+    <div style="color: white; background: lightseagreen; font-size: 24px; padding: 10px; text-align: center; border-radius: 5px;">
+        Company
+    </div>
+</a>
+<br>
+<a href="{% url 'jobseeker' %}" style="text-decoration: none;">
+    <div style="color: white; background: lightseagreen; font-size: 24px; padding: 10px; text-align: center; border-radius: 5px;">
+        JobSeeker
+    </div>
+</a>
+                {% endif %}
+                {% else %}
+                    <p>Please log in to see your profile.</p>
+                {% endif %}
             <form class="search-form" method="get" id="search-form" action="{% url 'property-list' %}">
                 <div class="form-group">
                     <label for="city">City:</label>
