@@ -126,7 +126,7 @@ def product_view(request):
     return render(request, 'product.html', {'form': form})
 
 
-@login_required(login_url='signin')
+
 def product_detail(request, product_id, product_name):
     product = Product.objects.get(id=product_id)
     profiles = Profile.objects.all()
