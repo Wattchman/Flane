@@ -209,7 +209,7 @@
             {% if job.industry == profile.industry %}
                 <li>
                     <span class="job-title">{{ job.title }}</span>
-                    <a href="{% url 'job_detail' job.id %}" class="apply-link">View Details</a>
+                    <a href="{% url 'job-details' job.id %}" class="apply-link">View Details</a>
                 </li>
             {% endif %}
             {% empty %}
