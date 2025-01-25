@@ -34,9 +34,17 @@
         input, select, textarea {
             width: 100%;
             padding: 10px;
-            border: 1px solid #ccc;
+            border: 1px solid lightseagreen;
             border-radius: 4px;
             font-size: 14px;
+            background-color: #e0f7f7; /* Light sea green background */
+            color: #333;
+            box-sizing: border-box;
+        }
+        input:focus, select:focus, textarea:focus {
+            border-color: #20b2aa;
+            outline: none;
+            box-shadow: 0 0 5px rgba(32, 178, 170, 0.5);
         }
         .error-message {
             color: red;
@@ -86,7 +94,7 @@
                     isValid = false;
                 } else {
                     error.style.display = "none";
-                    input.style.borderColor = "#ccc";
+                    input.style.borderColor = "lightseagreen";
                 }
             });
 
