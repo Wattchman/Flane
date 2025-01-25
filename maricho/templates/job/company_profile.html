@@ -178,7 +178,9 @@
             <p><strong>Location:</strong> {{ company.location }}</p>
             <p><strong>Industry:</strong> {{ company.industry }}</p>
             <p><strong>Website:</strong> <a href="{{ company.website }}" target="_blank">{{ company.website }}</a></p>
-             <a href="{% url 'job' %}"><button> + Post Job</button></a>
+             {% if company.user == request.user %}
+            <a href="{% url 'job' %}"><button> + Post Job</button></a>
+            {% endif %}
         </div>
     </div>
 
