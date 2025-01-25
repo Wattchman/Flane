@@ -190,7 +190,8 @@
             <h3>Job Openings</h3>
             <ul class="job-list">
                 {% for job in company.jobs.all %}
-                    <h4>Job Title: {{ job.title }}</h4>
+                <a style="text-decoration: none;" href="{% url 'job-details' job.id %}">
+                    <h4>Job Title: {{ job.title }}</h4> </a>
                         
                 {% empty %}
                     <li>No job openings available at this time.</li>
