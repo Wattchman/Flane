@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Company Registration Form</title>
     <style>
-        /* CSS styling */
         body {
             font-family: Arial, sans-serif;
             background-color: #f9f9f9;
@@ -34,9 +33,17 @@
         input, select, textarea {
             width: 100%;
             padding: 10px;
-            border: 1px solid #ccc;
+            border: 1px solid lightseagreen;
             border-radius: 4px;
             font-size: 14px;
+            background-color: #e0f7f7;
+            color: #333;
+            box-sizing: border-box;
+        }
+        input:focus, select:focus, textarea:focus {
+            border-color: #20b2aa;
+            outline: none;
+            box-shadow: 0 0 5px rgba(32, 178, 170, 0.5);
         }
         .error-message {
             color: red;
@@ -86,7 +93,7 @@
                     isValid = false;
                 } else {
                     error.style.display = "none";
-                    input.style.borderColor = "#ccc";
+                    input.style.borderColor = "lightseagreen";
                 }
             });
 
