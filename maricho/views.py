@@ -553,7 +553,9 @@ def company_profile(request, company_id):
 def jobseeker_profile(request, profile_id):
     profile = get_object_or_404(JobSeeker, id=profile_id)
 
-    return render(request, 'job/jobseeker_profile.html', {'profile': profile})
+    jobs = Job.objects.all()
+
+    return render(request, 'job/jobseeker_profile.html', {'profile': profile, 'jobs': jobs})
 
 def property_profile(request, property_id):
     property = get_object_or_404(Property, id=property_id)
