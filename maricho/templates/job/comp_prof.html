@@ -190,16 +190,15 @@
             <h3>Job Openings</h3>
             <ul class="job-list">
                 {% for job in company.jobs.all %}
-                    <li>
-                        <h4>Job Title: {{ job.title }}</h4>
-                        <p>Location: {{ job.location }}</p>
-                        <p>Description: {{ job.description }}</p>
-                    </li>
+                    <h4>Job Title: {{ job.title }}</h4>
+                        
                 {% empty %}
                     <li>No job openings available at this time.</li>
                 {% endfor %}
             </ul>
-            <a href="{% url 'job' %}" class="job-button">Post a Job</a>
+            {% if company.user == request.user%}
+            <a href="{% url 'job' %}" class="job-button"> + Post Job</a>
+            {% endif %}
         </div>
     </div>
 
