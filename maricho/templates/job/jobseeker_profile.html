@@ -203,13 +203,15 @@
 
     <!-- Job Openings -->
     <div class="job-openings">
-        <h3>Open Positions</h3>
+        <h3>Open Positions For You</h3>
         <ul class="job-list">
             {% for job in jobs %}
+            {% if job.industry == profile.industry %}
                 <li>
                     <span class="job-title">{{ job.title }}</span>
                     <a href="{% url 'job_detail' job.id %}" class="apply-link">View Details</a>
                 </li>
+            {% endif %}
             {% empty %}
                 <li>No current job openings available.</li>
             {% endfor %}
