@@ -280,7 +280,7 @@
     <section class="logo-slider">
         <h2> Companies that hire </h2>
         {% for company in companies %}
-          <a href="{% url 'company_profile' user.company_profile.id %}">  
+          <a href="{% url 'company_profile' company.id %}">  
               <img src="{{ company.logo.url }}" alt="{{ company.name }} Logo"> </a>
         {% endfor %}
     </section>
