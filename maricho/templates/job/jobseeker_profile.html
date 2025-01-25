@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/html">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -85,6 +85,18 @@
         /* Description */
         .description {
             margin-top: 15px;
+        }
+
+        .description h3 {
+            color: #20b2aa; /* Light sea green */
+            margin-bottom: 10px;
+            font-size: 1.2em;
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 5px;
+        }
+
+        .description p {
+            margin-bottom: 15px;
             color: #333;
             line-height: 1.6;
         }
@@ -171,7 +183,7 @@
         </div>
         <div class="company-info">
             <h2>{{ profile.user.username }}</h2>
-            <p><strong>Location:</strong> {{ profile.country}}</p>
+            <p><strong>Location:</strong> {{ profile.country }}</p>
             <p><strong>Industry:</strong> {{ profile.industry }}</p>
             <p><strong>Website:</strong> <a href="{{ company.website }}" target="_blank">{{ company.website }}</a></p>
         </div>
@@ -179,12 +191,15 @@
 
     <!-- Company Description -->
     <div class="description">
-        <p>{{ profile.bio }}</p>
-    </br>
-        <p>{{ profile.education }}</p>
-    </br>
-        <p>{{ profile.skills }}</p>
-           </div>
+        <h3>Biography</h3>
+        <p>{{ profile.bio|default:'No biography available.' }}</p>
+
+        <h3>Education</h3>
+        <p>{{ profile.education|default:'Education details not provided.' }}</p>
+
+        <h3>Skills</h3>
+        <p>{{ profile.skills|default:'No skills listed.' }}</p>
+    </div>
 
     <!-- Job Openings -->
     <div class="job-openings">
