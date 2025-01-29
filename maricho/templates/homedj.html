@@ -550,30 +550,79 @@
 <header>
 <div class="logo-and-nav">
     <h1 class="logo">      <a style=" text-decoration: none; color: white;" href="{% url 'home' %}">MariCho</a></h1>
-    <nav class="nav-links">
-<ul>
-
-            <a href="{% url 'news' %}">
-                <i style="font-size: 24px;" class="fas fa-newspaper"></i> News
-            </a>
-        
-        
-            <a href="{% url 'property-list' %}">
-                <i style="font-size: 24px;" class="fas fa-home"></i> Property
-            </a>
-        
-        
-            <a href="{% url 'job-land' %}">
-                <i style="font-size: 24px;"class="fas fa-briefcase"></i> Jobs
-            </a>
-        
-        
-            <a href="{% url 'business' %}">
-                <i style="font-size: 24px;" class="fas fa-cogs"></i> Services
-            </a>
-
+      
+<nav class="nav-links">
+      <ul>
+    <a href="{% url 'news' %}" class="nav-item">
+        <i style="font-size: 24px;" class="fas fa-newspaper"></i>
+        <span>News</span>
+    </a>
+    
+    <a href="{% url 'property-list' %}" class="nav-item">
+        <i style="font-size: 24px;" class="fas fa-home"></i>
+        <span>Property</span>
+    </a>
+    
+    <a href="{% url 'job-land' %}" class="nav-item">
+        <i style="font-size: 24px;" class="fas fa-briefcase"></i>
+        <span>Jobs</span>
+    </a>
+    
+    <a href="{% url 'business' %}" class="nav-item">
+        <i style="font-size: 24px;" class="fas fa-cogs"></i>
+        <span>Services</span>
+    </a>
 </ul>
 </nav>
+
+<style>
+    .nav-links {
+        display: flex;
+        gap: 2rem;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .nav-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-decoration: none;
+        color: white;
+        gap: 5px;
+        transition: all 0.3s ease;
+    }
+
+    .nav-item:hover {
+        transform: translateY(-2px);
+        opacity: 0.9;
+    }
+
+    .nav-item span {
+        font-size: 0.9rem;
+    }
+
+    /* Optional: Add hover effect */
+    .nav-item:hover {
+        color: #e0e0e0;
+    }
+
+    /* Mobile responsiveness */
+    @media (max-width: 768px) {
+        .nav-links {
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .nav-item {
+            padding: 0.5rem;
+        }
+        
+        .nav-item span {
+            font-size: 0.8rem;
+        }
+    }
+</style>
   </div>
     <div class="search-container">
         <form method="get" action="{% url 'category' %}">
