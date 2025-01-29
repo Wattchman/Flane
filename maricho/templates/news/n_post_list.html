@@ -6,263 +6,392 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>News Feed</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f9f9f9;
-            margin: 0;
-            padding: 0;
+        :root {
+            --primary-color: #20B2AA;
+            --secondary-color: #138D75;
+            --background-color: #F8F9FA;
+            --text-color: #333333;
+            --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
-        /* Navbar */
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background-color: var(--background-color);
+            margin: 0;
+            padding: 0;
+            color: var(--text-color);
+        }
+
+        /* Improved Navbar */
         .navbar {
-            background-color: lightseagreen;
+            background-color: var(--primary-color);
             color: white;
-            padding: 10px 20px;
+            padding: 1rem 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
             position: sticky;
             top: 0;
             z-index: 1000;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            box-shadow: var(--card-shadow);
         }
 
         .navbar h1 {
             margin: 0;
-            font-size: 1.5rem;
+            font-size: 1.75rem;
+            font-weight: 600;
         }
 
         .menu-icon {
-            font-size: 1.5rem;
+            font-size: 1.75rem;
             cursor: pointer;
+            transition: transform 0.3s ease;
         }
 
-        /* Category Menu */
+        .menu-icon:hover {
+            transform: rotate(90deg);
+        }
+
+        /* Enhanced Category Menu */
         .category-menu {
             display: none;
             background-color: white;
             position: absolute;
-            top: 50px;
-            left: 0;
-            width: 100%;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            top: 100%;
+            right: 0;
+            width: 250px;
+            border-radius: 0 0 0 8px;
+            box-shadow: var(--card-shadow);
             z-index: 999;
+            transform-origin: top right;
+            animation: scaleIn 0.3s ease-out forwards;
         }
 
         .category-menu a {
-            display: block;
-            padding: 15px;
+            display: flex;
+            align-items: center;
+            padding: 1rem;
             text-decoration: none;
-            color: lightseagreen;
-            border-bottom: 1px solid #f0f0f0;
+            color: var(--text-color);
+            transition: all 0.2s ease;
         }
 
         .category-menu a:hover {
-            background-color: #f2f2f2;
+            background-color: #F0F0F0;
+            padding-left: 1.5rem;
+            color: var(--primary-color);
         }
 
-        /* Latest News Section */
+        /* Modern News Grid */
         .latest-news {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
-            max-width: 800px;
-            margin: 20px auto;
-            background-color: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 2rem;
+        }
+
+        .latest-news-header {
+            grid-column: 1 / -1;
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .latest-news-header h2 {
+            color: var(--primary-color);
+            font-size: 2rem;
+            margin: 0 0 0.5rem 0;
         }
 
         .latest-news-item {
-            flex: 1 1 200px;
-            text-align: center;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: var(--card-shadow);
         }
 
-        .latest-news img {
+        .latest-news-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        .latest-news-item img {
             width: 100%;
-            height: 150px;
+            height: 200px;
             object-fit: cover;
-            border-radius: 8px;
+            border-bottom: 3px solid var(--primary-color);
         }
 
-        .latest-news p {
-            margin-top: 10px;
-            color: #333;
-            font-size: 1rem;
+        .latest-news-item p {
+            padding: 1rem;
+            margin: 0;
+            font-weight: 500;
+            color: var(--text-color);
         }
 
-        .latest-news h2 {
-            width: 100%;
-            text-align: center;
-            margin-bottom: 20px;
-            color: lightseagreen;
-        }
-
-        /* Post Container */
+        /* Enhanced Post Design */
         .post-container {
             max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
+            margin: 2rem auto;
+            padding: 0 2rem;
         }
 
         .post {
-            background-color: white;
-            margin-bottom: 20px;
-            padding: 15px;
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            animation: fadeIn 1s ease-in-out;
+            background: white;
+            margin-bottom: 2rem;
+            border-radius: 12px;
+            box-shadow: var(--card-shadow);
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+
+        .post:hover {
+            transform: translateY(-3px);
+        }
+
+        .post-content {
+            padding: 1.5rem;
+        }
+
+        .post h2 {
+            color: var(--primary-color);
+            margin: 0 0 1rem 0;
+            font-size: 1.5rem;
         }
 
         .post img {
             width: 100%;
-            border-radius: 8px;
-            margin-bottom: 10px;
+            height: 400px;
+            object-fit: cover;
+            border-radius: 8px 8px 0 0;
         }
 
-        .post h2 {
-            margin-bottom: 10px;
-            color: lightseagreen;
+        .post-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 1rem 0;
+            font-size: 0.9rem;
+            color: #666;
         }
 
-        .post p {
-            color: #555;
-            margin-bottom: 10px;
-        }
-
-        .post a {
-            color: lightseagreen;
+        .read-more {
+            display: inline-block;
+            padding: 0.5rem 1.5rem;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 25px;
             text-decoration: none;
+            transition: background-color 0.3s ease;
         }
 
-        .post a:hover {
-            text-decoration: underline;
+        .read-more:hover {
+            background-color: var(--secondary-color);
         }
 
-        /* Comment Form */
+        /* Modern Comment Section */
+        .comment-section {
+            margin-top: 1.5rem;
+            border-top: 1px solid #EEE;
+            padding-top: 1.5rem;
+        }
+
         .comment-form {
             display: none;
-            margin-top: 10px;
+            margin-top: 1rem;
+            animation: slideDown 0.3s ease-out;
+        }
+
+        .comment-form.active {
+            display: block;
         }
 
         .comment-button {
-            background-color: lightseagreen;
-            color: white;
-            border: none;
-            padding: 10px 15px;
-            border-radius: 5px;
+            background-color: transparent;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+            padding: 0.5rem 1.5rem;
+            border-radius: 25px;
             cursor: pointer;
+            transition: all 0.3s ease;
         }
 
         .comment-button:hover {
-            background-color: #138d75;
-        }
-
-        .comment {
-            background-color: #f0f0f0;
-            padding: 10px;
-            margin: 10px 0;
-            border-radius: 5px;
-            color: #333;
+            background-color: var(--primary-color);
+            color: white;
         }
 
         /* Animations */
-        @keyframes fadeIn {
-            0% {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            100% {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        @keyframes scaleIn {
+            0% { transform: scale(0); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        @keyframes slideDown {
+            0% { opacity: 0; transform: translateY(-10px); }
+            100% { opacity: 1; transform: translateY(0); }
         }
 
         /* Responsive Design */
         @media (max-width: 768px) {
-            .post-container {
-                padding: 10px;
+            .navbar {
+                padding: 1rem;
             }
 
             .latest-news {
-                flex-direction: column;
+                padding: 1rem;
+                grid-template-columns: 1fr;
             }
 
+            .post-container {
+                padding: 0 1rem;
+            }
+
+            .post img {
+                height: 250px;
+            }
+        }
+
+        @media (max-width: 480px) {
             .navbar h1 {
-                font-size: 1.2rem;
+                font-size: 1.25rem;
+            }
+
+            .post-meta {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
             }
         }
     </style>
 </head>
 <body>
-
     <!-- Navbar -->
-    <div class="navbar">
+    <nav class="navbar">
         <h1>MariCho News</h1>
-        <div class="menu-icon" onclick="toggleMenu()">&#8942;</div>
-    </div>
+        <div class="menu-icon" onclick="toggleMenu()">☰</div>
+    </nav>
 
     <!-- Category Menu -->
     <div class="category-menu" id="categoryMenu">
         {% for category in categories %}
-            <a href="category/{{ category.name }}">{{ category.name }}</a>
+            <a href="category/{{ category.name }}">
+                <span>{{ category.name }}</span>
+            </a>
         {% endfor %}
     </div>
 
     <!-- Latest News Section -->
-    <div class="latest-news">
-        <h2>Latest News</h2>
+    <section class="latest-news">
+        <header class="latest-news-header">
+            <h2>Latest News</h2>
+        </header>
         {% for news in latest_news %}
-            <div class="latest-news-item">
+            <article class="latest-news-item">
                 <a href="{% url 'n_post_detail' news.id %}">
-                    <img src="{{ news.image.url }}" alt="News Image">
-                    <p>{{ news.title|truncatewords:4 }}</p>
+                    <img src="{{ news.image.url }}" alt="{{ news.title }}">
+                    <p>{{ news.title|truncatewords:8 }}</p>
                 </a>
-            </div>
+            </article>
         {% endfor %}
-    </div>
+    </section>
 
-    <!-- Post Container -->
-    <div class="post-container">
+    <!-- Main Content -->
+    <main class="post-container">
         {% for post in posts %}
-            <div class="post">
-                <h2>{{ post.title }}</h2>
-
+            <article class="post">
                 {% if post.image %}
-                    <img src="{{ post.image.url }}" alt="Post Image">
+                    <img src="{{ post.image.url }}" alt="{{ post.title }}">
                 {% endif %}
-                <p>{{ post.content|truncatewords:30 }}</p>
-                <p><small>{{ post.published|naturaltime }}</small></p>
-                <a href="{% url 'n_post_detail' post.id %}">Read more</a>
-
-                <!-- Comment Button -->
-                <button class="comment-button" onclick="toggleCommentForm('comment-form-{{ post.id }}')">Add Comment</button>
-
-                <!-- Comment Form -->
-                <div class="comment-form" id="comment-form-{{ post.id }}">
-                    <form method="POST">
-                        {% csrf_token %}
-                        {{ form.as_p }}
-                        <button type="submit" class="comment-button">Submit</button>
-                    </form>
+                <div class="post-content">
+                    <h2>{{ post.title }}</h2>
+                    <div class="post-meta">
+                        <span>Published {{ post.published|naturaltime }}</span>
+                        <span>Category: {{ post.category }}</span>
+                    </div>
+                    <p>{{ post.content|truncatewords:40 }}</p>
+                    <a href="{% url 'n_post_detail' post.id }}" class="read-more">Read More →</a>
+                    
+                    <!-- Comment Section -->
+                    <div class="comment-section">
+                        <button class="comment-button" 
+                                onclick="toggleCommentForm('comment-form-{{ post.id }}')">
+                            Add Comment
+                        </button>
+                        
+                        <div class="comment-form" id="comment-form-{{ post.id }}">
+                            <form method="POST">
+                                {% csrf_token %}
+                                {{ form.as_p }}
+                                <button type="submit" class="comment-button">Post Comment</button>
+                            </form>
+                        </div>
+                    </div>
                 </div>
-            </div>
+            </article>
         {% endfor %}
-    </div>
+    </main>
 
     <script>
-        // Toggle category menu
+        // Enhanced Menu Toggle
         function toggleMenu() {
             const menu = document.getElementById('categoryMenu');
             menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+            
+            // Close menu when clicking outside
+            if (menu.style.display === 'block') {
+                document.addEventListener('click', closeMenuOnClickOutside);
+            }
         }
 
-        // Toggle comment form
+        function closeMenuOnClickOutside(event) {
+            const menu = document.getElementById('categoryMenu');
+            if (!menu.contains(event.target) && !event.target.classList.contains('menu-icon')) {
+                menu.style.display = 'none';
+                document.removeEventListener('click', closeMenuOnClickOutside);
+            }
+        }
+
+        // Improved Comment Form Toggle
         function toggleCommentForm(formId) {
             const form = document.getElementById(formId);
-            form.style.display = form.style.display === 'block' ? 'none' : 'block';
+            form.classList.toggle('active');
+            
+            // Smooth scroll to form
+            form.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         }
+
+        // Add basic form validation
+        document.querySelectorAll('form').forEach(form => {
+            form.addEventListener('submit', (e) => {
+                const textarea = form.querySelector('textarea');
+                if (textarea.value.trim() === '') {
+                    e.preventDefault();
+                    textarea.focus();
+                    textarea.placeholder = 'Please enter your comment...';
+                    textarea.classList.add('error');
+                }
+            });
+        });
+
+        // Add animation to cards on scroll
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = 1;
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        });
+
+        document.querySelectorAll('.post, .latest-news-item').forEach(element => {
+            element.style.opacity = 0;
+            element.style.transform = 'translateY(20px)';
+            element.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(element);
+        });
     </script>
 </body>
 </html>
