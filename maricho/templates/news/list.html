@@ -290,9 +290,9 @@
                  class="story-image" 
                  alt="{{ story.title }}"
                  onclick="showModal('{{ story.image.url }}')">
-            <a href="{% url 'n_post_detail' story.id %}" class="story-title">
+            <a style="text-decoration: none; color: black;" href="post/{{ story.id }}/{{ story.title }}">
                 {{ story.title|truncatechars:40 }}
-            </a>
+        </a>
         </div>
         {% endfor %}
     </section>
