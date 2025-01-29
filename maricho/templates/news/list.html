@@ -4,12 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Modern News App{% endblock %}</title>
+    <title>{% block title %}News App with Stories & Sidebar{% endblock %}</title>
     <style>
         :root {
             --primary: #20B2AA;         /* Light Sea Green */
             --secondary: #2C3E50;       /* Dark Blue-Gray */
-            --accent: #E74C3C;          /* Soft Red */
             --light: #F8F9FA;           /* Off White */
             --dark: #2C3E50;            /* Dark Text */
             --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -28,7 +27,6 @@
             line-height: 1.6;
         }
 
-        /* Enhanced Header */
         header {
             background: linear-gradient(135deg, var(--primary), #1A7A74);
             color: white;
@@ -63,7 +61,6 @@
         .hamburger div:nth-child(2) { top: 50%; transform: translateY(-50%); }
         .hamburger div:nth-child(3) { bottom: 0; }
 
-        /* Modern Sidebar */
         .sidebar {
             position: fixed;
             top: 0;
@@ -98,33 +95,17 @@
             transform: translateX(5px);
         }
 
-        .sidebar a::before {
-            content: '';
-            width: 6px;
-            height: 6px;
-            background: var(--primary);
-            border-radius: 50%;
-            margin-right: 1rem;
-            opacity: 0;
-            transition: opacity 0.2s ease;
-        }
-
-        .sidebar a:hover::before {
-            opacity: 1;
-        }
-
-        /* Main Content */
         .container {
             max-width: 1200px;
             margin: 6rem auto 2rem;
             padding: 0 1rem;
         }
 
-        /* Modern Story Cards */
+        /* Updated Latest News Section */
         .latest-news {
             display: flex;
-            gap: 1.5rem;
-            padding: 1rem 0;
+            gap: 2rem;
+            padding: 2rem 0;
             overflow-x: auto;
             scrollbar-width: thin;
             scrollbar-color: var(--primary) transparent;
@@ -132,52 +113,40 @@
 
         .story-card {
             flex: 0 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
             text-align: center;
-            position: relative;
-            cursor: pointer;
-        }
-
-        .story-card::before {
-            content: '';
-            position: absolute;
-            width: 110%;
-            height: 110%;
-            border: 2px solid var(--primary);
-            border-radius: 50%;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .story-card:hover::before {
-            opacity: 0.3;
+            min-width: 150px;
         }
 
         .story-image {
-            width: 100px;
-            height: 100px;
+            width: 120px;
+            height: 120px;
             border-radius: 50%;
             object-fit: cover;
             border: 3px solid white;
             box-shadow: var(--shadow);
+            cursor: pointer;
             transition: transform 0.3s ease;
         }
 
-        .story-card:hover .story-image {
+        .story-image:hover {
             transform: scale(1.05);
         }
 
         .story-title {
             font-size: 0.9rem;
-            margin-top: 0.5rem;
             color: var(--secondary);
             font-weight: 500;
-            max-width: 100px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
+            max-width: 130px;
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .story-title:hover {
+            color: var(--primary);
         }
 
         /* News Grid */
@@ -194,7 +163,6 @@
             overflow: hidden;
             box-shadow: var(--shadow);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
-            position: relative;
         }
 
         .news-card:hover {
@@ -206,33 +174,10 @@
             width: 100%;
             height: 200px;
             object-fit: cover;
-            position: relative;
-        }
-
-        .news-image::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 40%;
-            background: linear-gradient(transparent, rgba(0,0,0,0.7));
         }
 
         .news-content {
             padding: 1.5rem;
-        }
-
-        .news-category {
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            background: var(--primary);
-            color: white;
-            padding: 0.3rem 0.8rem;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 500;
         }
 
         .news-title {
@@ -242,7 +187,6 @@
         }
 
         .news-excerpt {
-            font-size: 0.95rem;
             color: #666;
             margin-bottom: 1rem;
             display: -webkit-box;
@@ -260,20 +204,12 @@
         }
 
         .read-more {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
             color: var(--primary);
             text-decoration: none;
             font-weight: 500;
-            transition: opacity 0.2s ease;
         }
 
-        .read-more:hover {
-            opacity: 0.8;
-        }
-
-        /* Modern Modal */
+        /* Modal Styles */
         .modal {
             display: none;
             position: fixed;
@@ -282,22 +218,25 @@
             width: 100%;
             height: 100%;
             background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(5px);
             justify-content: center;
             align-items: center;
             z-index: 1001;
-            animation: fadeIn 0.3s ease;
         }
 
         .modal-content {
             background: white;
-            border-radius: 16px;
-            width: 90%;
-            max-width: 600px;
+            border-radius: 12px;
             padding: 2rem;
+            text-align: center;
+            max-width: 90%;
             position: relative;
-            transform: scale(0.9);
-            animation: modalEnter 0.3s ease forwards;
+        }
+
+        .modal-image {
+            max-height: 70vh;
+            max-width: 100%;
+            border-radius: 8px;
+            margin-bottom: 1rem;
         }
 
         .modal-close {
@@ -309,45 +248,16 @@
             font-size: 1.5rem;
             cursor: pointer;
             color: var(--secondary);
-            padding: 0.5rem;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        @keyframes modalEnter {
-            to { transform: scale(1); }
-        }
-
-        /* Responsive Design */
         @media (max-width: 768px) {
             .container {
                 margin-top: 5rem;
             }
-
-            .news-grid {
-                grid-template-columns: 1fr;
-            }
-
+            
             .story-image {
-                width: 80px;
-                height: 80px;
-            }
-        }
-
-        /* Loading Animation */
-        .skeleton {
-            background: #eee;
-            background: linear-gradient(110deg, #ececec 8%, #f5f5f5 18%, #ececec 33%);
-            background-size: 200% 100%;
-            animation: 1.5s shine linear infinite;
-        }
-
-        @keyframes shine {
-            to {
-                background-position-x: -200%;
+                width: 100px;
+                height: 100px;
             }
         }
     </style>
@@ -363,7 +273,6 @@
     <h1>MariCho News</h1>
 </header>
 
-<!-- Sidebar -->
 <nav class="sidebar" id="sidebar">
     {% for category in categories %}
     <a href="{% url 'post_list_by_category' category.name %}">
@@ -373,34 +282,33 @@
 </nav>
 
 <main class="container">
-    <!-- Stories Section -->
+    <!-- Latest News Stories -->
     <section class="latest-news">
         {% for story in latest_news %}
-        <article class="story-card">
-            <img src="{{ story.image.url }}" class="story-image" alt="{{ story.title }}">
-            <a href="post/{{ story.id }}/{{ story.title }}" class="story-title">
-                {{ story.title|truncatechars:20 }}
+        <div class="story-card">
+            <img src="{{ story.image.url }}" 
+                 class="story-image" 
+                 alt="{{ story.title }}"
+                 onclick="showModal('{{ story.image.url }}')">
+            <a href="{% url 'n_post_detail' story.id %}" class="story-title">
+                {{ story.title|truncatechars:40 }}
             </a>
-        </article>
+        </div>
         {% endfor %}
     </section>
 
-    <!-- News Grid -->
+    <!-- News Articles Grid -->
     <div class="news-grid">
         {% for article in posts %}
         <article class="news-card">
-            <span class="news-category">{{ article.category.name }}</span>
             <img src="{{ article.image.url }}" class="news-image" alt="{{ article.title }}">
             <div class="news-content">
                 <h2 class="news-title">{{ article.title }}</h2>
                 <p class="news-excerpt">{{ article.content|truncatewords:30 }}</p>
                 <div class="news-meta">
                     <time>{{ article.published|naturaltime }}</time>
-                    <a href="post/{{ article.id }}/{{ article.title }}" class="read-more">
+                    <a href="{% url 'n_post_detail' article.id %}" class="read-more">
                         Read More
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M5 12h14M12 5l7 7-7 7"/>
-                        </svg>
                     </a>
                 </div>
             </div>
@@ -409,64 +317,43 @@
     </div>
 </main>
 
-<!-- Modal -->
-<div class="modal" id="modal">
+<!-- Image Modal -->
+<div class="modal" id="imageModal">
     <div class="modal-content">
-        <button class="modal-close" id="close-modal">&times;</button>
-        <img src="" class="modal-image" alt="Full Story">
-        <div class="modal-body">
-            <h2 class="modal-title"></h2>
-            <p class="modal-text"></p>
-        </div>
+        <button class="modal-close" onclick="closeModal()">&times;</button>
+        <img src="" class="modal-image" id="modalImage">
     </div>
 </div>
 
 <script>
-    // Enhanced Sidebar Toggle
+    // Sidebar Toggle
     const sidebar = document.getElementById('sidebar');
-    const hamburger = document.getElementById('hamburger');
-
-    hamburger.addEventListener('click', () => {
+    document.getElementById('hamburger').addEventListener('click', () => {
         sidebar.classList.toggle('active');
-        document.body.style.overflow = sidebar.classList.contains('active') ? 'hidden' : '';
     });
 
-    // Close sidebar when clicking outside
-    document.addEventListener('click', (e) => {
-        if (!sidebar.contains(e.target) && !hamburger.contains(e.target)) {
-            sidebar.classList.remove('active');
-            document.body.style.overflow = '';
+    // Modal Functions
+    function showModal(imageUrl) {
+        document.getElementById('modalImage').src = imageUrl;
+        document.getElementById('imageModal').style.display = 'flex';
+    }
+
+    function closeModal() {
+        document.getElementById('imageModal').style.display = 'none';
+    }
+
+    // Close modal when clicking outside
+    window.onclick = function(event) {
+        if (event.target == document.getElementById('imageModal')) {
+            closeModal();
         }
-    });
+    }
 
-    // Modal Handling
-    const storyCards = document.querySelectorAll('.story-card');
-    const modal = document.getElementById('modal');
-    
-    storyCards.forEach(card => {
-        card.addEventListener('click', () => {
-            const imgSrc = card.querySelector('img').src;
-            const title = card.querySelector('.story-title').textContent;
-            
-            modal.querySelector('.modal-image').src = imgSrc;
-            modal.querySelector('.modal-title').textContent = title;
-            modal.style.display = 'flex';
+    // Close sidebar when clicking a link
+    document.querySelectorAll('.sidebar a').forEach(link => {
+        link.addEventListener('click', () => {
+            sidebar.classList.remove('active');
         });
-    });
-
-    // Close modal
-    modal.addEventListener('click', (e) => {
-        if (e.target === modal || e.target.closest('.modal-close')) {
-            modal.style.display = 'none';
-        }
-    });
-
-    // Keyboard navigation
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') {
-            modal.style.display = 'none';
-            sidebar.classList.remove('active');
-        }
     });
 </script>
 
