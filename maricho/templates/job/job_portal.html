@@ -8,357 +8,414 @@
     <meta name="author" content="MariCho Services">
     <title>MariCho Jobs</title>
     <style>
-        /* General styling */
-        body {
-            font-family: Arial, sans-serif;
+        /* Modern CSS Reset */
+        *, *::before, *::after {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
         }
 
-        /* Light sea green theme color */
         :root {
-            --main-color: #20B2AA;
+            --primary: #20B2AA; /* Light Sea Green */
+            --secondary: #1A7A74; /* Darker Sea Green */
+            --accent: #FF6B6B; /* Soft Red */
+            --light: #F8F9FA; /* Off White */
+            --dark: #2C3E50; /* Dark Text */
+            --radius: 8px;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
 
-        /* Header */
-        .header {
-            background-color: var(--main-color);
-            padding: 1rem;
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            color: var(--dark);
+            line-height: 1.6;
+            background: var(--light);
+        }
+
+        /* Enhanced Header */
+        header {
+            background: var(--primary);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: var(--shadow);
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            color: #fff;
         }
 
-        .header h1 {
-            margin: 0;
+        .logo {
             font-size: 1.5rem;
-        }
-
-        .header nav {
-            display: flex;
-            gap: 1rem;
-        }
-
-        .header nav a {
-            color: #fff;
+            color: white;
             text-decoration: none;
-            font-size: 1rem;
+            font-weight: 600;
         }
 
-        .header nav a:focus,
-        .header nav a:hover {
-            text-decoration: underline;
+        .nav-menu {
+            display: flex;
+            gap: 1.5rem;
+            list-style: none;
         }
 
-        /* Hamburger Menu for Mobile */
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: var(--radius);
+            transition: var(--transition);
+        }
+
+        .nav-link:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        /* Hamburger Menu */
         .hamburger {
             display: none;
             cursor: pointer;
-            font-size: 1.5rem;
+            background: none;
+            border: none;
+            padding: 0.5rem;
         }
 
-        .hamburger-menu {
-            display: none;
-            position: absolute;
-            top: 60px;
-            right: 20px;
-            background-color: #fff;
-            border: 1px solid var(--main-color);
-            padding: 1rem;
-            z-index: 10;
-        }
-
-        .hamburger-menu a {
+        .hamburger span {
             display: block;
-            color: var(--main-color);
-            text-decoration: none;
-            padding: 0.5rem 0;
+            width: 25px;
+            height: 2px;
+            background: white;
+            margin: 5px 0;
+            transition: var(--transition);
         }
 
         /* Search Section */
         .search-section {
-            padding: 1rem;
-            background-color: #f8f8f8;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
+            padding: 4rem 2rem;
+            background: linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.9)),
+                        url('https://images.pexels.com/photos/3184465/pexels-photo-3184465.jpeg') center/cover;
             text-align: center;
         }
 
-        .user_profile {
+        .search-section h2 {
+            font-size: 2.5rem;
+            color: var(--dark);
+            margin-bottom: 1.5rem;
+        }
+
+        .user-profile {
             display: flex;
             align-items: center;
-            margin-bottom: 30px;
-            font-size: 20px;
-            color: lightseagreen;
+            justify-content: center;
+            margin-bottom: 2rem;
         }
 
-        .user_profile img {
-            height: 50px;
-            width: 50px;
+        .user-profile img {
+            width: 60px;
+            height: 60px;
             border-radius: 50%;
-            margin-right: 10px;
+            margin-right: 1rem;
+            border: 2px solid var(--primary);
         }
 
-        .search-section input[type="text"],
-        .search-section select,
-        .search-section button {
-            padding: 0.5rem;
-            margin: 0.5rem 0;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            width: 100%;
-            max-width: 300px;
+        .search-form {
+            max-width: 600px;
+            margin: 0 auto;
+            display: grid;
+            gap: 1rem;
         }
 
-        .search-section button {
-            background-color: var(--main-color);
-            color: #fff;
+        .search-form input,
+        .search-form select,
+        .search-form button {
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: var(--radius);
+            font-size: 1rem;
+        }
+
+        .search-form button {
+            background: var(--primary);
+            color: white;
+            font-weight: 600;
             cursor: pointer;
+            transition: var(--transition);
         }
 
-        /* Validation Messages */
-        .validation-message {
-            color: red;
-            font-size: 0.9rem;
-            margin: 0.5rem 0;
+        .search-form button:hover {
+            background: var(--secondary);
         }
 
         /* Job Listings */
         .job-listings {
-            padding: 1rem;
+            padding: 4rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .job-listings h2 {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            color: var(--dark);
+        }
+
+        .job-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
         }
 
         .job-card {
-            border: 1px solid #ddd;
-            padding: 1rem;
-            margin-bottom: 1rem;
-            border-radius: 5px;
+            background: white;
+            padding: 1.5rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .job-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
         }
 
         .job-card h3 {
-            color: var(--main-color);
-            margin: 0;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
         }
 
         .job-card p {
+            color: #666;
             margin: 0.5rem 0;
         }
 
-        /* Loading Animation */
-        .loading {
-            text-align: center;
-            font-size: 1.2rem;
-            color: var(--main-color);
-            display: none; /* Initially hidden */
-        }
-
-        /* Company Logos Slider */
+        /* Company Logo Slider */
         .logo-slider {
+            padding: 2rem;
+            background: var(--light);
+            overflow: hidden;
+        }
+
+        .logo-slider h2 {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: var(--dark);
+        }
+
+        .logo-container {
             display: flex;
-            overflow: auto;
-            padding: 1rem;
-            background-color: #f8f8f8;
+            gap: 2rem;
+            animation: scroll 30s linear infinite;
         }
 
-        .logo-slider img {
-            height: 150px;
+        .logo-container img {
             width: 150px;
-            margin-right: 1rem;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            height: 150px;
+            object-fit: contain;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
         }
 
-        /* Responsive Styling */
+        @keyframes scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        /* CV Popup */
+        .cv-popup {
+            position: fixed;
+            right: 20px;
+            bottom: 20px;
+            background: var(--primary);
+            color: white;
+            padding: 1rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            z-index: 1000;
+            max-width: 250px;
+            text-align: center;
+        }
+
+        .cv-popup a {
+            display: inline-block;
+            background: white;
+            color: var(--primary);
+            padding: 0.5rem 1rem;
+            border-radius: var(--radius);
+            text-decoration: none;
+            font-weight: 500;
+            margin-top: 0.5rem;
+            transition: var(--transition);
+        }
+
+        .cv-popup a:hover {
+            background: var(--secondary);
+            color: white;
+        }
+
+        /* Responsive Design */
         @media (max-width: 768px) {
             .hamburger {
                 display: block;
             }
 
-            .header nav {
+            .nav-menu {
                 display: none;
-            }
-
-            .hamburger-menu.active {
-                display: block;
-            }
-
-            .search-section {
+                position: fixed;
+                top: 70px;
+                right: 20px;
+                background: white;
+                flex-direction: column;
                 padding: 1rem;
+                border-radius: var(--radius);
+                box-shadow: var(--shadow);
+            }
+
+            .nav-menu.active {
+                display: flex;
+            }
+
+            .nav-link {
+                color: var(--dark);
+                padding: 1rem;
+            }
+
+            .search-section h2 {
+                font-size: 2rem;
+            }
+
+            .logo-container {
+                gap: 1rem;
+            }
+
+            .logo-container img {
+                width: 100px;
+                height: 100px;
             }
         }
     </style>
 </head>
 <body>
     <!-- Header -->
-    <header class="header">
-        <h1>MariCho Jobs</h1>
-        <nav>
-            <a href="" aria-label="Home">Home</a>
-            <a href="{% url 'job-list' %}" aria-label="Jobs">Jobs</a>
-            <a href="{% url 'company-list' %}" aria-label="Companies">Companies</a>
-            <a href="" aria-label="Profile">Profile</a>
-            {% if user.is_authenticated %}
-                <a href="{% url 'logout' %}" aria-label="Logout">Logout</a>
-            {% else %}
-                <a href="{% url 'signin' %}" aria-label="Login">Login</a>
-            {% endif %}
-        </nav>
-        <div class="hamburger" onclick="toggleHamburger()">☰</div>
+    <header>
+        <div class="header-container">
+            <a href="#" class="logo">MariCho Jobs</a>
+            <nav>
+                <ul class="nav-menu">
+                    <li><a href="#" class="nav-link">Home</a></li>
+                    <li><a href="{% url 'job-list' %}" class="nav-link">Jobs</a></li>
+                    <li><a href="{% url 'company-list' %}" class="nav-link">Companies</a></li>
+                    <li><a href="#" class="nav-link">Profile</a></li>
+                    {% if user.is_authenticated %}
+                        <li><a href="{% url 'logout' %}" class="nav-link">Logout</a></li>
+                    {% else %}
+                        <li><a href="{% url 'signin' %}" class="nav-link">Login</a></li>
+                    {% endif %}
+                </ul>
+                <button class="hamburger" onclick="toggleMenu()">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </nav>
+        </div>
     </header>
-
-    <!-- Hamburger Menu for Mobile -->
-    <div class="hamburger-menu" id="hamburgerMenu">
-        <a href="" aria-label="Home">Home</a>
-        <a href="{% url 'job-list' %}" aria-label="Jobs">Jobs</a>
-        <a href="{% url 'company-list' %}" aria-label="Companies">Companies</a>
-        <a href="" aria-label="Profile">Profile</a>
-        {% if user.is_authenticated %}
-            <a href="{% url 'logout' %}" aria-label="Logout">Logout</a>
-        {% else %}
-            <a href="{% url 'signin' %}" aria-label="Login">Login</a>
-        {% endif %}
-    </div>
 
     <!-- Search Section -->
     <section class="search-section">
         <h2>Find Your Dream Job</h2>
-        <form method="GET">
-            <div class="user_profile">
-                {% if user.is_authenticated %}
-                    {% if user.company_profile %}
-                        <a href="{% url 'company_profile' user.company_profile.id %}">
-                            <img src="{{ user.company_profile.logo.url }}" alt="Company Logo">
-                        </a>
-                        <p>{{ user.company_profile.name }}</p>
-                    {% elif user.jobseeker %}
-                        <a href="{% url 'jobseeker_profile' user.jobseeker.id %}">
-                            <img src="{{ user.jobseeker.image.url }}" alt="User Profile Picture">
-                        </a>
-                        <p>{{ user.jobseeker.user.username }}</p>
-                    {% else %}
-                        <p>No profile, set up profile as </p>
-                        <a href="{% url 'company' %}" style="text-decoration: none;">
-    <div style="color: white; background: lightseagreen; font-size: 24px; padding: 10px; text-align: center; border-radius: 5px;">
-        Company
-    </div>
-</a>
-<br>
-<a href="{% url 'jobseeker' %}" style="text-decoration: none;">
-    <div style="color: white; background: lightseagreen; font-size: 24px; padding: 10px; text-align: center; border-radius: 5px;">
-        JobSeeker
-    </div>
-</a>
-                {% endif %}
+        <div class="user-profile">
+            {% if user.is_authenticated %}
+                {% if user.company_profile %}
+                    <a href="{% url 'company_profile' user.company_profile.id %}">
+                        <img src="{{ user.company_profile.logo.url }}" alt="Company Logo">
+                    </a>
+                    <p>{{ user.company_profile.name }}</p>
+                {% elif user.jobseeker %}
+                    <a href="{% url 'jobseeker_profile' user.jobseeker.id %}">
+                        <img src="{{ user.jobseeker.image.url }}" alt="User Profile Picture">
+                    </a>
+                    <p>{{ user.jobseeker.user.username }}</p>
                 {% else %}
-                    <p>Please log in to see your profile.</p>
+                    <p>No profile, set up profile as </p>
+                    <a href="{% url 'company' %}" class="profile-option">Company</a>
+                    <a href="{% url 'jobseeker' %}" class="profile-option">JobSeeker</a>
                 {% endif %}
-            </div>
-            <input type="text" name="query" placeholder="Job Title or Keywords" aria-label="Job Title or Keywords">
-            <select name="industry" aria-label="Industry">
-    <option value="">Industry</option>
-    {% for industry in industries %}
-        <option value="{{ industry.id }}" {% if request.GET.industry == industry.id|stringformat:"s" %}selected{% endif %}>
-            {{ industry.name }}
-        </option>
-    {% endfor %}
-</select>
+            {% else %}
+                <p>Please log in to see your profile.</p>
+            {% endif %}
+        </div>
+        <form class="search-form" method="GET">
+            <input type="text" name="query" placeholder="Job Title or Keywords">
+            <select name="industry">
+                <option value="">Industry</option>
+                {% for industry in industries %}
+                    <option value="{{ industry.id }}">{{ industry.name }}</option>
+                {% endfor %}
+            </select>
             <button type="submit">Search</button>
-            <div class="validation-message">
-                <!-- Error messages go here -->
-            </div>
         </form>
-    </section>
-
-    <!-- Loading Animation -->
-    <div class="loading" id="loading">Loading jobs...</div>
-
-    <!-- Company Logo Slider -->
-    <section class="logo-slider">
-        <h2> Companies that hire </h2>
-        {% for company in companies %}
-          <a href="{% url 'company_profile' company.id %}">  
-              <img src="{{ company.logo.url }}" alt="{{ company.name }} Logo"> </a>
-        {% endfor %}
     </section>
 
     <!-- Job Listings -->
     <section class="job-listings">
-        {% for job in jobs %}
-            <a style="text-decoration: none;" href="{% url 'job-details' job.id %}">
-                <div style="color: black border: 2px bold lightseagreen;" class="job-card">
-                    <h3 style=" color: lightseagreen;">{{ job.title }}</h3>
+        <h2>Latest Job Opportunities</h2>
+        <div class="job-grid">
+            {% for job in jobs %}
+                <a href="{% url 'job-details' job.id %}" class="job-card">
+                    <h3>{{ job.title }}</h3>
                     <p>Company: {{ job.company.name }}</p>
                     <p>Location: {{ job.location }}</p>
                     <p>Salary: {{ job.salary }}</p>
-                </div>
-            </a>
-        {% empty %}
-            <p>No jobs available at the moment.</p>
-        {% endfor %}
+                </a>
+            {% empty %}
+                <p>No jobs available at the moment.</p>
+            {% endfor %}
+        </div>
     </section>
 
-    <!-- JavaScript for Hamburger Menu Toggle -->
-    <!-- Add this section to the body -->
-<div class="cv-popup">
-  <p>Do you have a CV? Let us help you create a CV that will guarantee you a job!</p>
-  <a href="https://wa.me/+263784777648" target="_blank" aria-label="WhatsApp CV Service">
-    Contact Us on WhatsApp
-  </a>
-</div>
+    <!-- Company Logo Slider -->
+    <section class="logo-slider">
+        <h2>Companies That Hire</h2>
+        <div class="logo-container">
+            {% for company in companies %}
+                <a href="{% url 'company_profile' company.id %}">
+                    <img src="{{ company.logo.url }}" alt="{{ company.name }} Logo">
+                </a>
+            {% endfor %}
+        </div>
+    </section>
 
-<style>
-  /* CV Popup Styling */
-  .cv-popup {
-    position: fixed;
-    right: 10px;
-    bottom: 50px;
-    background-color: var(--main-color);
-    color: #fff;
-    padding: 1rem;
-    border-radius: 5px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    z-index: 100;
-    width: 250px;
-    text-align: center;
-  }
+    <!-- CV Popup -->
+    <div class="cv-popup">
+        <p>Need help with your CV?</p>
+        <a href="https://wa.me/+263784777648" target="_blank">Contact Us on WhatsApp</a>
+    </div>
 
-  .cv-popup p {
-    margin: 0 0 0.5rem;
-    font-size: 0.9rem;
-  }
-
-  .cv-popup a {
-    display: inline-block;
-    color: #fff;
-    background-color: #004d40;
-    padding: 0.5rem 1rem;
-    border-radius: 5px;
-    text-decoration: none;
-    font-size: 0.9rem;
-    font-weight: bold;
-  }
-
-  .cv-popup a:hover {
-    background-color: #00796b;
-  }
-</style>
-    
-    
     <script>
-        function toggleHamburger() {
-            const menu = document.getElementById('hamburgerMenu');
+        // Toggle Mobile Menu
+        function toggleMenu() {
+            const menu = document.querySelector('.nav-menu');
             menu.classList.toggle('active');
         }
 
-        // Simulate loading state
-        window.onload = function () {
-            const loading = document.getElementById('loading');
-            loading.style.display = 'none';
-        }
+        // Smooth Scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
     </script>
 </body>
 </html>
