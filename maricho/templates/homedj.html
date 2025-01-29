@@ -1226,49 +1226,103 @@ document.addEventListener("DOMContentLoaded", function () {
             modalVideoIdInput.value = videoId; // Set video ID in hidden input
 
             fetch(`video/${videoId}/`)  // Assuming a backend URL to fetch video details
-                .then(response => response.json())
-                .then(data => {
-                    // Create and load the video into the modal
-                    const videoHTML = `
-                        <div class="video-card" style="flex: 0 0 100%; scroll-snap-align: start; position: relative; display: flex; flex-direction: column; justify-content: center; align-items: center;">
-                            <video controls loop autoplay muted style="width: 100%; height: 80%; object-fit: cover;">
-                                <source src="${data.video_file_url}" type="video/mp4">
-                            </video>
-                            <div class="modal-icons" style="position: absolute; bottom: 20%; right: 10%; display: flex; flex-direction: column; gap: 10px; align-items: center;">
-                                <i class="fa fa-heart" style="color: white; font-size: 24px; cursor: pointer;"></i>
-                                <span>${data.likes}</span>
-                                <i class="fa fa-comment" style="color: white; font-size: 24px; cursor: pointer;"></i>
-                                <span>${data.comments_count}</span>
-                            </div>
-                        </div>
-                    `;
-                    videoContainer.innerHTML = videoHTML;
+                        .then(response => response.json())
+        .then(comments => {
+            const commentsList = document.getElementById('comments-list');
+            commentsList.innerHTML = ''; // Clear existing comments
 
-                    // Show modal
-                    modal.style.display = "block";
-                    scrollHint.style.display = "block";
+            comments.forEach(comment => {
+                const commentDiv = document.createElement('div');
+                commentDiv.className = 'comment';
+                commentDiv.innerHTML = `
+                    <p><strong>${comment.user}</strong> 
+                    <span class="comment-time">${new Date(comment.created_at).toLocaleTimeString()}</span></p>
+                    <p>${comment.text}</p>
+                `;
+                commentsList.appendChild(commentDiv);
+            });
+        })
+        .catch(error => console.error('Error fetching comments:', error));
+    }
 
-                    // Hide scroll hint after 3 seconds
-                    setTimeout(() => {
-                        scrollHint.style.display = "none";
-                    }, 3000);
+    // Comment form submission
+    document.getElementById('comment-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const videoId = modalVideoIdInput.value;
+        const commentText = this.querySelector('textarea').value;
+        
+        if (!commentText.trim()) return;
 
-                    // Fetch and display comments for the current video
-                    fetchComments(videoId);
-                })
-                .catch(error => {
-                    console.error("Error fetching video details:", error);
-                });
+        fetch(`video/${videoId}/comment/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': '{{ csrf_token }}'
+            },
+            body: JSON.stringify({
+                text: commentText
+            })
+        })
+        .then(response => {
+            if (response.ok) {
+                this.reset();
+                fetchComments(videoId); // Refresh comments
+                updateCommentCount(1); // Increment comment count
+            }
+        })
+        .catch(error => console.error('Error posting comment:', error));
+    });
+
+    // Like button functionality
+    videoContainer.addEventListener('click', function(e) {
+        if (e.target.classList.contains('fa-heart')) {
+            const videoId = modalVideoIdInput.value;
+            const likeCountSpan = e.target.nextElementSibling;
+            
+            fetch(`video/${videoId}/like/`, {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                likeCountSpan.textContent = data.likes;
+                e.target.style.color = data.liked ? 'lightseagreen' : 'white';
+            })
+            .catch(error => console.error('Error liking video:', error));
+        }
+    });
+
+    // Video navigation with arrow keys
+    document.addEventListener('keydown', function(e) {
+        if (modal.style.display === 'block') {
+            const currentIndex = Array.from(videoCards).findIndex(card => 
+                card.dataset.videoId === modalVideoIdInput.value
+            );
+            
+            if (e.key === 'ArrowLeft' && currentIndex > 0) {
+                videoCards[currentIndex - 1].click();
+            } else if (e.key === 'ArrowRight' && currentIndex < videoCards.length - 1) {
+                videoCards[currentIndex + 1].click();
+            }
+        }
+    });
+
+    // Helper functions
+    function updateCommentCount(increment) {
+        const commentCountSpans = document.querySelectorAll(`[data-video-id="${modalVideoIdInput.value}"] .fa-comment + span`);
+        commentCountSpans.forEach(span => {
+            span.textContent = parseInt(span.textContent) + increment;
         });
-    });
+    }
 
-    // Close modal
-    closeModal.addEventListener("click", function () {
-        modal.style.display = "none";
-        videoContainer.innerHTML = ""; // Clear video content
+    // Close modal when clicking outside
+    modal.addEventListener('click', function(e) {
+        if (e.target === modal) {
+            modal.style.display = 'none';
+            videoContainer.innerHTML = '';
+        }
     });
-
-    // Fetch comments for the current video
-    function fetchComments(videoId) {
-        fetch(`video/${videoId}/comments/`)
-  
+});
+                          </script>
