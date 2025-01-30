@@ -4,221 +4,332 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ profile.user.username }} - Profile</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* Basic Reset */
-        body, html {
-            margin: 0;
-            padding: 0;
-            font-family: Arial, sans-serif;
-            background-color: #f8f9fa;
+        :root {
+            --primary-color: #20b2aa;
+            --secondary-color: #1b8b82;
+            --text-dark: #2c3e50;
+            --text-light: #7f8c8d;
+            --background: #f8f9fa;
+            --white: #ffffff;
         }
 
-        /* Header */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background-color: var(--background);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        /* Header Styles */
         .header {
-            background-color: #20b2aa; /* Light sea green */
-            padding: 10px 20px;
+            background-color: var(--primary-color);
+            padding: 1rem 2rem;
             display: flex;
-            align-items: center;
             justify-content: space-between;
-            color: white;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
 
         .header-logo {
-            font-size: 1.5em;
-            font-weight: bold;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--white);
         }
 
         .nav-links {
             display: flex;
-            gap: 15px;
+            gap: 1.5rem;
         }
 
         .nav-links a {
-            text-decoration: none;
-            color: white;
-            padding: 8px 12px;
+            color: var(--white);
+            padding: 0.5rem 1rem;
             border-radius: 5px;
-            transition: background 0.3s ease;
+            transition: all 0.3s ease;
         }
 
         .nav-links a:hover {
-            background-color: #1b8b82;
+            background-color: var(--secondary-color);
         }
 
-        /* Company Profile */
+        /* Main Profile Container */
         .profile-container {
-            max-width: 900px;
-            margin: 20px auto;
-            padding: 20px;
-            background-color: #ffffff;
-            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: var(--white);
+            border-radius: 10px;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
         }
 
-        .company-header {
-            display: flex;
-            align-items: center;
-            gap: 20px;
+        /* Profile Header */
+        .profile-header {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 2rem;
+            padding-bottom: 2rem;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid #eee;
         }
 
-        .company-logo img {
-            width: 100px;
-            height: 100px;
+        .profile-image img {
+            width: 150px;
+            height: 150px;
             border-radius: 50%;
             object-fit: cover;
+            border: 3px solid var(--primary-color);
+            padding: 3px;
         }
 
-        .company-info {
-            flex-grow: 1;
+        .profile-info {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
         }
 
-        .company-info h2 {
-            margin: 0;
-            color: #20b2aa;
+        .profile-info h2 {
+            color: var(--primary-color);
+            font-size: 2rem;
         }
 
-        .company-info p {
-            margin: 5px 0;
-            color: #555;
+        .profile-meta {
+            display: flex;
+            gap: 1.5rem;
+            color: var(--text-light);
         }
 
-        /* Description */
-        .description {
-            margin-top: 15px;
-        }
-
-        .description h3 {
-            color: #20b2aa; /* Light sea green */
-            margin-bottom: 10px;
-            font-size: 1.2em;
-            border-bottom: 2px solid #ddd;
-            padding-bottom: 5px;
-        }
-
-        .description p {
-            margin-bottom: 15px;
-            color: #333;
-            line-height: 1.6;
-        }
-
-        /* Job Openings */
-        .job-openings {
-            margin-top: 20px;
-        }
-
-        .job-openings h3 {
-            color: #20b2aa;
-        }
-
-        .job-list {
-            list-style: none;
-            padding: 0;
-        }
-
-        .job-list li {
-            padding: 15px;
-            border-bottom: 1px solid #ddd;
+        .meta-item {
             display: flex;
             align-items: center;
-            justify-content: space-between;
+            gap: 0.5rem;
+        }
+
+        .meta-item i {
+            color: var(--primary-color);
+            width: 20px;
+        }
+
+        /* Profile Details Section */
+        .profile-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .detail-card {
+            padding: 1.5rem;
+            background: #f8fafa;
+            border-radius: 8px;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .detail-card h3 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Job Recommendations */
+        .job-recommendations {
+            margin-top: 2rem;
+        }
+
+        .job-recommendations h2 {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+        }
+
+        .job-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .job-card {
+            padding: 1.5rem;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            transition: transform 0.3s ease;
+        }
+
+        .job-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
 
         .job-title {
-            font-weight: bold;
-            color: #333;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 0.5rem;
         }
 
-        .apply-link {
-            color: #20b2aa;
-            text-decoration: none;
-            font-weight: bold;
-            border: 1px solid #20b2aa;
-            padding: 8px 12px;
+        .job-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            color: var(--text-light);
+            margin-bottom: 1rem;
+        }
+
+        .job-meta span {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .view-details {
+            display: inline-block;
+            padding: 0.6rem 1.2rem;
+            background-color: var(--primary-color);
+            color: var(--white);
             border-radius: 5px;
-            transition: background 0.3s ease;
+            font-weight: 500;
+            transition: all 0.3s ease;
         }
 
-        .apply-link:hover {
-            background-color: #20b2aa;
-            color: white;
+        .view-details:hover {
+            background-color: var(--secondary-color);
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-light);
         }
 
         /* Responsive Design */
         @media (max-width: 768px) {
-            .company-header {
-                flex-direction: column;
-                align-items: center;
+            .profile-header {
+                grid-template-columns: 1fr;
                 text-align: center;
             }
 
-            .company-info {
-                text-align: center;
+            .profile-image img {
+                margin: 0 auto;
+            }
+
+            .profile-meta {
+                flex-direction: column;
+                align-items: center;
+                gap: 0.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header {
+                flex-direction: column;
+                gap: 1rem;
+                padding: 1rem;
+            }
+
+            .profile-container {
+                padding: 1rem;
+                margin: 1rem;
             }
         }
     </style>
 </head>
 <body>
-
-<!-- Header -->
-<div class="header">
-    <div class="header-logo">Job Portal</div>
-    <div class="nav-links">
-        <a href="{% url 'job-list' %}">Jobs</a>
-
-        {% if user.is_authenticated %}
-            <a href="{% url 'logout' %}">Logout</a>
-        {% else %}
-            <a href="{% url 'signin' %}">Login</a>
-        {% endif %}
-    </div>
-</div>
-
-<!-- Company Profile Container -->
-<div class="profile-container">
-
-    <!-- Company Header -->
-    <div class="company-header">
-        <div class="company-logo">
-            <img src="{{ profile.image.url }}" alt="{{ company.name }} Logo">
-        </div>
-        <div class="company-info">
-            <h2>{{ profile.user.username }}</h2>
-            <p><strong>Location:</strong> {{ profile.country }}</p>
-            <p><strong>Industry:</strong> {{ profile.industry }}</p>
-            <p><strong>Website:</strong> <a href="{{ company.website }}" target="_blank">{{ company.website }}</a></p>
-        </div>
-    </div>
-
-    <!-- Company Description -->
-    <div class="description">
-        <h3>Biography</h3>
-        <p>{{ profile.bio|default:'No biography available.' }}</p>
-
-        <h3>Education</h3>
-        <p>{{ profile.education|default:'Education details not provided.' }}</p>
-
-        <h3>Skills</h3>
-        <p>{{ profile.skills|default:'No skills listed.' }}</p>
-    </div>
-
-    <!-- Job Openings -->
-    <div class="job-openings">
-        <h3>Open Positions For You</h3>
-        <ul class="job-list">
-            {% for job in jobs %}
-            {% if job.industry == profile.industry %}
-                <li>
-                    <span class="job-title">{{ job.title }}</span>
-                    <a href="{% url 'job-details' job.id %}" class="apply-link">View Details</a>
-                </li>
+    <header class="header">
+        <div class="header-logo">Job Portal</div>
+        <nav class="nav-links">
+            <a href="{% url 'job-list' %}">Jobs</a>
+            {% if user.is_authenticated %}
+                <a href="{% url 'logout' %}">Logout</a>
+            {% else %}
+                <a href="{% url 'signin' %}">Login</a>
             {% endif %}
-            {% empty %}
-                <li>No current job openings available.</li>
-            {% endfor %}
-        </ul>
-    </div>
+        </nav>
+    </header>
 
-</div>
+    <main class="profile-container">
+        <!-- Profile Header -->
+        <section class="profile-header">
+            <div class="profile-image">
+                <img src="{{ profile.image.url }}" alt="{{ profile.user.username }}'s Profile Picture">
+            </div>
+            <div class="profile-info">
+                <h2>{{ profile.user.username }}</h2>
+                <div class="profile-meta">
+                    <div class="meta-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        {{ profile.country|default:"Not specified" }}
+                    </div>
+                    <div class="meta-item">
+                        <i class="fas fa-industry"></i>
+                        {{ profile.industry|default:"No industry specified" }}
+                    </div>
+                    {% if profile.website %}
+                    <div class="meta-item">
+                        <i class="fas fa-globe"></i>
+                        <a href="{{ profile.website }}" target="_blank">Website</a>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </section>
 
+        <!-- Profile Details -->
+        <section class="profile-details">
+            <div class="detail-card">
+                <h3><i class="fas fa-user"></i> Biography</h3>
+                <p>{{ profile.bio|default:"No biography available" }}</p>
+            </div>
+
+            <div class="detail-card">
+                <h3><i class="fas fa-graduation-cap"></i> Education</h3>
+                <p>{{ profile.education|default:"Education details not provided" }}</p>
+            </div>
+
+            <div class="detail-card">
+                <h3><i class="fas fa-tools"></i> Skills</h3>
+                <p>
+                    {% if profile.skills %}
+                        {{ profile.skills|join:", " }}
+                    {% else %}
+                        No skills listed
+                    {% endif %}
+                </p>
+            </div>
+        </section>
+
+        <!-- Job Recommendations -->
+        <section class="job-recommendations">
+            <h2><i class="fas fa-briefcase"></i> Recommended Positions</h2>
+            <div class="job-grid">
+                {% for job in jobs %}
+                    {% if job.industry == profile.industry %}
+                        <article class="job-card">
+                            <h3 class="job-title">{{ job.title }}</h3>
+                            <div class="job-meta">
+                                <span><i class="fas fa-building"></i> {{ job.company }}</span>
+                                <span><i class="fas fa-map-marker-alt"></i> {{ job.location }}</span>
+                                <span><i class="fas fa-clock"></i> {{ job.type }}</span>
+                                <span><i class="fas fa-dollar-sign"></i> {{ job.salary }}</span>
+                            </div>
+                            <a href="{% url 'job-details' job.id %}" class="view-details">View Details</a>
+                        </article>
+                    {% endif %}
+                {% empty %}
+                    <div class="empty-state">
+                        <p>No recommended positions available</p>
+                    </div>
+                {% endfor %}
+            </div>
+        </section>
+    </main>
 </body>
 </html>
