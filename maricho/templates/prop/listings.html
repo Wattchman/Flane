@@ -3,14 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PropertyFinder</title>
+    <title>PropertyFinder | MariChoProperty</title>
     <style>
         :root {
-            --primary-color: lightseagreen;
-            --secondary-color: #20b2aa;
+            --primary-color: #20B2AA;
+            --secondary-color: #1E9E97;
             --text-color: #333;
-            --light-text: #fff;
-            --background-color: #f4f4f4;
+            --light-text: #FFF;
+            --background-color: #F4F4F4;
+            --transition: all 0.3s ease;
         }
 
         * {
@@ -20,258 +21,311 @@
         }
 
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Arial', sans-serif;
             line-height: 1.6;
             color: var(--text-color);
             background-color: var(--background-color);
+        }
+
+        /* Header Styles */
+        header {
+            background-color: var(--primary-color);
+            color: var(--light-text);
+            padding: 1rem 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
 
         .container {
             width: 90%;
             max-width: 1200px;
             margin: 0 auto;
-            overflow: hidden;
         }
 
-        header {
-            background-color: var(--primary-color);
-            color: var(--light-text);
-            padding: 1rem 0;
-        }
-
-        header .container {
+        .nav-container {
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
         .logo {
-            font-size: 1.5rem;
-            font-weight: bold;
+            font-size: 1.75rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
         }
 
-        nav ul {
+        .nav-menu {
             display: flex;
+            gap: 2rem;
             list-style: none;
         }
 
-        nav ul li {
-            margin-left: 1rem;
-        }
-
-        nav ul li a {
+        .nav-link {
             color: var(--light-text);
             text-decoration: none;
-        }
-
-        .hamburger {
-            display: none;
-            flex-direction: column;
-            cursor: pointer;
-        }
-     .
-        .hamburger span {
-            height: 3px;
-            width: 25px;
-            background-color: var(--light-text);
-            margin-bottom: 4px;
-            border-radius: 5px;
-        }
-
-        .search-container {
-            background-color: var(--light-text);
-            padding: 2rem;
-            margin: 2rem 0;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-
-        .search-container h2 {
-            margin-bottom: 1rem;
-            color: var(--primary-color);
-        }
-
-        .search-form {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1rem;
-        }
-
-        .form-group {
-            flex: 1;
-            min-width: 200px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-        }
-
-        .form-group input,
-        .form-group select {
-            width: 100%;
-            padding: 0.5rem;
-            border: 1px solid #ddd;
+            transition: var(--transition);
+            padding: 0.5rem 1rem;
             border-radius: 4px;
         }
 
+        .nav-link:hover {
+            background-color: rgba(255,255,255,0.1);
+        }
+
+        /* Hamburger Menu */
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 0.5rem;
+        }
+
+        .hamburger span {
+            display: block;
+            width: 25px;
+            height: 3px;
+            background-color: var(--light-text);
+            margin: 4px 0;
+            border-radius: 3px;
+            transition: var(--transition);
+        }
+
+        /* Search Section */
+        .search-container {
+            background: var(--light-text);
+            padding: 2rem;
+            margin: 2rem 0;
+            border-radius: 10px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+        }
+
+        .search-form {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            align-items: end;
+        }
+
+        .form-group {
+            position: relative;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #DDD;
+            border-radius: 6px;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(32,178,170,0.2);
+        }
+
+        .search-btn {
+            background-color: var(--primary-color);
+            color: var(--light-text);
+            padding: 0.75rem 2rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .search-btn:hover {
+            background-color: var(--secondary-color);
+        }
+
+        /* Listings Grid */
         .listings {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
             gap: 2rem;
+            padding: 2rem 0;
         }
 
         .listing {
-            background-color: var(--light-text);
-            border-radius: 8px;
+            background: var(--light-text);
+            border-radius: 10px;
             overflow: hidden;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            transition: var(--transition);
         }
-        .listing-details a {
-            background: lightseagreen;
-            text-decoration: none;
-            padding: 3px;
-            border-radius: 5px;
-            color: white;
+
+        .listing:hover {
+            transform: translateY(-5px);
         }
-       .image-gallery {
-    position: relative;
-    max-width: 500px; /* Adjust width as needed */
-}
 
-.image-slider img {
-    display: none;
-    width: 100%;
-    height: 300px;
-}
+        /* Image Slider */
+        .image-gallery {
+            position: relative;
+            height: 250px;
+            overflow: hidden;
+        }
 
-.image-dots {
-    text-align: center;
-    margin-top: 10px;
-}
+        .image-slider {
+            display: flex;
+            height: 100%;
+            transition: transform 0.5s ease;
+        }
 
-.image-dot {
-    display: inline-block;
-    width: 10px;
-    height: 10px;
-    margin: 0 5px;
-    background-color: #bbb;
-    border-radius: 50%;
-    cursor: pointer;
-}
+        .image-slider img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            flex-shrink: 0;
+        }
 
-.image-dot.active {
-    background-color: #333; /* Active dot color */
-}
+        .slider-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0,0,0,0.5);
+            color: var(--light-text);
+            padding: 0.75rem;
+            cursor: pointer;
+            border: none;
+            border-radius: 50%;
+            transition: var(--transition);
+        }
 
-.slider-nav {
-    position: absolute;
-    top: 50%;
-    width: auto;
-    padding: 10px;
-    color: #333;
-    font-weight: bold;
-    font-size: 20px;
-    cursor: pointer;
-    user-select: none;
-}
+        .slider-nav:hover {
+            background: rgba(0,0,0,0.8);
+        }
 
-.prev {
-    left: 10px;
-    color: lightseagreen;
-}
+        .prev { left: 1rem; }
+        .next { right: 1rem; }
 
-.next {
-    right: 10px;
-    color: lightseagreen;
-}
+        .image-dots {
+            position: absolute;
+            bottom: 1rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 0.5rem;
+        }
 
+        .image-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.5);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .image-dot.active {
+            background: var(--light-text);
+            transform: scale(1.2);
+        }
+
+        /* Listing Info */
         .listing-info {
-            padding: 1rem;
-        }
-
-        .listing-info h3 {
-            margin-bottom: 0.5rem;
-            color: var(--primary-color);
+            padding: 1.5rem;
         }
 
         .listing-type {
             display: inline-block;
-            padding: 0.25rem 0.5rem;
-            background-color: var(--secondary-color);
+            padding: 0.25rem 0.75rem;
+            background: var(--primary-color);
             color: var(--light-text);
-            border-radius: 4px;
+            border-radius: 20px;
             font-size: 0.8rem;
-            margin-bottom: 0.5rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .listing-price {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin: 0.5rem 0;
         }
 
         .listing-details {
             display: flex;
             justify-content: space-between;
-            margin-top: 0.5rem;
-            font-size: 0.9rem;
+            align-items: center;
+            margin-top: 1rem;
         }
 
-        .listing-price {
-            font-weight: bold;
-            color: var(--primary-color);
-            font-size: 1.2rem;
-            margin-top: 0.5rem;
+        .details-link {
+            background: var(--primary-color);
+            color: var(--light-text);
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
         }
-        .clogo { 
-                width: 50px;
-                height: 50px;
-                border-radius: 50%;
 
+        .details-link:hover {
+            background: var(--secondary-color);
+        }
+
+        /* User Profile */
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .clogo {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--primary-color);
+        }
+
+        /* Mobile Styles */
         @media (max-width: 768px) {
-            .hamburger {
-                display: flex;
-            }
-            .image-carousel {
-                display: flex;
-                overflow-x: scroll;
-                scroll-snap-type: x mandatory;
-                gap: 10px;
-            }
-            .image-carousel img {
-                scroll-snap-align: start;
-                min-width: 100%;
-                max-height: 400px;
-                object-fit: cover;
-                border-radius: 8px;
-
-            }
-            nav {
+            .nav-menu {
                 display: none;
-                width: 100%;
                 position: absolute;
-                top: 60px;
+                top: 100%;
                 left: 0;
-                background-color: var(--primary-color);
+                right: 0;
+                background: var(--primary-color);
                 padding: 1rem;
+                text-align: center;
             }
 
-            nav.active {
+            .nav-menu.active {
+                display: flex;
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .hamburger {
                 display: block;
             }
 
-            nav ul {
-                flex-direction: column;
+            .hamburger.active span:nth-child(1) {
+                transform: rotate(45deg) translate(5px, 5px);
             }
 
-            nav ul li {
-                margin: 0.5rem 0;
+            .hamburger.active span:nth-child(2) {
+                opacity: 0;
             }
-            .clogo { 
-                width: 50px;
-                height: 50px;
-                border-radius: 50%;
+
+            .hamburger.active span:nth-child(3) {
+                transform: rotate(-45deg) translate(5px, -5px);
+            }
 
             .search-form {
-                flex-direction: column;
-            }
-
-            .listings {
                 grid-template-columns: 1fr;
             }
         }
@@ -280,18 +334,18 @@
 <body>
     <header>
         <div class="container">
-            <div class="logo">MariChoProperty</div>
-            <div class="hamburger" aria-label="Toggle menu">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
-            <nav>
-                <ul>
-                    <li><a href="{% url 'home' %}" aria-label="Buy properties">Home</a></li>
-                    <li><a href="#" aria-label="Buy properties">Buy</a></li>
-                    <li><a href="#" aria-label="Rent properties">Rent</a></li>
-                    <li><a href="#" aria-label="Sell your property">Sell</a></li>
+            <nav class="nav-container">
+                <div class="logo">MariChoProperty</div>
+                <button class="hamburger" aria-expanded="false">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+                <ul class="nav-menu">
+                    <li><a href="{% url 'home' %}" class="nav-link">Home</a></li>
+                    <li><a href="#buy" class="nav-link">Buy</a></li>
+                    <li><a href="#rent" class="nav-link">Rent</a></li>
+                    <li><a href="#sell" class="nav-link">Sell</a></li>
                 </ul>
             </nav>
         </div>
@@ -299,134 +353,159 @@
 
     <main class="container">
         <section class="search-container">
-            <h2>Find Your Perfect Property</h2>
-            <div class="user_profile">
+            <h2 class="search-heading">Find Your Perfect Property</h2>
+            <div class="user-profile">
                 {% if user.is_authenticated %}
                     {% if user.property_profile %}
                         <a href="{% url 'property_profile' user.property_profile.id %}">
                             <img class="clogo" src="{{ user.property_profile.logo.url }}" alt="Company Logo">
                         </a>
                         <p>{{ user.property_profile.name }}</p>
-                
                     {% else %}
-                        <p>No profile, set up profile as </p>
-                        <a href="{% url 'property' %}" style="text-decoration: none;">
-    <div style="color: white; background: lightseagreen; font-size: 24px; padding: 10px; text-align: center; border-radius: 5px;">
-        Property
-    </div>
-</a>
-                {% endif %}
+                        <a href="{% url 'property' %}" class="details-link">
+                            Create Property Profile
+                        </a>
+                    {% endif %}
                 {% else %}
-                    <p><a style="text-decoration: none; color: lightseagreen;" href={% url 'signin' %}> No Profile, Login </a> </p>
+                    <a href="{% url 'signin' %}" class="details-link">
+                        Sign In to Continue
+                    </a>
                 {% endif %}
-            <form class="search-form" method="get" id="search-form" action="{% url 'property-list' %}">
+            </div>
+            <form class="search-form" method="get" action="{% url 'property-list' %}">
                 <div class="form-group">
-                    <label for="city">City:</label>
-                    <select name="city" id="city">
+                    <label class="form-label" for="city">City</label>
+                    <select class="form-control" name="city" id="city">
                         <option value="">All Cities</option>
                         {% for city_option in cities %}
-                         <option value="{{ city_option }}"
-                                 {% if city_option == city %}
-                                 selected {% endif %} > {{ city_option }} </option>
+                        <option value="{{ city_option }}" {% if city_option == city %}selected{% endif %}>
+                            {{ city_option }}
+                        </option>
                         {% endfor %}
                     </select>
-
                 </div>
                 <div class="form-group">
-                    <label for="property-type">Property Type</label>
-                    <select id="property-type" name="property-type">
-                        <option value="">All</option>
-                        <option value="buy" {% if listing_type == buy %}
-                                selected {% endif %}>Buy</option>
-                        <option value="rent" {% if listing_type == rent %}
-                                selected {% endif %}>Rent</option>
+                    <label class="form-label" for="property-type">Type</label>
+                    <select class="form-control" id="property-type" name="property-type">
+                        <option value="">All Types</option>
+                        <option value="buy" {% if listing_type == 'buy' %}selected{% endif %}>Buy</option>
+                        <option value="rent" {% if listing_type == 'rent' %}selected{% endif %}>Rent</option>
                     </select>
                 </div>
-                <button type="submit">Search</button>
+                <button type="submit" class="search-btn">Search Properties</button>
             </form>
         </section>
 
-        <section class="listings" id="listings">
+        <section class="listings">
             {% if city or listing_type %}
-            <p>Showing results for: {% if city %}
-                City "{{ city }}" {% endif %} {% if listing_type %}
-                - Type: "{{ listing_type|title}}" {% endif %}</p>
+            <div class="results-info">
+                Showing results for: 
+                {% if city %}<strong>{{ city }}</strong>{% endif %}
+                {% if listing_type %}<strong>{{ listing_type|title }}</strong>{% endif %}
+            </div>
             {% endif %}
+            
             {% for listing in properties %}
-            <div class="listing">
+            <article class="listing">
                 <div class="image-gallery">
-                    <div class="image-slider">
+                    <div class="image-slider" id="slider-{{ listing.id }}">
                         {% for image in listing.images.all %}
-                        <img src="{{ image.image.url }}" alt="Property Image">
+                        <img src="{{ image.image.url }}" alt="Property image {{ forloop.counter }}">
                         {% endfor %}
                     </div>
-                    <a href="#" class="slider-nav prev" onclick="prevSlide(event, {{ listing.id }})">&#10094;</a>
-                    <a href="#" class="slider-nav next" onclick="nextSlide(event, {{ listing.id }})">&#10095;</a>
-                     <div class="image-dots">
-                      {% for image in listing.images.all %}
-                       <span class="image-dot"></span>
+                    <button class="slider-nav prev" aria-label="Previous image">&#10094;</button>
+                    <button class="slider-nav next" aria-label="Next image">&#10095;</button>
+                    <div class="image-dots">
+                        {% for image in listing.images.all %}
+                        <button class="image-dot" aria-label="View image {{ forloop.counter }}"></button>
                         {% endfor %}
-
                     </div>
                 </div>
                 <div class="listing-info">
-                    <span class="listing-type">{{ listing.property_type }}</span>
-                    <h3>{{ listing.location }}</h3>
-                    <p class="listing-price">${{ listing.price }}</p>
+                    <span class="listing-type">{{ listing.get_property_type_display }}</span>
+                    <h3>{{ listing.title }}</h3>
+                    <p class="listing-price">${{ listing.price|floatformat:"0" }}</p>
                     <div class="listing-details">
-                        <span>{{ listing.rooms }} rooms</span>
-                        <span>{{ listing.size }} sq m</span>
-                        <a href="{% url 'listing-detail' listing.id %}">View Details</a>
+                        <div>
+                            <span>{{ listing.bedrooms }} BR</span> |
+                            <span>{{ listing.bathrooms }} BA</span> |
+                            <span>{{ listing.sqft }} sqft</span>
+                        </div>
+                        <a href="{% url 'listing-detail' listing.id %}" class="details-link">
+                            View Details
+                        </a>
                     </div>
                 </div>
-            </div>
+            </article>
             {% endfor %}
         </section>
     </main>
 
     <script>
-document.addEventListener("DOMContentLoaded", function () {
+        // Mobile Menu Toggle
+        const hamburger = document.querySelector('.hamburger');
+        const navMenu = document.querySelector('.nav-menu');
 
-    const listings = document.querySelectorAll('.listing');
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            navMenu.classList.toggle('active');
+            hamburger.setAttribute('aria-expanded', hamburger.classList.contains('active'));
+        });
 
-    listings.forEach(listing => {
-        let currentIndex = 0;
-        const images = listing.querySelectorAll('.image-slider img');
-        const dots = listing.querySelectorAll('.image-dot');
-        const nextButton = listing.querySelector('.next');
-        const prevButton = listing.querySelector('.prev');
+        // Image Slider Functionality
+        document.querySelectorAll('.listing').forEach(listing => {
+            const slider = listing.querySelector('.image-slider');
+            const images = listing.querySelectorAll('img');
+            const dots = listing.querySelectorAll('.image-dot');
+            const prevBtn = listing.querySelector('.prev');
+            const nextBtn = listing.querySelector('.next');
+            let currentIndex = 0;
+            let autoSlideInterval;
 
-        function showImage(index) {
-            images.forEach((img, i) => {
-                img.style.display = (i === index) ? 'block' : 'none';
-                dots[i].classList.toggle('active', i === index);
+            function updateSlider() {
+                slider.style.transform = `translateX(-${currentIndex * 100}%)`;
+                dots.forEach((dot, index) => {
+                    dot.classList.toggle('active', index === currentIndex);
+                });
+            }
+
+            function nextSlide() {
+                currentIndex = (currentIndex + 1) % images.length;
+                updateSlider();
+            }
+
+            function prevSlide() {
+                currentIndex = (currentIndex - 1 + images.length) % images.length;
+                updateSlider();
+            }
+
+            function goToSlide(index) {
+                currentIndex = index;
+                updateSlider();
+            }
+
+            // Auto-slide every 5 seconds
+            function startAutoSlide() {
+                autoSlideInterval = setInterval(nextSlide, 5000);
+            }
+
+            function stopAutoSlide() {
+                clearInterval(autoSlideInterval);
+            }
+
+            // Event Listeners
+            nextBtn.addEventListener('click', nextSlide);
+            prevBtn.addEventListener('click', prevSlide);
+            dots.forEach((dot, index) => {
+                dot.addEventListener('click', () => goToSlide(index));
             });
-        }
+            slider.parentElement.addEventListener('mouseenter', stopAutoSlide);
+            slider.parentElement.addEventListener('mouseleave', startAutoSlide);
 
-        function nextImage(event) {
-            if (event)
-            event.preventDefault();
-            currentIndex = (currentIndex + 1) % images.length;
-            showImage(currentIndex);
-        }
-
-        function prevImage(event) {
-            if (event)
-            event.preventDefault();
-            currentIndex = (currentIndex - 1 + images.length) % images.length;
-            showImage(currentIndex);
-        }
-
-        nextButton.addEventListener('click', nextImage);
-        prevButton.addEventListener('click', prevImage);
-
-        // Show the first image initially
-        showImage(currentIndex);
-
-
-    });
-});
-</script>
-
+            // Initialize
+            updateSlider();
+            startAutoSlide();
+        });
+    </script>
 </body>
 </html>
