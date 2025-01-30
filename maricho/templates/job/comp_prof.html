@@ -3,211 +3,348 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ company.name }} Profile</title>
+    <meta name="description" content="Profile page for {{ company.name }} - {{ company.industry }} company based in {{ company.location }}">
+    <title>{{ company.name }} | Company Profile</title>
     <style>
-        /* General styling */
-        body {
-            font-family: Arial, sans-serif;
+        :root {
+            --primary-color: #1a9c94;
+            --secondary-color: #f8f9fa;
+            --text-color: #333;
+            --hover-color: #14746f;
+        }
+
+        /* Reset and base styles */
+        * {
             margin: 0;
             padding: 0;
-            color: #333;
+            box-sizing: border-box;
         }
-        /* Header styling */
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        /* Header styles */
         .header {
-            background-color: #20B2AA;
+            background-color: var(--primary-color);
             color: white;
-            padding: 15px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            padding: 1rem 2rem;
             position: sticky;
             top: 0;
             z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
-        .header h1 {
-            margin: 0;
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
         }
+
         .nav-links {
             display: flex;
-            gap: 20px;
+            gap: 2rem;
+            list-style: none;
         }
+
         .nav-links a {
             color: white;
             text-decoration: none;
+            padding: 0.5rem;
+            transition: opacity 0.2s ease;
         }
-        /* Mobile hamburger menu */
+
+        .nav-links a:hover,
+        .nav-links a:focus {
+            opacity: 0.9;
+            outline: none;
+        }
+
+        /* Mobile menu styles */
         .hamburger {
             display: none;
-            flex-direction: column;
+            background: none;
+            border: none;
             cursor: pointer;
+            padding: 0.5rem;
         }
+
         .hamburger span {
-            background-color: white;
-            height: 3px;
+            display: block;
             width: 25px;
+            height: 3px;
+            background-color: white;
             margin: 4px 0;
-            border-radius: 5px;
+            transition: transform 0.3s ease;
         }
+
         .mobile-menu {
             display: none;
             flex-direction: column;
-            background-color: #20B2AA;
-            padding: 10px;
+            background-color: var(--primary-color);
+            padding: 1rem;
         }
-        .mobile-menu a {
-            color: white;
-            text-decoration: none;
-            padding: 10px 0;
+
+        .mobile-menu.active {
+            display: flex;
         }
-        /* Company profile styling */
-        .container {
-            max-width: 800px;
-            margin: 20px auto;
-            padding: 20px;
-            border: 1px solid #ddd;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            background-color: #fff;
+
+        /* Main content styles */
+        main {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .company-profile {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .company-header {
             text-align: center;
+            margin-bottom: 2rem;
         }
-        .company-info img {
+
+        .company-logo {
             width: 200px;
             height: 200px;
-            object-fit: cover;
-            margin: 0 auto 20px;
+            object-fit: contain;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
-        .company-details h2 {
-            color: #20B2AA;
-            margin: 10px 0;
-        }
-        /* Aligned attributes styling */
-        .company-attributes {
+
+        .company-details {
             display: grid;
-            grid-template-columns: 150px auto;
-            gap: 10px;
-            justify-content: center;
-            margin-top: 20px;
-            text-align: left;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
         }
-        .company-attributes div {
-            text-align: left;
+
+        .detail-item {
+            padding: 1rem;
+            background-color: var(--secondary-color);
+            border-radius: 6px;
         }
-        .company-attributes span {
-            font-weight: bold;
+
+        .detail-item dt {
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
         }
-        /* Job posting section */
+
+        .detail-item dd {
+            margin-left: 0;
+        }
+
+        /* Job listings styles */
         .job-section {
-            margin-top: 40px;
+            margin-top: 3rem;
         }
-        .job-section h3 {
-            color: #20B2AA;
-            text-align: center;
-        }
+
         .job-list {
-            list-style-type: none;
-            padding: 0;
+            display: grid;
+            gap: 1rem;
+            list-style: none;
         }
-        .job-list li {
-            padding: 10px;
-            border: 1px solid #ddd;
-            margin-bottom: 10px;
+
+        .job-item {
+            padding: 1.5rem;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            transition: transform 0.2s ease;
         }
-        .job-button {
-            display: block;
-            width: 100%;
-            padding: 10px;
-            background-color: #20B2AA;
-            color: white;
-            text-align: center;
+
+        .job-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .job-link {
+            color: inherit;
             text-decoration: none;
-            font-weight: bold;
-            border-radius: 5px;
-            margin-top: 20px;
         }
-        /* Responsive styling */
-        @media (max-width: 600px) {
+
+        .job-link h3 {
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .job-meta {
+            display: flex;
+            gap: 1rem;
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        .post-job-btn {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: 6px;
+            text-decoration: none;
+            margin-top: 1.5rem;
+            transition: background-color 0.2s ease;
+        }
+
+        .post-job-btn:hover {
+            background-color: var(--hover-color);
+        }
+
+        .empty-state {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            padding: 2rem;
+        }
+
+        /* Responsive styles */
+        @media (max-width: 768px) {
             .nav-links {
                 display: none;
             }
+
             .hamburger {
-                display: flex;
+                display: block;
             }
-            .mobile-menu.active {
-                display: flex;
+
+            .hamburger.active span:nth-child(1) {
+                transform: translateY(7px) rotate(45deg);
             }
-            .company-attributes {
+
+            .hamburger.active span:nth-child(2) {
+                opacity: 0;
+            }
+
+            .hamburger.active span:nth-child(3) {
+                transform: translateY(-7px) rotate(-45deg);
+            }
+
+            .company-details {
                 grid-template-columns: 1fr;
             }
         }
     </style>
 </head>
 <body>
+    <header class="header">
+        <nav class="nav-container">
+            <h1>{{ company.name }}</h1>
+            <ul class="nav-links">
+                <li><a href="{% url 'home' %}">Home</a></li>
+                <li><a href="{% url 'job-list' %}">Jobs</a></li>
+                <li><a href="{% url 'logout' %}">Logout</a></li>
+            </ul>
+            <button class="hamburger" aria-label="Toggle navigation" onclick="toggleMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </nav>
+    </header>
 
-    <div class="header">
-        <h1>Company Profile</h1>
-        <div class="nav-links">
-            <a href="{% url 'home' %}">Home</a>
-            <a href="{% url 'job-list' %}">Jobs</a>
-            <a href="{% url 'logout' %}">Logout</a>
-        </div>
-        <div class="hamburger" onclick="toggleMenu()">
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
-    </div>
-
-    <div class="mobile-menu" id="mobileMenu">
+    <nav class="mobile-menu" id="mobileMenu" aria-label="Mobile navigation">
         <a href="{% url 'home' %}">Home</a>
         <a href="{% url 'job-list' %}">Jobs</a>
         <a href="{% url 'logout' %}">Logout</a>
-    </div>
+    </nav>
 
-    <div class="container">
-        <!-- Company Profile Section -->
-        <div class="company-info">
-            <img src="{{ company.logo.url }}" alt="{{ company.name }} Logo">
-            <div class="company-details">
+    <main>
+        <section class="company-profile">
+            <header class="company-header">
+                <img class="company-logo" src="{{ company.logo.url }}" alt="{{ company.name }} logo">
                 <h2>{{ company.name }}</h2>
-            </div>
-        </div>
-        <div class="company-attributes">
-            <div> <span>Industry:</span>
-             {{ company.industry }}</div>
-            <div><span>Description:</span>
-            {{ company.description }}</div>
-            <div><span>Phone Number:</span>
-                {{ company.phone_number }}</div>
-            <div><span>Email:</span>
-            {{ company.email }}</div>
-            <div><span>Location:</span>
-            {{ company.location }}</div>
-            <div><span>Website:</span>
-            <a href="{{ company.website }}" target="_blank">{{ company.website }}</a></div>
-        </div>
+            </header>
 
-        <!-- Job Posting Section -->
-        <div class="job-section" id="jobs">
-            <h3>Job Openings</h3>
-            <ul class="job-list">
-                {% for job in company.jobs.all %}
-                <a style="text-decoration: none;" href="{% url 'job-details' job.id %}">
-                    <h4>Job Title: {{ job.title }}</h4> </a>
-                        
-                {% empty %}
-                    <li>No job openings available at this time.</li>
-                {% endfor %}
-            </ul>
-            {% if company.user == request.user%}
-            <a href="{% url 'job' %}" class="job-button"> + Post Job</a>
-            {% endif %}
-        </div>
-    </div>
+            <dl class="company-details">
+                <div class="detail-item">
+                    <dt>Industry</dt>
+                    <dd>{{ company.industry }}</dd>
+                </div>
+                <div class="detail-item">
+                    <dt>Description</dt>
+                    <dd>{{ company.description }}</dd>
+                </div>
+                <div class="detail-item">
+                    <dt>Contact</dt>
+                    <dd>
+                        <p>{{ company.phone_number }}</p>
+                        <p><a href="mailto:{{ company.email }}">{{ company.email }}</a></p>
+                    </dd>
+                </div>
+                <div class="detail-item">
+                    <dt>Location</dt>
+                    <dd>{{ company.location }}</dd>
+                </div>
+                <div class="detail-item">
+                    <dt>Website</dt>
+                    <dd><a href="{{ company.website }}" target="_blank" rel="noopener">{{ company.website }}</a></dd>
+                </div>
+            </dl>
+
+            <section class="job-section" aria-labelledby="jobs-heading">
+                <h3 id="jobs-heading">Current Opportunities</h3>
+                
+                <ul class="job-list">
+                    {% for job in company.jobs.all %}
+                    <li class="job-item">
+                        <a href="{% url 'job-details' job.id %}" class="job-link">
+                            <h3>{{ job.title }}</h3>
+                            <div class="job-meta">
+                                <span>{{ job.location }}</span>
+                                <span>•</span>
+                                <span>{{ job.get_job_type_display }}</span>
+                            </div>
+                        </a>
+                    </li>
+                    {% empty %}
+                    <li class="empty-state">No current openings available</li>
+                    {% endfor %}
+                </ul>
+
+                {% if company.user == request.user %}
+                <div class="text-center">
+                    <a href="{% url 'job' %}" class="post-job-btn">Post New Job</a>
+                </div>
+                {% endif %}
+            </section>
+        </section>
+    </main>
 
     <script>
         function toggleMenu() {
-            var menu = document.getElementById("mobileMenu");
-            menu.classList.toggle("active");
+            const menu = document.getElementById('mobileMenu');
+            const hamburger = document.querySelector('.hamburger');
+            menu.classList.toggle('active');
+            hamburger.classList.toggle('active');
         }
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', function(event) {
+            const menu = document.getElementById('mobileMenu');
+            const hamburger = document.querySelector('.hamburger');
+            if (!event.target.closest('.nav-container') && menu.classList.contains('active')) {
+                menu.classList.remove('active');
+                hamburger.classList.remove('active');
+            }
+        });
+
+        // Close menu on ESC key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                menu.classList.remove('active');
+                hamburger.classList.remove('active');
+            }
+        });
     </script>
 </body>
 </html>
