@@ -3,162 +3,295 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ job.title }} - Job Details</title>
+    <meta name="description" content="Detailed information about {{ job.title }} position at {{ job.company }}">
+    <title>{{ job.title }} - {{ job.company }} Career Opportunity</title>
     <style>
-        /* Basic styling */
-        body {
-            font-family: Arial, sans-serif;
-            color: #333;
+        :root {
+            --primary-color: #20b2aa;
+            --secondary-color: #1a9c95;
+            --background-color: #f8fbfd;
+            --text-color: #2d3748;
+            --light-text: #718096;
+        }
+
+        * {
             margin: 0;
             padding: 0;
-            background-color: #f4f4f9;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            color: var(--text-color);
+            line-height: 1.6;
+            background-color: var(--background-color);
         }
 
         /* Header styling */
         .header {
-            background-color: #20b2aa;
+            background-color: var(--primary-color);
             color: white;
-            padding: 10px 20px;
+            padding: 1rem 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            position: relative;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
 
-        .header .title {
-            font-size: 24px;
-            font-weight: bold;
+        .header__title {
+            font-size: 1.5rem;
+            font-weight: 600;
         }
 
         .hamburger {
-            font-size: 24px;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
             cursor: pointer;
+            padding: 0.5rem;
+            transition: transform 0.2s ease;
         }
 
-        /* Dropdown menu styling */
+        .hamburger:active {
+            transform: scale(0.95);
+        }
+
+        /* Navigation menu */
         .menu {
             display: none;
             position: absolute;
-            background-color: #20b2aa;
-            top: 50px;
-            right: 20px;
-            padding: 10px;
-            border-radius: 8px;
-            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            top: 100%;
+            right: 0;
+            background-color: white;
+            min-width: 200px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 4px;
+            overflow: hidden;
+            z-index: 1000;
         }
 
-        .menu a {
-            color: white;
-            text-decoration: none;
+        .menu--visible {
             display: block;
-            padding: 5px 0;
         }
 
-        /* Container styling */
+        .menu__link {
+            display: block;
+            padding: 0.75rem 1.5rem;
+            color: var(--text-color);
+            text-decoration: none;
+            transition: background-color 0.2s ease;
+        }
+
+        .menu__link:hover {
+            background-color: #f7fafc;
+        }
+
+        /* Main content */
         .container {
-            width: 80%;
             max-width: 800px;
             margin: 2rem auto;
-            background-color: white;
-            padding: 20px;
+            padding: 2rem;
+            background: white;
             border-radius: 8px;
-            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
         }
 
-        .section-title {
-            font-size: 18px;
-            font-weight: bold;
+        .job-header {
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        .job-title {
+            font-size: 2rem;
             margin-bottom: 0.5rem;
-            color: #008080;
+            color: var(--primary-color);
         }
 
-        .company {
-            font-size: 18px;
-            color: #555;
-            margin-bottom: 1rem;
-        }
-
-        .description, .skills, .qualifications {
+        .company-name {
+            font-size: 1.25rem;
+            color: var(--light-text);
             margin-bottom: 1.5rem;
         }
 
-        .info {
-            font-size: 14px;
-            color: #666;
-            margin-bottom: 0.5rem;
+        .section {
+            margin: 2rem 0;
         }
 
-        .info strong {
-            color: #333;
+        .section__title {
+            font-size: 1.25rem;
+            color: var(--secondary-color);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        .detail-list {
+            list-style: none;
+        }
+
+        .detail-item {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            padding: 0.5rem;
+            background: #f8fafc;
+            border-radius: 4px;
+        }
+
+        .detail-item__label {
+            font-weight: 600;
+            min-width: 160px;
+            color: var(--light-text);
+        }
+
+        .tag-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            list-style: none;
+        }
+
+        .tag {
+            background-color: #e2e8f0;
+            padding: 0.25rem 0.75rem;
+            border-radius: 999px;
+            font-size: 0.875rem;
+        }
+
+        .apply-button {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 0.75rem 2rem;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background-color 0.2s ease;
+            margin-top: 1.5rem;
+        }
+
+        .apply-button:hover {
+            background-color: var(--secondary-color);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 1rem;
+                padding: 1.5rem;
+            }
+
+            .job-title {
+                font-size: 1.5rem;
+            }
+
+            .detail-item {
+                flex-direction: column;
+                gap: 0.25rem;
+            }
+
+            .detail-item__label {
+                min-width: auto;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- Header with Hamburger Menu -->
     <header class="header">
-        <div class="title">Job Details</div>
-        <div class="hamburger" onclick="toggleMenu()">☰</div>
-        <div class="menu" id="menu">
-            <a href="{% url 'home' %}">Home</a>
-            <a href="{% url 'job-list' %}">Jobs</a>
-            <a href="{% url 'logout' %}">Logout</a>
-        </div>
+        <h1 class="header__title">Career Opportunity</h1>
+        <button class="hamburger" aria-label="Toggle navigation menu" onclick="toggleMenu()">☰</button>
+        <nav class="menu" id="menu" aria-hidden="true">
+            <a href="{% url 'home' %}" class="menu__link">Home</a>
+            <a href="{% url 'job-list' %}" class="menu__link">Browse Jobs</a>
+            <a href="{% url 'logout' %}" class="menu__link">Logout</a>
+        </nav>
     </header>
 
-    <!-- Main Container for Job Details -->
-    <div class="container">
-        <div class="title">
-        <div class="section-title">Title:</div>
-            <p>{{ job.title}}</p>
-        </div>
-        <div class="company">
-            <div class="section-title">Company:</div>
-            <p>{{ job.company }}</p>
-        </div>
+    <main class="container">
+        <header class="job-header">
+            <h1 class="job-title">{{ job.title }}</h1>
+            <div class="company-name">{{ job.company }}</div>
+            <a href="#apply" class="apply-button">Apply Now</a>
+        </header>
 
-        <!-- Description Section -->
-        <div class="description">
-            <div class="section-title">Description:</div>
-            <p>{{ job.description }}</p>
-        </div>
-
-        <!-- Skills Section -->
-        <div class="skills">
-            <div class="section-title">Skills:</div>
-            <ul>
-
-                    <li>{{ job.skills }}</li>
-
+        <section class="section">
+            <h2 class="section__title">Position Details</h2>
+            <ul class="detail-list">
+                <li class="detail-item">
+                    <span class="detail-item__label">Location:</span>
+                    <span>{{ job.location }}</span>
+                </li>
+                <li class="detail-item">
+                    <span class="detail-item__label">Posted Date:</span>
+                    <span>{{ job.posted_date|date:"F j, Y" }}</span>
+                </li>
+                <li class="detail-item">
+                    <span class="detail-item__label">Application Deadline:</span>
+                    <span>{{ job.application_deadline|date:"F j, Y" }}</span>
+                </li>
             </ul>
-        </div>
+        </section>
 
-        <!-- Qualifications Section -->
-        <div class="qualifications">
-            <div class="section-title">Qualifications:</div>
-            <ul>
+        <section class="section">
+            <h2 class="section__title">Job Description</h2>
+            <div class="prose">
+                {{ job.description|linebreaks }}
+            </div>
+        </section>
 
-                    <li>{{ job.qualifications }}</li>
-
+        <section class="section">
+            <h2 class="section__title">Required Skills</h2>
+            <ul class="tag-list">
+                {% for skill in job.skills.all %}
+                <li class="tag">{{ skill.name }}</li>
+                {% endfor %}
             </ul>
-        </div>
+        </section>
 
-        <!-- Additional Info -->
-        <div class="info">
-            <strong>Location:</strong> {{ job.location }}
-        </div>
-        <div class="info">
-            <strong>Posted Date:</strong> {{ job.posted_date|date:"F j, Y" }}
-        </div>
-        <div class="info">
-            <strong>Application Deadline:</strong> {{ job.application_deadline|date:"F j, Y" }}
-        </div>
-    </div>
+        <section class="section">
+            <h2 class="section__title">Qualifications</h2>
+            <ul class="detail-list">
+                {% for qualification in job.qualifications.all %}
+                <li class="detail-item">
+                    {{ qualification.description }}
+                </li>
+                {% endfor %}
+            </ul>
+        </section>
+
+        <section class="section" id="apply">
+            <h2 class="section__title">Apply Now</h2>
+            <!-- Add application form here -->
+        </section>
+    </main>
 
     <script>
-        // JavaScript for toggling the menu
         function toggleMenu() {
-            const menu = document.getElementById("menu");
-            menu.style.display = menu.style.display === "block" ? "none" : "block";
+            const menu = document.getElementById('menu');
+            const isVisible = menu.classList.toggle('menu--visible');
+            menu.setAttribute('aria-hidden', !isVisible);
         }
+
+        // Close menu when clicking outside
+        document.addEventListener('click', (event) => {
+            const menu = document.getElementById('menu');
+            const hamburger = document.querySelector('.hamburger');
+            
+            if (!menu.contains(event.target) && !hamburger.contains(event.target)) {
+                menu.classList.remove('menu--visible');
+                menu.setAttribute('aria-hidden', 'true');
+            }
+        });
+
+        // Close menu on ESC key
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape') {
+                menu.classList.remove('menu--visible');
+                menu.setAttribute('aria-hidden', 'true');
+            }
+        });
     </script>
 </body>
 </html>
