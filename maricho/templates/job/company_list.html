@@ -3,259 +3,174 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Browse our comprehensive list of partner companies and organizations">
-    <title>Company Directory | Tech Ecosystem</title>
+    <title>Company Directory</title>
     <style>
+        /* Modern styling */
         :root {
-            --primary-color: #2c3e50;
-            --secondary-color: #3498db;
-            --accent-color: #e74c3c;
-            --text-color: #2c3e50;
-            --background-color: #f8f9fa;
-            --card-hover-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
+            --theme-color: #20b2aa;
+            --hover-effect: rgba(32, 178, 170, 0.1);
         }
 
         body {
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-            background-color: var(--background-color);
-            line-height: 1.6;
-            color: var(--text-color);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8fbfd;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
         }
 
-        /* Header Styles */
         .header {
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            width: 100%;
+            background-color: var(--theme-color);
             color: white;
-            padding: 2rem 1rem;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 1.5rem 20px;
             text-align: center;
-        }
-
-        .header h1 {
-            font-size: 2.5rem;
-            margin-bottom: 0.5rem;
-        }
-
-        /* Search Container */
-        .search-container {
+            font-size: 1.8rem;
+            font-weight: 600;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
             position: sticky;
             top: 0;
-            background: rgba(255, 255, 255, 0.95);
-            padding: 1.5rem;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-            z-index: 100;
+            z-index: 10;
         }
 
-        .search-input {
+        .filter-container {
+            padding: 2rem 20px 1rem;
             width: 100%;
-            max-width: 600px;
+            max-width: 800px;
             margin: 0 auto;
-            padding: 0.8rem 1.5rem;
-            border: 2px solid var(--secondary-color);
-            border-radius: 2rem;
+        }
+
+        .filter-input {
+            width: 100%;
+            padding: 0.8rem 1.2rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 30px;
             font-size: 1rem;
             transition: all 0.3s ease;
-            display: block;
         }
 
-        .search-input:focus {
+        .filter-input:focus {
             outline: none;
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.25);
+            border-color: var(--theme-color);
+            box-shadow: 0 0 0 3px rgba(32, 178, 170, 0.2);
         }
 
-        /* Company Grid */
-        .company-grid {
+        .container {
+            max-width: 1200px;
+            margin: 1rem auto;
+            padding: 0 20px;
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
             gap: 1.5rem;
-            padding: 2rem;
-            max-width: 1400px;
-            margin: 0 auto;
+            justify-content: center;
         }
 
-        /* Company Card */
         .company-card {
             background: white;
             border-radius: 12px;
-            overflow: hidden;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
             text-decoration: none;
-            color: inherit;
-            position: relative;
+            border: 1px solid #eaeaea;
         }
 
         .company-card:hover {
             transform: translateY(-5px);
-            box-shadow: var(--card-hover-shadow);
+            box-shadow: 0 8px 20px rgba(32, 178, 170, 0.15);
+            border-color: var(--theme-color);
         }
 
-        .company-card:focus-within {
-            outline: 2px solid var(--secondary-color);
-            outline-offset: 2px;
-        }
-
-        .card-content {
-            padding: 1.5rem;
-            text-align: center;
-        }
-
-        .company-logo {
+        .profile-image {
             width: 100px;
             height: 100px;
-            object-fit: contain;
+            border-radius: 50%;
+            object-fit: cover;
             margin: 0 auto 1rem;
-            border-radius: 8px;
-            background: #fff;
-            padding: 0.5rem;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            border: 3px solid var(--theme-color);
+            padding: 3px;
         }
 
         .company-name {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             font-weight: 600;
-            margin-bottom: 0.5rem;
-            color: var(--primary-color);
+            color: #2a2a2a;
+            margin: 0;
+            line-height: 1.4;
         }
 
-        .company-industry {
-            color: var(--secondary-color);
-            font-size: 0.9rem;
-            font-weight: 500;
-            margin-bottom: 0.5rem;
-        }
-
-        .company-location {
-            color: #7f8c8d;
-            font-size: 0.85rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.25rem;
-        }
-
-        /* Empty State */
-        .empty-state {
+        .no-results {
             text-align: center;
-            padding: 4rem;
-            max-width: 600px;
-            margin: 2rem auto;
+            color: #666;
+            padding: 2rem;
+            font-size: 1.1rem;
+            grid-column: 1 / -1;
         }
 
-        .empty-state img {
-            width: 200px;
-            margin-bottom: 1.5rem;
-            opacity: 0.7;
-        }
-
-        /* Responsive Design */
         @media (max-width: 768px) {
-            .company-grid {
-                grid-template-columns: 1fr;
-                padding: 1rem;
+            .container {
+                grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+                gap: 1rem;
             }
-
-            .header h1 {
-                font-size: 2rem;
+            
+            .profile-image {
+                width: 80px;
+                height: 80px;
             }
-        }
-
-        /* Loading Skeleton */
-        .skeleton {
-            animation: skeleton-loading 1.5s infinite linear;
-            background: linear-gradient(
-                90deg,
-                rgba(240, 240, 240, 1) 25%,
-                rgba(230, 230, 230, 1) 50%,
-                rgba(240, 240, 240, 1) 75%
-            );
-            background-size: 400% 100%;
-            border-radius: 4px;
-        }
-
-        @keyframes skeleton-loading {
-            0% { background-position: 100% 50% }
-            100% { background-position: 0% 50% }
         }
     </style>
 </head>
 <body>
+
     <header class="header">
-        <h1>Tech Partner Directory</h1>
-        <p>Discover innovative companies in our network</p>
+        Company Directory
     </header>
 
-    <div class="search-container">
-        <input type="search" 
+    <div class="filter-container">
+        <input type="text" 
                id="filterInput" 
-               class="search-input" 
-               placeholder="Search companies by name, industry, or location..."
-               aria-label="Search companies">
+               class="filter-input" 
+               placeholder="Search companies..."
+               aria-label="Search companies"
+               onkeyup="filterCompanies()">
     </div>
 
-    <main class="company-grid" id="companyContainer">
+    <div class="container" id="companyContainer">
         {% for company in companies %}
         <a href="{% url 'company_profile' company.id %}" class="company-card">
-            <div class="card-content">
-                <img src="{{ company.logo.url }}" 
-                     alt="{{ company.name }} logo" 
-                     class="company-logo"
-                     loading="lazy">
-                <h2 class="company-name">{{ company.name }}</h2>
-                <div class="company-industry">{{ company.industry }}</div>
-                <div class="company-location">
-                    <svg aria-hidden="true" class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/>
-                    </svg>
-                    {{ company.location }}
-                </div>
-            </div>
+            <img src="{{ company.logo.url }}" 
+                 alt="{{ company.name }} logo" 
+                 class="profile-image"
+                 loading="lazy">
+            <h3 class="company-name">{{ company.name }}</h3>
         </a>
         {% empty %}
-        <div class="empty-state">
-            <img src="/static/images/empty.svg" alt="No companies found">
-            <h2>No companies found</h2>
-            <p>Try adjusting your search or check back later.</p>
-        </div>
+        <div class="no-results">No companies found</div>
         {% endfor %}
-    </main>
+    </div>
 
     <script>
-        // Debounce function for better performance
-        function debounce(func, timeout = 300) {
-            let timer;
-            return (...args) => {
-                clearTimeout(timer);
-                timer = setTimeout(() => { func.apply(this, args); }, timeout);
-            };
-        }
-
-        // Improved filter function
         function filterCompanies() {
-            const searchTerm = document.getElementById('filterInput').value.toLowerCase();
-            const companyCards = document.querySelectorAll('.company-card');
-            
-            companyCards.forEach(card => {
-                const textContent = card.textContent.toLowerCase();
-                card.style.display = textContent.includes(searchTerm) ? 'block' : 'none';
+            const filter = document.getElementById("filterInput").value.toUpperCase();
+            const container = document.getElementById("companyContainer");
+            const cards = container.getElementsByClassName("company-card");
+
+            Array.from(cards).forEach(card => {
+                const name = card.querySelector('.company-name').textContent;
+                card.style.display = name.toUpperCase().includes(filter) ? "" : "none";
             });
+
+            // Handle no results state
+            const visibleCards = Array.from(cards).filter(card => card.style.display !== "none");
+            const noResults = container.querySelector('.no-results');
+            if (visibleCards.length === 0 && !noResults) {
+                container.insertAdjacentHTML('beforeend', 
+                    '<div class="no-results">No companies match your search</div>');
+            } else if (visibleCards.length > 0 && noResults) {
+                noResults.remove();
+            }
         }
-
-        // Event listeners
-        document.getElementById('filterInput').addEventListener('input', 
-            debounce(filterCompanies)
-        );
-
-        // Initialize with fade-in animation
-        document.addEventListener('DOMContentLoaded', () => {
-            document.body.style.opacity = 1;
-        });
     </script>
+
 </body>
 </html>
