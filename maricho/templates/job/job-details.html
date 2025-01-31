@@ -244,20 +244,20 @@
         <section class="section">
             <h2 class="section__title">Required Skills</h2>
             <ul class="tag-list">
-                {% for skill in job.skills.all %}
-                <li class="tag">{{ skill.name }}</li>
-                {% endfor %}
+                
+                <li class="tag">{{ job.skills }}</li>
+                
             </ul>
         </section>
 
         <section class="section">
             <h2 class="section__title">Qualifications</h2>
             <ul class="detail-list">
-                {% for qualification in job.qualifications.all %}
+                
                 <li class="detail-item">
-                    {{ qualification.description }}
+                    {{ job.qualifications }}
                 </li>
-                {% endfor %}
+                
             </ul>
         </section>
 
