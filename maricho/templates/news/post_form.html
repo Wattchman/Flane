@@ -106,12 +106,12 @@
                                 <i class="fas fa-paper-plane mr-2"></i>
                                 {% if object %}Update Post{% else %}Publish Post{% endif %}
                             </button>
-                            {% for post in posts %}
-                            <a href="{% if post %}{% url 'n_post_detail' post.id post.title %}{% else %}{% url 'news' %}{% endif %}" 
+            
+                            <a href="{% if object %}{% url 'n_post_detail' object.id object.title %}{% else %}{% url 'news' %}{% endif %}" 
                                class="btn btn-outline-secondary btn-lg px-5 ml-2">
                                 Cancel
                             </a>
-                        {% endfor %}
+                    
                         </div>
                     </form>
                 </div>
@@ -119,6 +119,104 @@
         </div>
     </div>
 </div>
+<style>
+    /* Custom card styling */
+    .card.shadow-lg {
+        border-radius: 15px;
+        overflow: hidden;
+    }
+
+    .card-header.bg-primary {
+        background: linear-gradient(135deg, #0062cc, #004ba0) !important;
+        border-bottom: none;
+    }
+
+    /* Form label enhancements */
+    .form-group label {
+        color: #2c3e50;
+        letter-spacing: 0.5px;
+        margin-bottom: 8px;
+    }
+
+    /* Input field styling */
+    .form-control {
+        border: 2px solid #e0e0e0;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+        padding: 12px 15px;
+    }
+
+    .form-control:focus {
+        border-color: #80bdff;
+        box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.15);
+    }
+
+    /* Textarea specific styling */
+    textarea.form-control {
+        min-height: 150px;
+        line-height: 1.6;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    /* Custom file upload styling */
+    .custom-file-label {
+        border: 2px solid #e0e0e0;
+        border-radius: 8px;
+        padding: 10px 15px;
+        height: calc(2.5em + 1.5rem);
+        transition: all 0.3s ease;
+    }
+
+    .custom-file-input:focus ~ .custom-file-label {
+        border-color: #80bdff;
+        box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.15);
+    }
+
+    /* Button enhancements */
+    .btn-primary {
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        border-radius: 8px;
+        letter-spacing: 0.8px;
+    }
+
+    .btn-primary:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 5px 15px rgba(0, 98, 204, 0.3);
+    }
+
+    .btn-outline-secondary {
+        transition: all 0.3s ease;
+        border-radius: 8px;
+    }
+
+    /* Error message styling */
+    .invalid-feedback {
+        font-weight: 500;
+        margin-top: 6px;
+    }
+
+    /* Category select styling */
+    .custom-select {
+        border: 2px solid #e0e0e0;
+        border-radius: 8px;
+        height: calc(2.5em + 1.5rem);
+        transition: all 0.3s ease;
+    }
+
+    /* Current image link styling */
+    .form-text a {
+        color: #0062cc;
+        font-weight: 500;
+        text-decoration: underline;
+    }
+
+    /* Hover effects for interactive elements */
+    .form-control:hover:not(:focus),
+    .custom-select:hover:not(:focus),
+    .custom-file:hover .custom-file-label {
+        border-color: #b0b0b0;
+    }
+</style>
 {% endblock %}
 
 {% block extra_js %}
