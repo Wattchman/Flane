@@ -1090,6 +1090,7 @@ from django.utils import timezone
 from .forms import NewsPostForm
 from .models import NewsPost
 
+@login_required(login_url='signin')
 def create_npost(request):
     posts = NewsPost.objects.all()
     if request.method == 'POST':
