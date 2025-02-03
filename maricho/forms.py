@@ -1,8 +1,27 @@
 from django import forms
 from django.contrib.auth.models import User
-from .models import Post, Comment, Product, Job, Profile, Blog, Message
+from .models import Post, Comment, Product, Job, Profile, Blog, Message, NewsPost, NewsCategory
 from phonenumber_field.formfields import PhoneNumberField
 from phonenumber_field.widgets import PhoneNumberPrefixWidget
+
+
+class NewsPostForm(forms.ModelForm):
+    class Meta:
+        model = NewsPost
+        fields = ['title', 'content', 'category', 'image']
+        
+    # Custom widget for category with Bootstrap styling
+    category = forms.ModelChoiceField(
+        queryset=NewsCategory.objects.all(),
+        widget=forms.Select(attrs={'class': 'form-control'})
+    )
+    
+    # Optional: Add Bootstrap classes to other fields
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['title'].widget.attrs.update({'class': 'form-control'})
+        self.fields['content'].widget.attrs.update({'class': 'form-control', 'rows': 4})
+        self.fields['image'].widget.attrs.update({'class': 'form-control-file'})
 
 class ProfileForm(forms.ModelForm):
     phone_number = PhoneNumberField(
