@@ -53,6 +53,7 @@ urlpatterns = [
     path('news/', views.n_post_list, name='news'),
     path('news/<str:category_name>/', views.news_category, name='post_list_by_category'),
     path('news/<str:category_name>/post/<int:pk>/<str:news_title>', views.n_post_detail_c, name='n_post_detail_c'),
+    path('new/', views.create_npost, name='new'),
     path('news/post/<int:pk>/<str:news_title>', views.n_post_detail, name='n_post_detail'),
     path('business', views.maricho_business, name='business'),
     path('finance', views.finance, name='finance'),
