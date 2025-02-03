@@ -1098,7 +1098,7 @@ def create_npost(request):
             post.published = timezone.now()  # In case you want to override the auto-now
             post.save()
             messages.success(request, 'News post created successfully!')
-            return redirect('post_detail', pk=post.pk)  # Redirect to detail view
+            return redirect('n_post_detail', pk=post.pk, )  # Redirect to detail view
     else:
         form = NewsPostForm()
     
