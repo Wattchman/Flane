@@ -1,0 +1,131 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-lg">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">
+                        <i class="fas fa-edit mr-2"></i>
+                        {% if object %}Edit Post{% else %}Create New Post{% endif %}
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <form method="post" enctype="multipart/form-data" novalidate>
+                        {% csrf_token %}
+                        
+                        {% if form.errors %}
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                <strong>Error!</strong> Please correct the following:
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                        {% endif %}
+
+                        <div class="form-group">
+                            <label for="{{ form.title.id_for_label }}" class="font-weight-bold text-dark">
+                                <i class="fas fa-heading mr-2"></i>Title
+                            </label>
+                            <input type="text" 
+                                   name="{{ form.title.name }}" 
+                                   id="{{ form.title.id_for_label }}" 
+                                   class="form-control form-control-lg {% if form.title.errors %}is-invalid{% endif %}" 
+                                   value="{{ form.title.value|default:'' }}"
+                                   placeholder="Enter post title">
+                            {% for error in form.title.errors %}
+                                <div class="invalid-feedback">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+
+                        <div class="form-group">
+                            <label for="{{ form.content.id_for_label }}" class="font-weight-bold text-dark">
+                                <i class="fas fa-align-left mr-2"></i>Content
+                            </label>
+                            <textarea name="{{ form.content.name }}" 
+                                      id="{{ form.content.id_for_label }}" 
+                                      class="form-control {% if form.content.errors %}is-invalid{% endif %}" 
+                                      rows="6"
+                                      placeholder="Write your post content here">{{ form.content.value|default:'' }}</textarea>
+                            {% for error in form.content.errors %}
+                                <div class="invalid-feedback">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="{{ form.category.id_for_label }}" class="font-weight-bold text-dark">
+                                    <i class="fas fa-tag mr-2"></i>Category
+                                </label>
+                                <select name="{{ form.category.name }}" 
+                                        id="{{ form.category.id_for_label }}" 
+                                        class="form-control custom-select {% if form.category.errors %}is-invalid{% endif %}">
+                                    {% for value, text in form.category.field.choices %}
+                                        <option value="{{ value }}" {% if form.category.value == value %}selected{% endif %}>
+                                            {{ text }}
+                                        </option>
+                                    {% endfor %}
+                                </select>
+                                {% for error in form.category.errors %}
+                                    <div class="invalid-feedback">{{ error }}</div>
+                                {% endfor %}
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label class="font-weight-bold text-dark">
+                                    <i class="fas fa-image mr-2"></i>Featured Image
+                                </label>
+                                <div class="custom-file">
+                                    <input type="file" 
+                                           name="{{ form.image.name }}" 
+                                           class="custom-file-input {% if form.image.errors %}is-invalid{% endif %}" 
+                                           id="{{ form.image.id_for_label }}">
+                                    <label class="custom-file-label" for="{{ form.image.id_for_label }}">
+                                        {% if form.image.value %}
+                                            {{ form.image.value }}
+                                        {% else %}
+                                            Choose image file...
+                                        {% endif %}
+                                    </label>
+                                    {% for error in form.image.errors %}
+                                        <div class="invalid-feedback">{{ error }}</div>
+                                    {% endfor %}
+                                </div>
+                                {% if form.image.value %}
+                                    <small class="form-text text-muted mt-2">
+                                        Current: <a href="{{ form.image.value.url }}" target="_blank">{{ form.image.value }}</a>
+                                    </small>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="form-group mt-5">
+                            <button type="submit" class="btn btn-primary btn-lg px-5">
+                                <i class="fas fa-paper-plane mr-2"></i>
+                                {% if object %}Update Post{% else %}Publish Post{% endif %}
+                            </button>
+                            <a href="{% if object %}{% url 'post_detail' object.pk %}{% else %}{% url 'post_list' %}{% endif %}" 
+                               class="btn btn-outline-secondary btn-lg px-5 ml-2">
+                                Cancel
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Update file input label with selected file name
+    document.querySelector('.custom-file-input').addEventListener('change', function(e) {
+        var fileName = document.getElementById("{{ form.image.id_for_label }}").files[0].name;
+        var nextSibling = e.target.nextElementSibling;
+        nextSibling.innerText = fileName;
+    });
+</script>
+{% endblock %}
