@@ -1083,3 +1083,24 @@ def video_detail(request, video_id):
         "like_count": video.likes.count(),
         "liked": video.likes.filter(user=request.user).exists() if request.user.is_authenticated else False,
     })
+
+from django.shortcuts import render, redirect
+from django.contrib import messages
+from django.utils import timezone
+from .forms import NewsPostForm
+from .models import NewsPost
+
+def create_npost(request):
+    if request.method == 'POST':
+        form = NewsPostForm(request.POST, request.FILES)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.published = timezone.now()  # In case you want to override the auto-now
+            post.save()
+            messages.success(request, 'News post created successfully!')
+            return redirect('post_detail', pk=post.pk)  # Redirect to detail view
+    else:
+        form = NewsPostForm()
+    
+    return render(request, 'news/post_form.html', {'form': form})
+
