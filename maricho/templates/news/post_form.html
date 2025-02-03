@@ -106,10 +106,12 @@
                                 <i class="fas fa-paper-plane mr-2"></i>
                                 {% if object %}Update Post{% else %}Publish Post{% endif %}
                             </button>
-                            <a href="{% if object %}{% url 'news/post' object.id, object.title %}{% else %}{% url 'news' %}{% endif %}" 
+                            {% for post in posts %}
+                            <a href="{% if post %}{% url 'news/post' post.id, post.title %}{% else %}{% url 'news' %}{% endif %}" 
                                class="btn btn-outline-secondary btn-lg px-5 ml-2">
                                 Cancel
                             </a>
+                        {% endfor %}
                         </div>
                     </form>
                 </div>
