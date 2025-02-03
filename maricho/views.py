@@ -1091,6 +1091,7 @@ from .forms import NewsPostForm
 from .models import NewsPost
 
 def create_npost(request):
+    posts = NewsPost.objects.all()
     if request.method == 'POST':
         form = NewsPostForm(request.POST, request.FILES)
         if form.is_valid():
@@ -1102,5 +1103,5 @@ def create_npost(request):
     else:
         form = NewsPostForm()
     
-    return render(request, 'news/post_form.html', {'form': form})
+    return render(request, 'news/post_form.html', {'form': form, 'posts': posts})
 
