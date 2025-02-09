@@ -28,8 +28,7 @@ SECRET_KEY = 'django-insecure-(kbtq*-=z5zs+c&a^5i7+&d)f#95x7if@chcx9p$gp9yp7fk4o
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['maricho.online', 
-                 'www.maricho.online']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
