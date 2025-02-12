@@ -5,6 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PropertyFinder | MariChoProperty</title>
     <style>
+    /* Modified Header Styles */
+    
+
+    /* Add margin to main content to account for fixed header */
+    main.container {
+        margin-top: 80px;
+    }
+
+    /* Rest of your existing styles remain unchanged */
+
         :root {
             --primary-color: #20B2AA;
             --secondary-color: #1E9E97;
@@ -29,11 +39,16 @@
 
         /* Header Styles */
         header {
-            background-color: var(--primary-color);
-            color: var(--light-text);
-            padding: 1rem 0;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1000;
+        background-color: var(--primary-color);
+        color: var(--light-text);
+        padding: 1rem 0;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
 
         .container {
             width: 90%;
