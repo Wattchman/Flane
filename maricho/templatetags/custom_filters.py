@@ -12,8 +12,6 @@ def bold_subheadings(value):
     pattern = r"(?m)^(##\s*)(.*)"
     formatted_text = re.sub(pattern, r"<strong>\2</strong>", value)
     return mark_safe(formatted_text)
-register = template.Library()
-
 @register.filter
 def range_filter(end):
     return range(end)
