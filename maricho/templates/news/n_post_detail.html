@@ -238,11 +238,11 @@
 
             <div class="post-content">
                 {% if post.image %}
-                <img src="{{ post.image.url }}" alt="Post image">
+                <img src="{{ post.image.url }}" alt="{{post.title}}: Post image">
                 {% endif %}
                 
                 <div class="content-body">
-                    {{ post.content|linebreaks }}
+                    {{ post.content|urlize|safe|linebreaks }}
                 </div>
 
                 {% for subheading, text in post.subsections %}
