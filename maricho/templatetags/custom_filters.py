@@ -7,11 +7,15 @@ register = template.Library()
 @register.filter(name="bold_subheadings")
 def bold_subheadings(value):
     """
-    Automatically makes subheadings bold. Detects lines that start with ## and wraps them in <strong> tags.
+    Detects Markdown-style subheadings (## Heading) and makes them bold.
     """
-    pattern = r"(?m)^(##\s*)(.*)"
-    formatted_text = re.sub(pattern, r"<strong>\2</strong>", value)
+    if not value:
+        return ""
+
+    # Pattern to match lines that start with "## " and extract the heading text
+    pattern = r"(?m)^##\s*(.+)$"
+
+    # Replace with <strong> HTML tag
+    formatted_text = re.sub(pattern, r"<strong>\1</strong>", value)
+
     return mark_safe(formatted_text)
-@register.filter
-def range_filter(end):
-    return range(end)
