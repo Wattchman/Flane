@@ -771,7 +771,7 @@
             {% for story in products %}
               
             <div class="story" onclick="openFullScreen('{{ story.story_img.url }}')">
-                <img src="{{ story.story_img.url }}" alt="{{ story.description }}">
+                <img src="{{ story.story_img.url }}" alt="{{ story.description }} for sale in Zimbabwe">
                 <div id="story-username" class="story-username">
                       {% if story.user.profile %}
                <a style="text-decoration: none; color: white;" href="{% url 'profile' story.user.profile.id %}"> <p>{{ story.user.username }}</p> </a> 
@@ -825,7 +825,7 @@
     <div class="product-scroll">
         {% for product in products %}
         <div class="product-card">
-            <img src="{{ product.product_img.url }}" alt="{{ product.description }">
+            <img src="{{ product.product_img.url }}" alt="{{ product.product_name }} for sale in Zimbabwe">
             <h3>{{ product.product_name }}</h3>
             <p>${{ product.price }}</p>
             <a href="/flane/product-details/{{product.id}}/{{product.product_name}}" class="buy-now-btn">Buy Now</a>
@@ -912,7 +912,7 @@
                 <div class="post-content">
                     <p>{{pair.post.created_at|naturaltime}}</p>
                       {% if pair.post.image and pair.post.image.url %}
-                    <img src="{{ pair.post.image.url }}" alt="{{pair.post.caption}}">
+                    <img src="{{ pair.post.image.url }}" alt="{{pair.post.title}} for sale in Zimbabwe">
                       {% else %}
                       <p>image missing</p>
                       {% endif %}
@@ -1043,7 +1043,7 @@
 
 
             <div class="ad-container" data-ad-id="{{ pair.ad.id }}">
-                <img class="ad-image" src="{{ pair.ad.image.url }}" alt="{{ pair.ad.title }} Image">
+                <img class="ad-image" src="{{ pair.ad.image.url }}" alt="{{ pair.ad.title }} for sale in Zimbabwe">
                 <h2 class="ad-title">{{ pair.ad.name }}</h2>
                 <p class="ad-description">{{ pair.ad.description|truncatewords:3 }}</p>
                 <p class="ad-date">Created on: {{ pair.ad.start_date|date:"F j, Y" }}</p>
