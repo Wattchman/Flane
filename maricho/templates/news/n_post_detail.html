@@ -243,7 +243,7 @@
                 {% endif %}
                 
                 <div class="content-body">
-                    {{ post.content|urlize|safe|linebreaks|bold_subheadings|safe }}
+                    {{ post.content|urlize|linebreaks|bold_subheadings|safe }}
                 </div>
 
                 {% for subheading, text in post.subsections %}
