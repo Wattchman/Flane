@@ -19,9 +19,14 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+from django.shortcuts import redirect
 
+def home_redirect(request):
+    return redirect('/flane/home')
+    
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', home_redirect),  # Redirect root URL to /flane/home
     path('flane/', include('maricho.urls')),
 ]
 
