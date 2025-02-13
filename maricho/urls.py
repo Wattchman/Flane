@@ -1,6 +1,15 @@
 from django.urls import path
 from .import views
 from django.contrib.auth import views as auth_views
+from django.shortcuts import redirect
+
+def home_redirect(request):
+    return redirect('/flane/home')
+
+urlpatterns = [
+    path('', home_redirect),  # Redirect root to /flane/home
+    # Other URL patterns...
+]
 
 urlpatterns = [
     path('ajax', views.ajax, name='ajax'),
