@@ -322,7 +322,7 @@
             <img src="{{ article.image.url }}" class="news-image" alt="{{ article.title }}">
             <div class="news-content">
                 <h2 class="news-title">{{ article.title }}</h2>
-                <p class="news-excerpt">{{ article.content|truncatewords:30 }}</p>
+                <p class="news-excerpt">{{ article.content|urlize|safe|truncatewords:30 }}</p>
                 <div class="news-meta">
                     <time>{{ article.published|naturaltime }}</time>
                     <a href="post/{{ article.id }}/{{ article.title }}" class="read-more">
