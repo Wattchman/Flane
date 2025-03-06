@@ -34,6 +34,11 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from channels.layers import channel_layers
 import random
+from django.http import HttpResponse
+
+def ads_txt(request):
+    content = "google.com, pub-6931205265043049, DIRECT, f08c47fec0942fa0"
+    return HttpResponse(content, content_type="text/plain")
 
 def generate_unique_id():
     return str(uuid.uuid4())
