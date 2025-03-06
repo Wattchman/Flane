@@ -2,10 +2,11 @@ from django.urls import path
 from .import views
 from django.contrib.auth import views as auth_views
 from django.shortcuts import redirect
-
-
+from django.urls import path
+from .views import ads_txt
 
 urlpatterns = [
+    path("ads.txt", ads_txt, name="ads_txt"),
     path('ajax', views.ajax, name='ajax'),
     path('blog-details/<int:blog_id>/<str:blog_title>', views.blog_details, name='blog-details'),
     path('blog_create', views.blog_create, name='blog_create'),
