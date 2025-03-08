@@ -910,11 +910,71 @@
                       </div>
                 <div class="post-content">
                     <p>{{pair.post.created_at|naturaltime}}</p>
-                      {% if pair.post.image and pair.post.image.url %}
-                    <img src="{{ pair.post.image.url }}" alt="{{pair.post.title}} for sale in Zimbabwe">
-                      {% else %}
-                      <p>image missing</p>
-                      {% endif %}
+                     <div class="scroll-wrapper">
+    <button class="scroll-btn left" onclick="scrollLeft()">&#10094;</button>
+
+    <div class="image-scroll-container">
+        <div class="image-scroll">
+            {% for image in pair.post.images.all %}
+                <img src="{{ image.image.url }}" alt="Post Image" class="scroll-image">
+            {% empty %}
+                <p>No images available for this post.</p>
+            {% endfor %}
+        </div>
+    </div>
+
+    <button class="scroll-btn right" onclick="scrollRight()">&#10095;</button>
+</div>
+
+<style>
+    .scroll-wrapper {
+        display: flex;
+        align-items: center;
+        position: relative;
+    }
+
+    .image-scroll-container {
+        width: 100%;
+        overflow-x: auto;
+        scroll-behavior: smooth;
+        white-space: nowrap;
+    }
+
+    .image-scroll {
+        display: flex;
+        gap: 10px;
+        padding: 10px;
+    }
+
+    .scroll-image {
+        width: 250px;
+        height: auto;
+        border-radius: 10px;
+        object-fit: cover;
+    }
+
+    .scroll-btn {
+        position: absolute;
+        background-color: rgba(0, 0, 0, 0.5);
+        color: white;
+        border: none;
+        cursor: pointer;
+        font-size: 24px;
+        padding: 10px;
+        border-radius: 50%;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+
+    .left {
+        left: 0;
+    }
+
+    .right {
+        right: 0;
+    }
+</style>
+
                     <h2>{{ pair.post.title }}</h2>
                     <p>{{ pair.post.caption }}</p>
                 </div>
