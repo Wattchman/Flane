@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.utils.text import slugify
 from django.http import HttpResponse, JsonResponse, Http404
 from django.db import models
 from django.views.decorators.csrf import csrf_exempt
@@ -34,6 +35,11 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from channels.layers import channel_layers
 import random
+from django.http import HttpResponse
+
+def ads_txt(request):
+    content = "google.com, pub-6931205265043049, DIRECT, f08c47fec0942fa0"
+    return HttpResponse(content, content_type="text/plain")
 
 def generate_unique_id():
     return str(uuid.uuid4())
@@ -61,7 +67,7 @@ def send_message(request):
 def signup(request):
     if request.method == 'POST':
         username = request.POST['username']
-        firstname = request.POST['lastname']
+        firstname = request.POST['firstname']
         lastname = request.POST['lastname']
         email = request.POST['email']
         password = request.POST['password']
@@ -126,7 +132,7 @@ def product_view(request):
     return render(request, 'product.html', {'form': form})
 
 
-@login_required(login_url='signin')
+
 def product_detail(request, product_id, product_name):
     product = Product.objects.get(id=product_id)
     profiles = Profile.objects.all()
@@ -314,7 +320,7 @@ def profile_update(request):
         form = ProfileForm(request.POST, request.FILES, instance=user_profile)
         if form.is_valid():
             form.save()
-            return redirect('profile_detail')  # Replace with the actual URL name for the profile detail view
+            return redirect('home')  # Replace with the actual URL name for the profile detail view
     else:
         # Pre-populate the form with existing profile data
         form = ProfileForm(instance=user_profile)
@@ -337,7 +343,7 @@ def post_create(request):
             post = form.save(commit=False)
             # Set the user of the post to the current user
             post.user = request.user
-            post.slug = post.caption
+            post.slug = slugify(post.caption)
             # Save the post object to the database
             post.save()
 
@@ -353,6 +359,23 @@ def post_create(request):
         messages.info(request, 'Method not Post')
 
     return render(request, "post_create.html", {'form': form})
+
+@login_required(login_url='signin')
+def edit_post(request, slug):
+    # Fetch the post to be edited
+    post = get_object_or_404(Post, slug=slug, user=request.user)
+    
+    if request.method == 'POST':
+        # Bind form data to the instance
+        form = PostForm(request.POST, request.FILES, instance=post)
+        if form.is_valid():
+            form.save()
+            return redirect('comment_details', post_id=post.id, slug=post.slug)  # Replace with your post detail URL name
+    else:
+        # Prepopulate form with existing data
+        form = PostForm(instance=post)
+    
+    return render(request, 'edit_post.html', {'form': form, 'post': post})
 
 
 def comment_details(request, post_id, slug):
@@ -540,7 +563,9 @@ def company_profile(request, company_id):
 def jobseeker_profile(request, profile_id):
     profile = get_object_or_404(JobSeeker, id=profile_id)
 
-    return render(request, 'job/jobseeker_profile.html', {'profile': profile})
+    jobs = Job.objects.all()
+
+    return render(request, 'job/jobseeker_profile.html', {'profile': profile, 'jobs': jobs})
 
 def property_profile(request, property_id):
     property = get_object_or_404(Property, id=property_id)
@@ -566,6 +591,7 @@ def job_list(request):
 
     # Get search parameters
     query = request.GET.get('query', '')
+    industry_id = request.GET.get('industry', '')  
 
 
     # Filter jobs based on search input
@@ -575,7 +601,8 @@ def job_list(request):
         )
 
     # Filter jobs by industry, if selected
-
+    if industry_id:
+        jobs = jobs.filter(industry_id=industry_id)
 
     # Pass the data to the template
     context = {
@@ -1067,18 +1094,25 @@ def video_detail(request, video_id):
         "liked": video.likes.filter(user=request.user).exists() if request.user.is_authenticated else False,
     })
 
-def m_chat(request):
-    user_message = request.GET.get('message', '')
+from django.shortcuts import render, redirect
+from django.contrib import messages
+from django.utils import timezone
+from .forms import NewsPostForm
+from .models import NewsPost
 
-    if user_message:
-        bot_response = get_response(user_message)
-        return JsonResponse({'respnse': bot_response})
-    return JsonResponse({'response': "Hello! How can I assist you today?"})
+@login_required(login_url='signin')
+def create_npost(request):
+    posts = NewsPost.objects.all()
+    if request.method == 'POST':
+        form = NewsPostForm(request.POST, request.FILES)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.published = timezone.now()  # In case you want to override the auto-now
+            post.save()
+            messages.success(request, 'News post created successfully!')
+            return redirect('n_post_detail', pk=post.pk, news_title=post.title)  # Redirect to detail view
+    else:
+        form = NewsPostForm()
+    
+    return render(request, 'news/post_form.html', {'form': form, 'posts': posts})
 
-def m_chat(request):
-    user_message = request.GET.get('message', '')
-
-    if user_message:
-        bot_response = get_response(user_message)
-        return JsonResponse({'respnse': bot_response})
-    return JsonResponse({'response': "Hello! How can I assist you today?"})
