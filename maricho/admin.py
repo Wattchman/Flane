@@ -4,10 +4,11 @@ from .models import Profile, Post, \
     Blog, Message, Lead, Task, Customer, Invoice, \
     InvoiceItem, NewsPost, NewsCategory, NewsComment, \
     Advertisement, UserActivity, AdImpression, Company, JobSeeker, \
-    Listing, Image, Property, Rating, Page, Video
+    Listing, Image, Property, Rating, Page, Video, PostImage
 
 # Register your models here.
 admin.site.register(Profile)
+admin.site.register(PostImage)
 admin.site.register(Post)
 admin.site.register(Comment)
 admin.site.register(LikePost)

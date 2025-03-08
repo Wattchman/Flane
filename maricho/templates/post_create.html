@@ -82,6 +82,9 @@
         <h1>Post Content</h1>
         <form method="post" action="{% url 'post' %}" enctype="multipart/form-data">
             {% csrf_token %}
+            <label for="images">Upload Images:</label>
+            <input type="file" name="images" id="images" accept="image/*" multiple>
+
             {{ form.as_p }}
 
             <button type="submit" class="btn btn-primary">Post</button>
