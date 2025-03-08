@@ -9,11 +9,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Social E-commerce Timeline</title>
     <link rel="stylesheet" href="{% static 'css/styles.css' %}"> <!-- Link to your CSS file -->
-     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-
-2811308505659881" crossorigin="anonymous"></script>
+     <meta name="google-adsense-account" content="ca-pub-6931205265043049">
     <script src="https://kit.fontawesome.com/34a56207d1.js" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+      <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6931205265043049"
+     crossorigin="anonymous"></script>
     <style>
         * {
             margin: 0;
@@ -26,7 +27,7 @@
         header {
             background-color: lightseagreen;
             padding: 10px;
-            position: sticky;
+            position: fixed;
             top: 0;
             z-index: 1000;
             display: flex;
@@ -61,6 +62,7 @@
             width: 150px;
         }
         #menu ul {
+            margin-top: 60px;
             list-style: none;
             padding: 0;
         }
@@ -547,41 +549,181 @@
     </style>
 </head>
 <header>
+<div class="logo-and-nav">
+    <h1 class="logo">      <a style=" text-decoration: none; color: white;" href="{% url 'home' %}">MariCho</a></h1>
+      
+<nav class="nav-links">
+    <a href="{% url 'news' %}" class="nav-item">
+        <i class="fas fa-newspaper"></i>
+        <span>News</span>
+    </a>
+    
+    <a href="{% url 'property-list' %}" class="nav-item">
+        <i class="fas fa-home"></i>
+        <span>Property</span>
+    </a>
+    
+    <a href="{% url 'job-land' %}" class="nav-item">
+        <i class="fas fa-briefcase"></i>
+        <span>Jobs</span>
+    </a>
+    
+    <a href="{% url 'business' %}" class="nav-item">
+        <i class="fas fa-cogs"></i>
+        <span>Services</span>
+    </a>
+          
+</nav>
 
+<style>
+    .nav-links {
+        display: flex;
+        gap: 2rem;
+        justify-content: center;
+        align-items: center;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
 
+    .nav-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-decoration: none;
+        color: white;
+        gap: 0.5rem;
+        transition: all 0.3s ease;
+        padding: 0.5rem;
+    }
 
-    <div>
-         <form method="get" action="{% url 'category' %}">
-            <input type="text" list="categorylist" name="query" value="{{ query }}" placeholder="search item">
+    .nav-item i {
+        font-size: 24px;
+    }
+
+    .nav-item span {
+        font-size: 0.9rem;
+        white-space: nowrap;
+    }
+
+    .nav-item:hover {
+        transform: translateY(-2px);
+        opacity: 0.9;
+    }
+
+    /* Mobile responsiveness */
+    @media (max-width: 768px) {
+        .nav-links {
+            gap: 1rem;
+        }
+        
+        .nav-item i {
+            font-size: 20px;
+        }
+        
+        .nav-item span {
+            font-size: 0.8rem;
+        }
+    }
+</style>
+  </div>
+    <div class="search-container">
+        <form method="get" action="{% url 'category' %}">
+            <input type="text" list="categorylist" name="query" value="{{ query }}" placeholder="Search item">
             <datalist id="categorylist">
                 {% for category in categories %}
                 <option value="{{ category.name }}"></option>
-               {% endfor %}
-               {% for pair in post_ad_pairs %}
+                {% endfor %}
+                {% for pair in post_ad_pairs %}
                 <option value="{{ pair.post.user }}"></option>
                 <option value="{{ pair.post.caption }}"></option>
                 {% endfor %}
-
             </datalist>
-            <button> Search </button>
-
+            <button>Search</button>
         </form>
+        <div class="hamburger" onclick="toggleMenu()">☰</div>
     </div>
-    <div class="hamburger" onclick="toggleMenu()">☰</div>
 </header>
 
-<div id="menu">
-    <ul>
-        <li><a href="{% url 'news' %}">News</a></li>
-        <li><a href="{% url 'property-list' %}">Property</a></li>
-        <li><a href="{% url 'job-land' %}">Jobs</a></li>
-        <li><a href="{% url 'business' %}">Services</a></li>
-         {% if user.is_authenticated %}
-           <li><a href="{% url 'logout' %}">Logout</a></li>
+<div id="menu" class="hidden">
+    <ul style="margin-top: 150px">
+        {% if user.is_authenticated %}
+        <li> <a href="{% url 'logout' %}">Logout</a> </li>
         {% else %}
-           <li><a href="{% url 'signin' %}">Login</a></li>
+       <li> <a href="{% url 'signin' %}">Login</a> </li>
         {% endif %}
     </ul>
+</div>
+
+<style>
+    header {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 10px 20px;
+        background-color: lightseagreen; /* Theme color */
+        position: relative;
+    }
+
+/* Logo and Navigation Links */
+.logo-and-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: white;
+  margin-right: 20px;
+}
+
+.nav-links {
+  margin-top: 10px;
+  display: flex;
+  gap: 15px;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: white;
+  font-size: 1rem;
+}
+  .search-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        max-width: 600px;
+    }
+
+    form {
+        display: flex;
+        flex-grow: 1;
+        margin-right: 10px;
+    }
+
+    input {
+        flex-grow: 1;
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 5px 0 0 5px;
+        background-color: white;
+        color: black;
+        width: 200px;
+    }
+
+    button {
+        background-color: white;
+        color: lightseagreen;
+        border: 1px solid lightseagreen;
+        padding: 8px 15px;
+        border-radius: 0 5px 5px 0;
+        cursor: pointer;
+    }
+      </style>
 </div>
 
 <div class="container">
@@ -617,7 +759,7 @@
     {% endif %}
     {% endfor %}
 {% else %}
-    <p>login to view </p>
+    <a href="{% url 'signin' %}">Login to view</a>
     {% endif %}
     <a href="{% url 'post' %}"><input placeholder="What's Selling Today??"></a>
     <a class="ad" href="{% url 'post' %}"> + PostAd</a>
@@ -626,10 +768,16 @@
         <!-- Stories Section -->
         <div class="stories">
             {% for story in products %}
+              
             <div class="story" onclick="openFullScreen('{{ story.story_img.url }}')">
-                <img src="{{ story.story_img.url }}" alt="{{ story.user.username }}">
+                <img src="{{ story.story_img.url }}" alt="{{ story.description }} for sale in Zimbabwe">
                 <div id="story-username" class="story-username">
-                <p>{{ story.user.username }}</p></div>
+                      {% if story.user.profile %}
+               <a style="text-decoration: none; color: white;" href="{% url 'profile' story.user.profile.id %}"> <p>{{ story.user.username }}</p> </a> 
+                {% else %}
+                      <p> no user profile </p>
+                      {% endif %}
+                </div>
             </div>
             <!-- Fullscreen Story View -->
 <div id="full-screen-story" onclick="closeFullScreen()">
@@ -639,13 +787,44 @@
             {% endfor %}
         </div>
 
+          <div>
+  <style>
+    .add-product-btn {
+      background-color: lightseagreen;
+      color: white;
+      border: none;
+      padding: 12px 25px;
+      font-size: 18px;
+      font-weight: bold;
+      border-radius: 8px;
+      cursor: pointer;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+    .add-product-btn:hover {
+      background-color: #209b9b;
+      transform: scale(1.05);
+    }
+
+    .add-product-btn:active {
+      background-color: #1a7a7a;
+      transform: scale(0.95);
+    }
+  </style>
+</head>
+
+  <a href="{% url 'product' %}"> <button class="add-product-btn">Add Product</button> </a>
+</div>
+
+          
         <!-- Products Section -->
         <div class="product-container">
     <h2 style="color: lightseagreen;">Our Products</h2>
     <div class="product-scroll">
         {% for product in products %}
         <div class="product-card">
-            <img src="{{ product.product_img.url }}" alt="{{ product.name }}">
+            <img src="{{ product.product_img.url }}" alt="{{ product.product_name }} for sale in Zimbabwe">
             <h3>{{ product.product_name }}</h3>
             <p>${{ product.price }}</p>
             <a href="/flane/product-details/{{product.id}}/{{product.product_name}}" class="buy-now-btn">Buy Now</a>
@@ -716,7 +895,6 @@
             {% for pair in post_ad_pairs  %}
 
            {% for profile in profiles %}
-          {{ pair.post.user.profile.profile.bio }}
           {% if pair.post.user == profile.user %}
             <div class="post" data-post-id="post-{{ pair.post.id }}">
                 <div class="post-header">
@@ -724,13 +902,15 @@
                         <img src="{{ profile.profileimg.url }}" alt="{{ pair.post.user }}"></a>
                     <div>
                         <h3>{{ pair.post.user }}</h3>
-                        <p style="color: lightseagreen; ">{{ profile.followers }} Follower{{ profile.followers|pluralize}}</p>
-                        <p> {{ pair.post.user.profile.profile.bio }}</p>
                     </div>
                 </div>
+                  <div>
+                        <p style="color: lightseagreen; ">{{ profile.followers }} Follower{{ profile.followers|pluralize}}</p>
+                        <p> {{ pair.post.user.profile.bio|truncatewords:7}}</p>
+                      </div>
                 <div class="post-content">
                     <p>{{pair.post.created_at|naturaltime}}</p>
-                   <div class="scroll-wrapper">
+                     <div class="scroll-wrapper">
     <button class="scroll-btn left" onclick="scrollLeft()">&#10094;</button>
 
     <div class="image-scroll-container">
@@ -811,7 +991,7 @@
          <i id="toggle-comment-form-{{ pair.post.id }}" class="fas fa-comment-dots"
        style="color: lightseagreen; cursor: pointer; font-size: 24px; margin-left: 10px; margin-right: 5px;"></i> {{ pair.post.comments.count }}
         <!-- WhatsApp Share Icon -->
-        <a href="https://wa.me/{{pair.post.contact}}?text=Hello I'm interested in your product {{pair.post.caption}} for sale on Maricho.com" target="_blank">
+        <a href="https://wa.me/{{profile.phone_number}}?text=Hello I'm interested in your product {{pair.post.caption}} for sale on www.maricho.online/flane/home" target="_blank">
             <i class="fab fa-whatsapp icon" title="Share on WhatsApp"></i>
         </a>
       </div>
@@ -922,7 +1102,7 @@
 
 
             <div class="ad-container" data-ad-id="{{ pair.ad.id }}">
-                <img class="ad-image" src="{{ pair.ad.image.url }}" alt="{{ pair.ad.title }} Image">
+                <img class="ad-image" src="{{ pair.ad.image.url }}" alt="{{ pair.ad.title }} for sale in Zimbabwe">
                 <h2 class="ad-title">{{ pair.ad.name }}</h2>
                 <p class="ad-description">{{ pair.ad.description|truncatewords:3 }}</p>
                 <p class="ad-date">Created on: {{ pair.ad.start_date|date:"F j, Y" }}</p>
@@ -1173,7 +1353,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                 <span>${data.comments_count}</span>
                             </div>
                         </div>
-                    `;
+                        `;
                     videoContainer.innerHTML = videoHTML;
 
                     // Show modal
@@ -1258,3 +1438,4 @@ document.addEventListener("DOMContentLoaded", function () {
 </div>
 </body>
 </html>
+
