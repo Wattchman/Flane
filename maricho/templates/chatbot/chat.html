@@ -1,0 +1,62 @@
+<!-- maricho_services/templates/chatbot/chat.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Maricho Chatbot</title>
+    <style>
+        /* Custom styles for chatbot */
+        #chat-box {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            background-color: #fff;
+        }
+        #user-input {
+            width: 80%;
+            padding: 10px;
+            margin-top: 10px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: lightseagreen; /* Match your Maricho color */
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div id="chat-box">
+        <h2>Maricho Chatbot</h2>
+        <div id="messages">
+            <!-- Chat history will be displayed here -->
+        </div>
+        <input type="text" id="user-input" placeholder="Type your message...">
+        <button onclick="sendMessage()">Send</button>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        function sendMessage() {
+            var message = $("#user-input").val();
+            if (message.trim() === "") return;
+
+            // Display the user's message in the chat box
+            $("#messages").append("<p><strong>You:</strong> " + message + "</p>");
+            $("#user-input").val("");  // Clear the input box
+
+            // Send message to the server and get response
+            $.get("/chatbot/chat/", {message: message}, function(response) {
+                // Display the bot's response in the chat box
+                $("#messages").append("<p><strong>Bot:</strong> " + response.response + "</p>");
+            });
+        }
+    </script>
+</body>
+</html>
+
+<!-- Add a floating chat button -->
+

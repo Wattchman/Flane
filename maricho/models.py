@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils.text import slugify
 import decimal
 from django.utils.text import slugify
 from django.db.models import Max
@@ -204,24 +205,23 @@ class LikePost(models.Model):
     post_id = models.CharField(max_length=500)
     username = models.CharField(max_length=100)
 
+
 class Post(models.Model):
-    # The user field is a foreign key to the
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='posts')
-  # The image field is an image field that stores the URL of the post image
-    image = models.ImageField(upload_to='posts/')
-
-    slug = models.SlugField(max_length=250, unique_for_date='created_at', default=False)
-  # The caption field is a text field that stores the caption of the post
+    slug = models.SlugField(max_length=250, unique_for_date='created_at', blank=True, null=True)
     caption = models.TextField(max_length=350, blank=True)
-    title = models.TextField(blank=True, max_length=30)
-
+    title = models.CharField(max_length=30, blank=True)
     contact = models.CharField(max_length=100, blank=True)
-  # The created_at field is a date time field that stores the creation time of the post
     created_at = models.DateTimeField(auto_now_add=True)
-  # The updated_at field is a date time field that stores the update time of the post
     updated_at = models.DateTimeField(auto_now=True)
     no_of_likes = models.IntegerField(default=0)
     liked = models.BooleanField(default=False)
+    image = models.ImageField(upload_to='posts/', blank=True, null=True)
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.title) or slugify(self.created_at)
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return f'{self.user.username}: {self.caption}'
@@ -229,13 +229,20 @@ class Post(models.Model):
     class Meta:
         ordering = ['-created_at']
 
-
-
     def get_absolute_url(self):
         return reverse('post_detail', args=[self.created_at.year,
-                                             self.created_at.month,
-                                             self.created_at.day,
-                                             self.slug])
+                                            self.created_at.month,
+                                            self.created_at.day,
+                                            self.slug or self.pk])
+
+class PostImage(models.Model):
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='images')
+    image = models.ImageField(upload_to='posts/')
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Image for {self.post.title}"
+
 class Comment(models.Model):
 
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='comments')
