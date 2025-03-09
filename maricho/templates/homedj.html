@@ -910,9 +910,6 @@
                       </div>
                 <div class="post-content">
                     <p>{{pair.post.created_at|naturaltime}}</p>
-                      {% if pair.post.image %}
-                       <img src="{{ pair.post.image.url }}" alt="Post Image" class="scroll-image">
-                      {% else %}
                      <div class="scroll-wrapper">
     <button class="scroll-btn left" onclick="scrollLeft()">&#10094;</button>
 
@@ -977,9 +974,7 @@
         right: 0;
     }
 </style>
-                      {% endif %}
-
-                    <h2>{{ pair.post.title }}</h2>
+                  <h2>{{ pair.post.title }}</h2>
                     <p>{{ pair.post.caption }}</p>
                 </div>
  <div class="icon-container">
