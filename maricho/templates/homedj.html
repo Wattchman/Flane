@@ -941,6 +941,7 @@
     white-space: nowrap;
     display: flex;
     justify-content: center;
+    scroll-snap-type: x mandatory;
 }
 
 .image-scroll {
@@ -955,8 +956,10 @@
     height: auto;
     border-radius: 10px;
     object-fit: cover;
+    scroll-snap-align: center;
 }
 
+/* Buttons */
 .scroll-btn {
     position: absolute;
     background-color: rgba(0, 0, 0, 0.5);
@@ -977,6 +980,14 @@
 
 .right {
     right: 10px;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .scroll-image {
+        width: 75vw; /* Adjust for mobile so the next image peeks */
+        max-width: 300px; /* Slightly smaller images */
+    }
 }
 </style>
                   <h2>{{ pair.post.title }}</h2>
@@ -1432,17 +1443,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
 <script>
     function scrollLeft() {
-        document.querySelector('.image-scroll-container').scrollBy({
-            left: -window.innerWidth * 0.7, // Adjust to match image width
-            behavior: 'smooth'
-        });
+        let container = document.querySelector('.image-scroll-container');
+        let scrollAmount = container.clientWidth * 0.75; // Scroll slightly less than full image
+        container.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
     }
 
     function scrollRight() {
-        document.querySelector('.image-scroll-container').scrollBy({
-            left: window.innerWidth * 0.7, // Adjust to match image width
-            behavior: 'smooth'
-        });
+        let container = document.querySelector('.image-scroll-container');
+        let scrollAmount = container.clientWidth * 0.75; // Scroll slightly less than full image
+        container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
     }
 </script>
 </div>
