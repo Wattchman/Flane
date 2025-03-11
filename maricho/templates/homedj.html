@@ -925,54 +925,59 @@
 
     <button class="scroll-btn right" onclick="scrollRight()">&#10095;</button>
 </div>
-
 <style>
     .scroll-wrapper {
-        display: flex;
-        align-items: center;
-        position: relative;
-    }
+    display: flex;
+    align-items: center;
+    position: relative;
+    max-width: 100%;
+    overflow: hidden;
+}
 
-    .image-scroll-container {
-        width: 100%;
-        overflow-x: auto;
-        scroll-behavior: smooth;
-        white-space: nowrap;
-    }
+.image-scroll-container {
+    width: 100%;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    white-space: nowrap;
+    display: flex;
+    justify-content: center;
+}
 
-    .image-scroll {
-        display: flex;
-        gap: 10px;
-        padding: 10px;
-    }
+.image-scroll {
+    display: flex;
+    gap: 10px;
+    padding: 10px;
+}
 
-    .scroll-image {
-        width: 250px;
-        height: auto;
-        border-radius: 10px;
-        object-fit: cover;
-    }
+.scroll-image {
+    width: 85vw; /* Large image but not full width */
+    max-width: 400px; /* Controls max size */
+    height: auto;
+    border-radius: 10px;
+    object-fit: cover;
+}
 
-    .scroll-btn {
-        position: absolute;
-        background-color: rgba(0, 0, 0, 0.5);
-        color: white;
-        border: none;
-        cursor: pointer;
-        font-size: 24px;
-        padding: 10px;
-        border-radius: 50%;
-        top: 50%;
-        transform: translateY(-50%);
-    }
+.scroll-btn {
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 24px;
+    padding: 10px;
+    border-radius: 50%;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+}
 
-    .left {
-        left: 0;
-    }
+.left {
+    left: 10px;
+}
 
-    .right {
-        right: 0;
-    }
+.right {
+    right: 10px;
+}
 </style>
                   <h2>{{ pair.post.title }}</h2>
                     <p>{{ pair.post.caption }}</p>
@@ -1427,11 +1432,17 @@ document.addEventListener("DOMContentLoaded", function () {
 
 <script>
     function scrollLeft() {
-        document.querySelector(".image-scroll-container").scrollBy({ left: -300, behavior: 'smooth' });
+        document.querySelector('.image-scroll-container').scrollBy({
+            left: -window.innerWidth * 0.7, // Adjust to match image width
+            behavior: 'smooth'
+        });
     }
 
     function scrollRight() {
-        document.querySelector(".image-scroll-container").scrollBy({ left: 300, behavior: 'smooth' });
+        document.querySelector('.image-scroll-container').scrollBy({
+            left: window.innerWidth * 0.7, // Adjust to match image width
+            behavior: 'smooth'
+        });
     }
 </script>
 </div>
