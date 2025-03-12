@@ -927,6 +927,7 @@
 </div>
 <style>
     .scroll-wrapper {
+    .scroll-wrapper {
     display: flex;
     align-items: center;
     position: relative;
@@ -947,13 +948,13 @@
 
 .image-scroll {
     display: flex;
-    gap: 5vw; /* Adjust the gap to help control the peek effect */
+    gap: 5vw; /* Controls spacing to allow peeking */
     padding: 10px;
 }
 
 .scroll-image {
-    width: 70vw; /* Ensure next image peeks */
-    max-width: 350px; /* Control max size */
+    width: 70vw; /* Ensures a 30% peek effect */
+    max-width: 350px; /* Controls max size */
     height: auto;
     border-radius: 10px;
     object-fit: cover;
@@ -986,7 +987,7 @@
 /* Responsive Adjustments */
 @media (max-width: 768px) {
     .scroll-image {
-        width: 65vw; /* Smaller width for mobile, allowing the next image to peek */
+        width: 70vw; /* 70% of viewport width, allowing 30% of the next image to be seen */
         max-width: 280px;
     }
 }
