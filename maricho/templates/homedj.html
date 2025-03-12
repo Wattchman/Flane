@@ -940,19 +940,20 @@
     scroll-behavior: smooth;
     white-space: nowrap;
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     scroll-snap-type: x mandatory;
+    padding: 10px;
 }
 
 .image-scroll {
     display: flex;
-    gap: 10px;
+    gap: 5vw; /* Adjust the gap to help control the peek effect */
     padding: 10px;
 }
 
 .scroll-image {
-    width: 85vw; /* Large image but not full width */
-    max-width: 400px; /* Controls max size */
+    width: 70vw; /* Ensure next image peeks */
+    max-width: 350px; /* Control max size */
     height: auto;
     border-radius: 10px;
     object-fit: cover;
@@ -985,8 +986,8 @@
 /* Responsive Adjustments */
 @media (max-width: 768px) {
     .scroll-image {
-        width: 75vw; /* Adjust for mobile so the next image peeks */
-        max-width: 300px; /* Slightly smaller images */
+        width: 65vw; /* Smaller width for mobile, allowing the next image to peek */
+        max-width: 280px;
     }
 }
 </style>
@@ -1442,17 +1443,16 @@ document.addEventListener("DOMContentLoaded", function () {
 </script>
 
 <script>
-    function scrollLeft() {
-        let container = document.querySelector('.image-scroll-container');
-        let scrollAmount = container.clientWidth * 0.75; // Scroll slightly less than full image
-        container.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
-    }
+    const container = document.querySelector('.image-scroll-container');
+const scrollAmount = document.querySelector('.scroll-image').clientWidth * 0.85; // Scroll by 85% of image width
 
-    function scrollRight() {
-        let container = document.querySelector('.image-scroll-container');
-        let scrollAmount = container.clientWidth * 0.75; // Scroll slightly less than full image
-        container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
-    }
+function scrollLeft() {
+    container.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+}
+
+function scrollRight() {
+    container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+}
 </script>
 </div>
 </body>
