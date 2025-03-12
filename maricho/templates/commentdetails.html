@@ -27,7 +27,9 @@
 
     <!-- Post Image -->
     <div class="post-image">
-        <img src="{{ post.image.url }}" alt="Post image">
+        {% for image in post.images.all %}
+        <img src="{{ image.image.url }}" alt="Post image">
+        {% endfor %}
     </div>
 
     <!-- Post Interactions -->
