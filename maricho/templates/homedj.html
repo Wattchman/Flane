@@ -927,7 +927,6 @@
 </div>
 <style>
     .scroll-wrapper {
-    .scroll-wrapper {
     display: flex;
     align-items: center;
     position: relative;
@@ -948,12 +947,12 @@
 
 .image-scroll {
     display: flex;
-    gap: 5vw; /* Controls spacing to allow peeking */
+    gap: 5vw; /* Adjusted spacing */
     padding: 10px;
 }
 
 .scroll-image {
-    width: 70vw; /* Ensures a 30% peek effect */
+    width: 60vw; /* 60% of the viewport width */
     max-width: 350px; /* Controls max size */
     height: auto;
     border-radius: 10px;
@@ -984,11 +983,11 @@
     right: 10px;
 }
 
-/* Responsive Adjustments */
+/* Mobile version (Ensures 50% of the next image peeks) */
 @media (max-width: 768px) {
     .scroll-image {
-        width: 70vw; /* 70% of viewport width, allowing 30% of the next image to be seen */
-        max-width: 280px;
+        width: 50vw; /* 50% of the screen width */
+        max-width: 250px;
     }
 }
 </style>
@@ -1445,14 +1444,22 @@ document.addEventListener("DOMContentLoaded", function () {
 
 <script>
     const container = document.querySelector('.image-scroll-container');
-const scrollAmount = document.querySelector('.scroll-image').clientWidth * 0.85; // Scroll by 85% of image width
+const images = document.querySelectorAll('.scroll-image');
+
+function getScrollAmount() {
+    if (window.innerWidth <= 768) {
+        return images[0].clientWidth * 0.5; // Scroll by 50% of image width (Mobile)
+    } else {
+        return images[0].clientWidth * 0.7; // Scroll by 70% of image width (Desktop)
+    }
+}
 
 function scrollLeft() {
-    container.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+    container.scrollBy({ left: -getScrollAmount(), behavior: 'smooth' });
 }
 
 function scrollRight() {
-    container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+    container.scrollBy({ left: getScrollAmount(), behavior: 'smooth' });
 }
 </script>
 </div>
