@@ -37,7 +37,7 @@ class ProfileForm(forms.ModelForm):
 class PostForm(forms.ModelForm):
     class Meta:
         model = Post
-        fields = ['title','image','caption', 'contact']
+        fields = ['title', 'caption', 'contact']
         widgets = {
             "caption": forms.Textarea(attrs={"placeholder": "What are you selling today"}),
         }

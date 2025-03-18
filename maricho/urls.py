@@ -5,7 +5,12 @@ from django.shortcuts import redirect
 from django.urls import path
 from .views import ads_txt
 
+def robots_txt(request):
+    content = "User-agent: *\nAllow: /\n\nUser-agent: Googlebot-Image\nAllow: /"
+    return HttpResponse(content, content_type="text/plain")
+
 urlpatterns = [
+    path("robots.txt", robots_txt),
     path("ads.txt", ads_txt, name="ads_txt"),
     path('ajax', views.ajax, name='ajax'),
     path('blog-details/<int:blog_id>/<str:blog_title>', views.blog_details, name='blog-details'),

@@ -167,11 +167,14 @@
             {% for post in posts %}
             {% if profile.user == post.user %}
             <a href="/flane/comment-details/{{ post.id }}/{{ post.slug|slugify }}">
-                {% if post.image and post.image.url %}
-                <img src="{{ post.image.url }}" alt="Post">
+                {% for image in post.images.all %}
+                {% if image and image.image.url %}
+                <img src="{{ image.image.url }}" alt="Post">
                 {% else %}
                 <p> Image is missing </p>
                 {% endif %}
+{% endfor %}
+
             </a>
             {% endif %}
             {% endfor %}

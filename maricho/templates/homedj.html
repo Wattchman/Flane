@@ -7,7 +7,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Social E-commerce Timeline</title>
+    <meta name="description" content="Shop online in Zimbabwe with Maricho Services. Buy fashion, electronics, and more in Harare, Bulawayo, and across Zimbabwe. Fast delivery & secure payments.">
+    <meta name="keywords" content="online shopping Zimbabwe, e-commerce Harare, buy clothes Bulawayo, best e-commerce platform Zimbabwe, affordable fashion Zimbabwe">
+    <meta name="author" content="Maricho Online">
+    <meta name="robots" content="index, follow">
+    <meta property="og:title" content="Best E-commerce & Online Shopping in Zimbabwe | Maricho Services">
+    <meta property="og:description" content="Find the best online shopping experience in Zimbabwe with Maricho Services. Browse top deals in Harare, Bulawayo, and across Zimbabwe.">
+    <meta property="og:url" content="https://www.maricho.online">
+    <meta property="og:type" content="website">
+    <title>Social E-commerce and Online shopping in Zimbabwe</title>
     <link rel="stylesheet" href="{% static 'css/styles.css' %}"> <!-- Link to your CSS file -->
      <meta name="google-adsense-account" content="ca-pub-6931205265043049">
     <script src="https://kit.fontawesome.com/34a56207d1.js" crossorigin="anonymous"></script>
@@ -15,6 +23,28 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
       <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6931205265043049"
      crossorigin="anonymous"></script>
+      <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "Maricho Online",
+  "url": "https://www.maricho.online",
+  "logo": "https://www.maricho.online/logo.png",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": " 69 Mtasa lane street",
+    "addressLocality": "Harare",
+    "addressRegion": "Harare",
+    "postalCode": "00263",
+    "addressCountry": "ZW"
+  },
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "telephone": "+263-784-777648",
+    "contactType": "customer service"
+  }
+}
+</script>
     <style>
         * {
             margin: 0;
@@ -925,57 +955,73 @@
 
     <button class="scroll-btn right" onclick="scrollRight()">&#10095;</button>
 </div>
-
 <style>
     .scroll-wrapper {
-        display: flex;
-        align-items: center;
-        position: relative;
-    }
+    display: flex;
+    align-items: center;
+    position: relative;
+    max-width: 100%;
+    overflow: hidden;
+}
 
-    .image-scroll-container {
-        width: 100%;
-        overflow-x: auto;
-        scroll-behavior: smooth;
-        white-space: nowrap;
-    }
+.image-scroll-container {
+    width: 100%;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    white-space: nowrap;
+    display: flex;
+    justify-content: flex-start;
+    scroll-snap-type: x mandatory;
+    padding: 10px;
+}
 
-    .image-scroll {
-        display: flex;
-        gap: 10px;
-        padding: 10px;
-    }
+.image-scroll {
+    display: flex;
+    gap: 5vw; /* Adjusted spacing */
+    padding: 10px;
+}
 
+.scroll-image {
+    width: 60vw; /* 60% of the viewport width */
+    max-width: 350px; /* Controls max size */
+    height: auto;
+    border-radius: 10px;
+    object-fit: cover;
+    scroll-snap-align: center;
+}
+
+/* Buttons */
+.scroll-btn {
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 24px;
+    padding: 10px;
+    border-radius: 50%;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+}
+
+.left {
+    left: 10px;
+}
+
+.right {
+    right: 10px;
+}
+
+/* Mobile version (Ensures 50% of the next image peeks) */
+@media (max-width: 768px) {
     .scroll-image {
-        width: 250px;
-        height: auto;
-        border-radius: 10px;
-        object-fit: cover;
+        width: 50vw; /* 50% of the screen width */
+        max-width: 250px;
     }
-
-    .scroll-btn {
-        position: absolute;
-        background-color: rgba(0, 0, 0, 0.5);
-        color: white;
-        border: none;
-        cursor: pointer;
-        font-size: 24px;
-        padding: 10px;
-        border-radius: 50%;
-        top: 50%;
-        transform: translateY(-50%);
-    }
-
-    .left {
-        left: 0;
-    }
-
-    .right {
-        right: 0;
-    }
+}
 </style>
-
-                    <h2>{{ pair.post.title }}</h2>
+                  <h2>{{ pair.post.title }}</h2>
                     <p>{{ pair.post.caption }}</p>
                 </div>
  <div class="icon-container">
@@ -1427,13 +1473,24 @@ document.addEventListener("DOMContentLoaded", function () {
 </script>
 
 <script>
-    function scrollLeft() {
-        document.querySelector(".image-scroll-container").scrollBy({ left: -300, behavior: 'smooth' });
-    }
+    const container = document.querySelector('.image-scroll-container');
+const images = document.querySelectorAll('.scroll-image');
 
-    function scrollRight() {
-        document.querySelector(".image-scroll-container").scrollBy({ left: 300, behavior: 'smooth' });
+function getScrollAmount() {
+    if (window.innerWidth <= 768) {
+        return images[0].clientWidth * 0.5; // Scroll by 50% of image width (Mobile)
+    } else {
+        return images[0].clientWidth * 0.7; // Scroll by 70% of image width (Desktop)
     }
+}
+
+function scrollLeft() {
+    container.scrollBy({ left: -getScrollAmount(), behavior: 'smooth' });
+}
+
+function scrollRight() {
+    container.scrollBy({ left: getScrollAmount(), behavior: 'smooth' });
+}
 </script>
 </div>
 </body>
