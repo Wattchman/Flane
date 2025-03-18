@@ -405,7 +405,7 @@ def validate_file_size(value):
         raise ValidationError("File too large. Size should not exceed 20 MB.")
 
 class Video(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='video')
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='videos', null=True)
     title = models.CharField(max_length=200)
     description = models.TextField(blank=True)
     video_file = models.FileField(upload_to='videos/', validators=[validate_file_size])
