@@ -20,7 +20,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.shortcuts import redirect
-from .views import ads_txt
+from Flane.maricho.views import ads_txt
 
 def home_redirect(request):
     return redirect('/flane/home')
