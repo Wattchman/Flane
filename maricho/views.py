@@ -37,9 +37,18 @@ from channels.layers import channel_layers
 import random
 from django.http import HttpResponse
 
+from django.http import HttpResponse
+import os
+
 def ads_txt(request):
-    content = "google.com, pub-6931205265043049, DIRECT, f08c47fec0942fa0"
-    return HttpResponse(content, content_type="text/plain")
+    ads_path = os.path.join(os.path.dirname(__file__), 'static', 'ads.txt')
+    
+    if os.path.exists(ads_path):
+        with open(ads_path, 'r') as f:
+            content = f.read()
+        return HttpResponse(content, content_type="text/plain")
+    else:
+        return HttpResponse("ads.txt not found", status=404)
 
 def generate_unique_id():
     return str(uuid.uuid4())
