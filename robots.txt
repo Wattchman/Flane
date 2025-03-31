@@ -1,6 +1,6 @@
 
 User-agent: *
-Allow: /
+Allow: /ads.txt
 
 User-agent: Googlebot-Image
 Allow: /
